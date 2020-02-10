@@ -1,0 +1,57 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Simulador
+{
+    class Parcela
+    {
+        
+        public Parcela(int num)
+        {
+            arvores = new List<Arvore>();
+            this.numero = num;
+        }
+        public void set_dados()
+        {
+            regiao = arvores[0].regiao;
+            talhao = arvores[0].talhao;
+            num_arvores = arvores.Count();
+            idade = arvores[0].idade;
+            material_genetico = arvores[0].material_genetico;
+            dap_medio = 0;
+            foreach (Arvore x in arvores)
+            {
+                dap_medio += x.dap;
+            }
+            dap_medio /= num_arvores;
+
+            altura_media = 0;
+            foreach (Arvore x in arvores)
+            {
+                altura_media += x.altura;
+            }
+            altura_media /= num_arvores;
+
+            area_basal_total = 0;
+            foreach (Arvore x in arvores)
+            {
+                area_basal_total += x.area_basal;
+            }
+
+            
+        }
+        public List<Arvore> arvores;
+        public int numero;
+        public int regiao;
+        public int talhao;
+        public int num_arvores;
+        public double idade;
+        public double dap_medio;
+        public double altura_media;
+        public double area_basal_total;
+        public string material_genetico;
+    }
+}
