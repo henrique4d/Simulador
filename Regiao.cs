@@ -8,10 +8,11 @@ namespace Simulador
 {
     class Regiao
     {
-        public Regiao(int num)
+        public Regiao(int num, int quant_produtos)
         {
             talhoes = new List<Talhao>();
             this.numero = num;
+            this.quant_produtos = quant_produtos;
         }
         public void adiciona_arvore( Arvore arvore)
         {
@@ -23,7 +24,7 @@ namespace Simulador
                     return;
                 }
             }
-            Talhao novo_talhao = new Talhao(arvore.talhao);
+            Talhao novo_talhao = new Talhao(arvore.talhao, quant_produtos);
             novo_talhao.adiciona_arvore(ref arvore);
             talhoes.Add(novo_talhao);
         }
@@ -57,5 +58,6 @@ namespace Simulador
         public int numero;
         public double idade;
         public double dap_medio;
+        public int quant_produtos;
     }
 }

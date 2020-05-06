@@ -8,97 +8,583 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ClosedXML.Excel;
+using System.Data.OleDb;
+using System.IO;
 
 
 // multiplicar o volume por 10k e dividir pela area da parcela;
 // desbaste sistematico (linha)
+// converter metro cubico pra hectare
+// lucro em 400... passar para 10000
+// swap sistematico, seletivo
+// porcentagem no sistematico whatever
+// processar por talhao
+
 
 namespace Simulador
 {
+
     public partial class Form1 : Form
     {
-        string arquivo;
-        string arquivo2;
-        List<Produto> produtos;
-        List<Resultado> resultados;
+        string arquivo_arvores;     // arquivo com os dados das árvores
+        string arquivo_coeficientes;    // arquivo com os coeficientes
+        string arquivo_produtos;    // arquivo com os produtos
+        string arquivo_economico;   // arquivo com os dados economicos
+        string arquivo_simulacoes;
+
+
+        List<Regiao> regioes_original;  // armazena as arvores em estado original
+        Coeficientes coeficientes;  //armazena os coeficientes
+        List<Produto> produtos;     // armazena dados dos produtos
+        List<Custos> custos;   // armazena os custos economicos
+        Simulacoes simulacoes;
+        string tipo_desbaste;   // tipo de desbaste
+        string desbaste_por;
+        int intervalo_sistematico;     // intervalo de corte para o desbaste seletivo
+
+
         public Form1()
         {
             InitializeComponent();
-        } 
-        private void produto_final(ref List<Regiao> regioes, double B0, double B1, double B2, double B3, bool desbastada)
+        }
+        private void Form1_Load(object sender, EventArgs e)
         {
-            foreach (Regiao reg in regioes){
+
+        }
+        private void button1_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog excel = new OpenFileDialog();
+            if (excel.ShowDialog() == DialogResult.OK)
+                arquivo_arvores = excel.FileName;
+            if ( arquivo_arvores != null)
+            CarregaDadosExcel(arquivo_arvores);
+        }
+        private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
+        {
+
+        }
+        private void button2_Click(object sender, EventArgs e)
+        {
+            processamento();
+        }
+        private void button3_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog excel = new OpenFileDialog();
+            if (excel.ShowDialog() == DialogResult.OK)
+                arquivo_produtos = excel.FileName;
+            
+            if (arquivo_produtos != null)
+            CarregaDadosExcel(arquivo_produtos);
+
+        }
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            OpenFileDialog excel = new OpenFileDialog();
+            if (excel.ShowDialog() == DialogResult.OK)
+                arquivo_coeficientes = excel.FileName;
+            if (arquivo_coeficientes != null)
+            CarregaDadosExcel(arquivo_coeficientes);
+
+        }
+        private void button1_Click_2(object sender, EventArgs e)
+        {
+            OpenFileDialog excel = new OpenFileDialog();
+            if (excel.ShowDialog() == DialogResult.OK)
+                arquivo_economico = excel.FileName;
+            if (arquivo_economico != null)
+            CarregaDadosExcel(arquivo_economico);
+
+        }
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            tipo_desbaste = comboBox1.Text;
+            if (comboBox1.Text == "SELETIVO")
+            {
+                textBox1.Visible = false;
+            }
+            if (comboBox1.Text == "SISTEMÁTICO")
+            {
+                textBox1.Visible = true;
+            }
+        }
+        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            desbaste_por = comboBox2.Text;
+        }
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            intervalo_sistematico = int.Parse(textBox1.Text);
+        }
+        private void button3_Click_1(object sender, EventArgs e)
+        {
+            OpenFileDialog excel = new OpenFileDialog();
+            if (excel.ShowDialog() == DialogResult.OK)
+                arquivo_simulacoes = excel.FileName;
+            if (arquivo_simulacoes != null)
+            CarregaDadosExcel(arquivo_simulacoes);
+
+        }
+        private DataTable getTabelaExcel(string arquivo)
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                string Ext = Path.GetExtension(arquivo);
+                string connectionString = "";
+                if (Ext == ".xls")
+                {
+                    connectionString = "Provider=Microsoft.Jet.OLEDB.4.0; Data Source =" + arquivo + "; Extended Properties = 'Excel 8.0;HDR=YES'";
+                }
+                else if (Ext == ".xlsx")
+                {
+                    connectionString = "Provider=Microsoft.ACE.OLEDB.12.0; Data Source =" + arquivo + "; Extended Properties = 'Excel 8.0;HDR=YES'";
+                }
+                OleDbConnection conn = new OleDbConnection(connectionString);
+                OleDbCommand cmd = new OleDbCommand();
+                OleDbDataAdapter dataAdapter = new OleDbDataAdapter();
+                cmd.Connection = conn;
+                conn.Open();
+                DataTable dtSchema;
+                dtSchema = conn.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
+                string nomePlanilha = dtSchema.Rows[0]["TABLE_NAME"].ToString();
+                conn.Close();
+                conn.Open();
+                cmd.CommandText = "SELECT * from [" + nomePlanilha + "]";
+                dataAdapter.SelectCommand = cmd;
+                dataAdapter.Fill(dt);
+                conn.Close();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return dt;
+        }
+        private void CarregaDadosExcel(string arquivo)
+        {
+            try
+            {
+                DataTable dt = getTabelaExcel(arquivo);
+
+                dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+                dataGridView1.DataSource = dt;
+
+                //lblRegistros.Text = (dgvDados.Rows.Count - 1).ToString();
+                string[] listaNomeColunas = dt.Columns.OfType<DataColumn>().Select(x => x.ColumnName).ToArray();
+            }
+
+            catch (Exception ex)
+            {
+                MessageBox.Show("erro :" + ex.Message);
+            }
+        }
+
+
+        private void Importar_produtos()
+        {
+            produtos = new List<Produto>();
+            var excel = new XLWorkbook(arquivo_produtos);
+            var planilha = excel.Worksheet(1);
+            for (int linha = 2; ; linha++)
+            {
+                string confere = planilha.Cell("A" + linha.ToString()).Value.ToString();
+                if (string.IsNullOrEmpty(confere)) break;
+                int numero = int.Parse(planilha.Cell("A" + linha.ToString()).Value.ToString());
+                double min = double.Parse(planilha.Cell("B" + linha.ToString()).Value.ToString());
+                double max = double.Parse(planilha.Cell("C" + linha.ToString()).Value.ToString());
+                double l = double.Parse(planilha.Cell("D" + linha.ToString()).Value.ToString());
+                double preco = double.Parse(planilha.Cell("E" + linha.ToString()).Value.ToString());
+                Produto aux = new Produto(numero, min, max, l, preco);
+                produtos.Add(aux);
+            }
+        }
+        private void Importar_arvores()
+        {
+            regioes_original = new List<Regiao>();  //lista que ira armazenar as arvores
+            var excel = new XLWorkbook(arquivo_arvores);        //acessa o xls
+            var planilha = excel.Worksheet(1);
+            dataGridView1.DataSource = planilha;
+            for (int linha = 2; ; linha++)          //percorre o xls
+            {
+                string confere = planilha.Cell("A" + linha.ToString()).Value.ToString();
+                if (string.IsNullOrEmpty(confere)) break;                                  // testa se o xls acabou
+                int regiao = int.Parse(planilha.Cell("A" + linha.ToString()).Value.ToString());
+                int talhao = int.Parse(planilha.Cell("B" + linha.ToString()).Value.ToString());
+                int parcela = int.Parse(planilha.Cell("C" + linha.ToString()).Value.ToString());
+                string material_genetico = planilha.Cell("D" + linha.ToString()).Value.ToString();
+                double idade = double.Parse(planilha.Cell("E" + linha.ToString()).Value.ToString());
+                double area_parcela = double.Parse(planilha.Cell("F" + linha.ToString()).Value.ToString());
+                int fila = int.Parse(planilha.Cell("G" + linha.ToString()).Value.ToString());
+                int arv = int.Parse(planilha.Cell("H" + linha.ToString()).Value.ToString());
+                double dap = double.Parse(planilha.Cell("I" + linha.ToString()).Value.ToString());
+                double altura = double.Parse(planilha.Cell("J" + linha.ToString()).Value.ToString());
+                
+                if (dap == 0 && altura == 0)    // ignora arvores mortas
+                    continue;
+                // cria a arvore
+                Arvore auxiliar = new Arvore(regiao, talhao, idade, dap, altura, parcela, area_parcela, fila, arv, material_genetico);
+
+                bool aux = false;   // verifica se ja foi criada a regiao daquela arvore
+                foreach (Regiao reg in regioes_original)
+                {
+                    if (reg.numero == auxiliar.regiao)  // regiao ja foi criada
+                    {
+                        reg.adiciona_arvore(auxiliar);  // adiciona a arvore a regiao
+                        aux = true;
+                        break;
+                    }
+                }
+                if (!aux)   // regiao nao foi criada
+                {
+                    Regiao nova_regiao = new Regiao(auxiliar.regiao, produtos.Count());   // cria a nova regiao
+                    nova_regiao.adiciona_arvore(auxiliar);  // adiciona a arvore a regiao
+                    regioes_original.Add(nova_regiao);
+                }
+            }
+        }
+        private void Importar_coeficientes()
+        {
+            coeficientes = new Coeficientes();
+            var excel = new XLWorkbook(arquivo_coeficientes);
+            var planilha = excel.Worksheet(1);
+            coeficientes.B0_dap = double.Parse(planilha.Cell("B" + 2.ToString()).Value.ToString());
+            coeficientes.B1_dap = double.Parse(planilha.Cell("C" + 2.ToString()).Value.ToString());
+            coeficientes.B0_altura = double.Parse(planilha.Cell("D" + 2.ToString()).Value.ToString());
+            coeficientes.B1_altura = double.Parse(planilha.Cell("E" + 2.ToString()).Value.ToString());
+
+            coeficientes.B0 = new List<double>();
+            coeficientes.B1 = new List<double>();
+            coeficientes.B2 = new List<double>();
+            coeficientes.B3 = new List<double>();
+
+            for (int linha = 4; ; linha++)          //percorre o xls
+            {
+                string confere = planilha.Cell("A" + linha.ToString()).Value.ToString();
+                if (string.IsNullOrEmpty(confere)) break;                                  // testa se o xls acabou
+                int idade = int.Parse(planilha.Cell("A" + linha.ToString()).Value.ToString());
+                while (coeficientes.B0.Count() <= idade)    // trata o caso lista < idade
+                {
+                    coeficientes.B0.Add(0);
+                    coeficientes.B1.Add(0);
+                    coeficientes.B2.Add(0);
+                    coeficientes.B3.Add(0);
+                }
+                coeficientes.B0[idade] = double.Parse(planilha.Cell("B" + linha.ToString()).Value.ToString());
+                coeficientes.B1[idade] = double.Parse(planilha.Cell("C" + linha.ToString()).Value.ToString());
+                coeficientes.B2[idade] = double.Parse(planilha.Cell("D" + linha.ToString()).Value.ToString());
+                coeficientes.B3[idade] = double.Parse(planilha.Cell("E" + linha.ToString()).Value.ToString());
+            }
+        }
+        private void Importar_economica()
+        {
+            custos = new List<Custos>();
+            var excel = new XLWorkbook(arquivo_economico);
+            var planilha = excel.Worksheet(1);
+            for (int linha = 2; ; linha++)
+            {
+                string confere = planilha.Cell("A" + linha.ToString()).Value.ToString();
+                if (string.IsNullOrEmpty(confere)) break;
+                int periodo = int.Parse(planilha.Cell("A" + linha.ToString()).Value.ToString());
+                while (periodo >= custos.Count())
+                {
+                    Custos aux = new Custos();
+                    custos.Add(aux);
+                }
+                custos[periodo].implantacao = double.Parse(planilha.Cell("B" + linha.ToString()).Value.ToString());
+                custos[periodo].manutencao = double.Parse(planilha.Cell("C" + linha.ToString()).Value.ToString());
+                custos[periodo].desbaste = double.Parse(planilha.Cell("D" + linha.ToString()).Value.ToString());
+                custos[periodo].cortefinal = double.Parse(planilha.Cell("E" + linha.ToString()).Value.ToString());
+            }
+
+        }
+        private void Importar_simulacoes()
+        {
+            var excel = new XLWorkbook(arquivo_simulacoes);
+            var planilha = excel.Worksheet(1);
+
+            simulacoes = new Simulacoes();
+            simulacoes.idade_corte_final = new List<double>();
+            simulacoes.idade_desbaste = new List<double>();
+            simulacoes.porcentagem = new List<double>();
+
+            for (int linha = 2; ; linha++)          //percorre o xls
+            {
+                string confere = planilha.Cell("A" + linha.ToString()).Value.ToString();
+                if (string.IsNullOrEmpty(confere)) break;
+                simulacoes.idade_desbaste.Add(double.Parse(planilha.Cell("A" + linha.ToString()).Value.ToString()));
+            }
+            for (int linha = 2; ; linha++)          //percorre o xls
+            {
+                string confere = planilha.Cell("B" + linha.ToString()).Value.ToString();
+                if (string.IsNullOrEmpty(confere)) break;
+                simulacoes.idade_corte_final.Add(double.Parse(planilha.Cell("B" + linha.ToString()).Value.ToString()));
+            }
+            for (int linha = 2; ; linha++)          //percorre o xls
+            {
+                string confere = planilha.Cell("C" + linha.ToString()).Value.ToString();
+                if (string.IsNullOrEmpty(confere)) break;
+                simulacoes.porcentagem.Add(double.Parse(planilha.Cell("C" + linha.ToString()).Value.ToString()));
+            }
+        }
+        
+
+        private void projetar_desbaste( ref List<Regiao> original, ref List<Regiao> nova, double idade_desbaste )
+        {
+            foreach (Regiao reg in original)
+            {
                 foreach (Talhao tal in reg.talhoes)
                 {
                     foreach (Parcela parc in tal.parcelas)
                     {
-                        foreach (Produto prod in produtos)
-                        {
-                            prod.lucro_final = 0;
-                        }
                         foreach (Arvore arv in parc.arvores)
                         {
+                            double dap = simula_dap(arv.idade, idade_desbaste, arv.dap, coeficientes.B0_dap, coeficientes.B1_dap);
+                            double altura = simula_altura(arv.idade, idade_desbaste, arv.altura, coeficientes.B0_altura, coeficientes.B1_altura);
                             
-                            double altura_atual = 0.10;
-                            foreach (Produto prod in produtos)
+                            //double area_basal = arv.area_basal = Math.PI * Math.Pow(arv.dap, 2) / 4000;
+
+                            Arvore projetada = new Arvore(arv.regiao, arv.talhao, idade_desbaste, dap, altura, arv.parcela, arv.area_parcela, arv.fila,arv.numero, arv.material_genetico);
+
+                            bool aux = false;   // verifica se ja foi criada a regiao daquela arvore
+                            foreach (Regiao regi in nova)
                             {
-                                while (true)
-                                { 
-                                    if (altura_atual + prod.l > arv.altura)
-                                        break;
-                                    double d1 = arv.dap * B0 * (1 + B1 * Math.Log(1 - B2 * Math.Pow(altura_atual, B3) * Math.Pow(arv.altura, -B3)));
-                                    double d2 = arv.dap * B0 * (1 + B1 * Math.Log(1 - B2 * Math.Pow(altura_atual + prod.l, B3) * Math.Pow(arv.altura, -B3)));
-                                    if (d2 > prod.max || d2 < prod.min)
-                                        break; 
-                                    altura_atual += prod.l;
-
-                                    double as1 = Math.PI * Math.Pow(d1, 2) / 40000;
-                                    double as2 = Math.PI * Math.Pow(d2, 2) / 40000;
-
-                                    prod.volume += (as1 + as2) * prod.l / 2;
-                                }
-                                if (altura_atual + prod.l > arv.altura)
+                                if (regi.numero == arv.regiao)  // regiao ja foi criada
                                 {
+                                    regi.adiciona_arvore(projetada);  // adiciona a arvore a regiao
+                                    aux = true;
                                     break;
                                 }
                             }
+                            if (!aux)   // regiao nao foi criada
+                            {
+                                Regiao nova_regiao = new Regiao(arv.regiao, produtos.Count());   // cria a nova regiao
+                                nova_regiao.adiciona_arvore(projetada);  // adiciona a arvore a regiao
+                                nova.Add(nova_regiao);
+                            }
                         }
-                        List <Tuple<int, double>> prod_volume = new List<Tuple<int, double>>();
-                        foreach (Produto prod in produtos)
-                        {
-                            Tuple<int, double> auxiliar = new Tuple<int, double>(prod.numero,prod.volume);
-                            prod_volume.Add(auxiliar);
-                        }
-                        Resultado aux = new Resultado(parc.regiao, parc.talhao, parc.numero, ref prod_volume, desbastada);
-                        resultados.Add(aux);
-                       }
 
+                    }
                 }
             }
+            foreach(Regiao reg in nova)
+            {
+                reg.set_dados();
+            }
         }
-        private double simula_dap( ref double  idade1,ref double idade2,ref double dap1,ref double B1,ref double B2) 
-        {   
+        private double simula_dap(double idade1, double idade2, double dap1, double B1, double B2)
+        {
             double dap2;
             dap2 = dap1 * Math.Exp(-B1 * (Math.Pow(idade2, B2) - Math.Pow(idade1, B2)));
             return dap2;
         }
-        private double simula_altura(ref double idade1, ref double idade2, ref double altura1, ref double B1, ref double B2)
-        {   
+        private double simula_altura( double idade1, double idade2, double altura1, double B1, double B2)
+        {
             double altura2;
             altura2 = altura1 * Math.Exp(-B1 * (Math.Pow(idade2, B2) - Math.Pow(idade1, B2)));
             return altura2;
         }
-        void ordena_dap(ref List<Regiao> inicial) {
-           foreach (Regiao reg in inicial){
-                foreach (Talhao tal in reg.talhoes){
-                    foreach (Parcela parc in tal.parcelas){
+        
+        
+        private List<Regiao> desbaste(ref List<Regiao> regioes, double porcentagem)
+        {
+    
+            if (tipo_desbaste == "SELETIVO" && desbaste_por == "ÁRVORE" )
+            {
+                return seletivo_arvore(ref regioes, porcentagem);
+            }
+            if (tipo_desbaste == "SELETIVO" && desbaste_por == "ÁREA BASAL")
+            {
+                return seletivo_area_basal(ref regioes, porcentagem);
+            }
+            if (tipo_desbaste == "SISTEMÁTICO" && desbaste_por == "ÁRVORE")
+            {
+                return sistematico_arvore(ref regioes, porcentagem, intervalo_sistematico);
+            }
+            if (tipo_desbaste == "SISTEMÁTICO" && desbaste_por == "ÁREA BASAL")
+            {
+                return sistematico_area_basal(ref regioes, porcentagem, intervalo_sistematico);
+            }
+            return sistematico_area_basal(ref regioes, porcentagem, intervalo_sistematico);
+        }
+        private List <Regiao> seletivo_area_basal(ref List<Regiao> regioes, double porcentagem)
+        {
+            ordena_dap(ref regioes);
+
+            List<Regiao> para_desbaste = new List<Regiao>();
+            foreach (Regiao reg in regioes)
+            {
+                Regiao auxiliar = new Regiao(reg.numero, produtos.Count());
+
+                foreach (Talhao tal in reg.talhoes)
+                {
+                    foreach (Parcela parc in tal.parcelas)
+                    {
+                       double area_basal_limite = parc.area_basal_total * porcentagem / 100;
+                      
+                        foreach (Arvore arv in parc.arvores.ToList())
+                        {
+                            area_basal_limite -= arv.area_basal;
+                            if (area_basal_limite < 0)
+                                break;
+                            auxiliar.adiciona_arvore(arv);
+                            parc.arvores.Remove(arv);
+                        }
+
+                    }
+                }
+                auxiliar.set_dados();
+                para_desbaste.Add(auxiliar);
+            }
+            return para_desbaste;
+        }   
+        private List <Regiao> seletivo_arvore(ref List<Regiao> regioes, double porcentagem)
+        {
+            ordena_dap(ref regioes);
+
+            List<Regiao> para_desbaste = new List<Regiao>();
+            foreach (Regiao reg in regioes)
+            {
+                Regiao auxiliar = new Regiao(reg.numero, produtos.Count());
+
+                foreach (Talhao tal in reg.talhoes)
+                {
+                    foreach (Parcela parc in tal.parcelas)
+                    {
+                       double limite = parc.arvores.Count() * porcentagem / 100;
+                        foreach (Arvore arv in parc.arvores.ToList())
+                        {
+                            limite--;
+                            if (limite < 0)
+                                break;
+                            auxiliar.adiciona_arvore(arv);
+                            parc.arvores.Remove(arv);
+                        }
+
+                        
+                    }
+                }
+                auxiliar.set_dados();
+                para_desbaste.Add(auxiliar);
+
+            }
+            return para_desbaste;
+        }
+        void ordena_dap(ref List<Regiao> inicial)
+        {
+            foreach (Regiao reg in inicial)
+            {
+                foreach (Talhao tal in reg.talhoes)
+                {
+                    foreach (Parcela parc in tal.parcelas)
+                    {
                         List<Arvore> auxiliar = parc.arvores.OrderBy(x => x.dap).ToList();
                         parc.arvores = auxiliar;
                     }
                 }
             }
         }
-        void ordena_arv(ref List<Regiao> inicial)
+        private List<Regiao> sistematico_arvore(ref List<Regiao> regioes, double porcentagem, int intervalo)
+        {
+            ordena_fila(ref regioes);
+
+            List<Regiao> para_desbaste = new List<Regiao>();
+            foreach (Regiao reg in regioes)
+            {
+                Regiao auxiliar = new Regiao(reg.numero, produtos.Count());
+
+                foreach (Talhao tal in reg.talhoes)
+                {
+                    foreach (Parcela parc in tal.parcelas)
+                    {
+                        double limite = parc.arvores.Count() * porcentagem / 100;
+                        int fila = parc.arvores[0].fila;
+                        foreach (Arvore arv in parc.arvores.ToList())
+                        {
+                            if (arv.fila % intervalo == 0)
+                            {
+                                
+                                limite--;
+                                auxiliar.adiciona_arvore(arv);
+                                parc.arvores.Remove(arv);
+                            }
+                        }
+
+                        if (limite < 1)
+                            break;
+
+                        List<Arvore> aux = parc.arvores.OrderBy(x => x.dap).ToList();
+                        parc.arvores = aux;
+
+                        foreach (Arvore arv in parc.arvores.ToList())
+                        {
+                            limite--;
+                            if (limite < 0)
+                                break;
+                            auxiliar.adiciona_arvore(arv);
+                            parc.arvores.Remove(arv);
+                        }
+
+                    }
+                }
+                auxiliar.set_dados();
+                para_desbaste.Add(auxiliar);
+            }
+            return para_desbaste;
+        }
+        private List<Regiao> sistematico_area_basal(ref List<Regiao> regioes, double porcentagem, int intervalo)
+        {
+            ordena_fila(ref regioes);
+
+            List<Regiao> para_desbaste = new List<Regiao>();
+            foreach (Regiao reg in regioes)
+            {
+                Regiao auxiliar = new Regiao(reg.numero, produtos.Count());
+
+                foreach (Talhao tal in reg.talhoes)
+                {
+                    foreach (Parcela parc in tal.parcelas)
+                    {
+                        double limite = parc.area_basal_total * porcentagem / 100;
+                        int fila = parc.arvores[0].fila;
+                        foreach (Arvore arv in parc.arvores.ToList())
+                        {
+                            if (arv.fila % intervalo == 0)
+                            {
+                                
+                                limite-= arv.area_basal;
+                                auxiliar.adiciona_arvore(arv);
+                                parc.arvores.Remove(arv);
+                            }
+                           
+                        }
+                        if (limite < 0)
+                            break;
+
+                        List<Arvore> aux = parc.arvores.OrderBy(x => x.dap).ToList();
+                        parc.arvores = aux;
+
+                        foreach (Arvore arv in parc.arvores.ToList())
+                        {
+                            limite-=arv.area_basal;
+                            if (limite < 0)
+                            {
+                                break;
+                            }
+                            auxiliar.adiciona_arvore(arv);
+                            parc.arvores.Remove(arv);
+                        }
+                    }
+                }
+                auxiliar.set_dados();
+                para_desbaste.Add(auxiliar);
+            }
+            return para_desbaste;
+        }
+        void ordena_fila(ref List<Regiao> inicial)
         {
             foreach (Regiao reg in inicial)
             {
@@ -106,161 +592,180 @@ namespace Simulador
                 {
                     foreach (Parcela parc in tal.parcelas)
                     {
-                        List<Arvore> auxiliar = parc.arvores.OrderBy(x => x.numero).ToList();
+                        List<Arvore> auxiliar = parc.arvores.OrderBy(x => x.fila).ToList();
                         parc.arvores = auxiliar;
                     }
                 }
             }
         }
-        void seletivo_dap (ref List<Regiao> inicial, int porcentagem, int intervalo)
+
+
+        private void projetar_corte_final(ref List<Regiao> regioes, double idade_corte_final)
         {
-            ordena_arv(ref inicial);
-
-            List<Regiao> para_desbaste = new List<Regiao>();
-            foreach (Regiao reg in inicial)
+            foreach (Regiao reg in regioes)
             {
-                Regiao auxiliar = new Regiao(reg.numero);
-
                 foreach (Talhao tal in reg.talhoes)
                 {
                     foreach (Parcela parc in tal.parcelas)
                     {
-                        double dap_limite = parc.area_basal_total * porcentagem / 100;
-                        int cont = 1;
-                        foreach (Arvore arv in parc.arvores.ToList())
+                        foreach (Arvore arv in parc.arvores)
                         {
-                            if (cont % intervalo == 0)
+                            arv.dap = simula_dap(arv.idade, idade_corte_final, arv.dap, coeficientes.B0_dap, coeficientes.B1_dap);
+                            arv.altura = simula_altura(arv.idade, idade_corte_final, arv.altura, coeficientes.B0_altura, coeficientes.B1_altura);
+                            arv.idade = idade_corte_final;
+                            arv.area_basal = Math.PI * Math.Pow(arv.dap, 2) / 4000;
+                        }
+                    }
+                }
+            }
+        }
+
+
+        private double produto_final(ref List<Regiao> regioes)
+        {
+            double lucro = 0;
+            foreach (Regiao reg in regioes)
+            {
+                foreach (Talhao tal in reg.talhoes)
+                {
+                    //Console.WriteLine("regiao: " + tal.regiao);
+                    //Console.WriteLine("talhao: " + tal.numero);
+                    //Console.WriteLine(tal.parcelas[0].arvores[0].area_parcela);
+                    foreach (Parcela parc in tal.parcelas)
+                    {
+                        //Console.WriteLine("Parcela: " + parc.numero);
+                        foreach (Arvore arv in parc.arvores)
+                        {
+                            //Console.WriteLine("dap da arvore: " + arv.dap);
+                            //Console.WriteLine("altura da arvore: " + arv.altura);
+
+                            int idade = (int)arv.idade;
+                            double B0 = coeficientes.B0[idade];
+                            double B1 = coeficientes.B1[idade];
+                            double B2 = coeficientes.B2[idade];
+                            double B3 = coeficientes.B3[idade];
+
+                            double altura_atual = 0.10;
+                            foreach (Produto prod in produtos)
                             {
-                                dap_limite -= arv.area_basal;
-                                if (dap_limite < 0)
+                                while (true)
+                                {
+                                    if (altura_atual + prod.l > arv.altura)
+                                        break;
+                                    double d1 = arv.dap * B0 * (1 + B1 * Math.Log(1 - B2 * Math.Pow(altura_atual, B3) * Math.Pow(arv.altura, -B3)));
+                                    double d2 = arv.dap * B0 * (1 + B1 * Math.Log(1 - B2 * Math.Pow(altura_atual + prod.l, B3) * Math.Pow(arv.altura, -B3)));
+
+                                    if (d2 > prod.max || d2 < prod.min)
+                                        break;
+                                    altura_atual += prod.l;
+
+                                    double as1 = Math.PI * Math.Pow(d1, 2) / 40000;
+                                    double as2 = Math.PI * Math.Pow(d2, 2) / 40000;
+
+                                    double volume = (as1 + as2) * prod.l / 2;
+                                    prod.volume += (as1 + as2) * prod.l / 2;
+                                    
+                                    parc.volume[prod.numero] += volume;
+                                    tal.volume[prod.numero] += volume;
+                                    //Console.WriteLine("adicionei " + volume + "ao produto de numero" + prod.numero );
+                                    //Console.WriteLine(tal.volume[prod.numero]);
+                                    /*     // 10k/area parcela * volume do produto              */
+                                    lucro += prod.volume * prod.preco;
+                                }
+                                if (altura_atual + prod.l > arv.altura)
+                                {
                                     break;
-                                auxiliar.adiciona_arvore(arv);
-                                parc.arvores.Remove(arv);
+                                }
                             }
+                            
                         }
-                        List<Arvore> aux = parc.arvores.OrderBy(x => x.dap).ToList();
-                        parc.arvores = aux;
-
-                        foreach (Arvore arv in parc.arvores.ToList())
+                        //Console.WriteLine("volume do produto 1: " + parc.volume[1]);
+                        //Console.WriteLine("volume do produto 2: " + parc.volume[2]);
+                        //Console.WriteLine("volume do produto 3: " + parc.volume[3]);
+                        foreach (Produto prod in produtos)
                         {
-                            dap_limite -= arv.area_basal;
-                            if (dap_limite < 0)
-                                break;
-                            auxiliar.adiciona_arvore(arv);
-                            parc.arvores.Remove(arv);
+                            parc.lucro[prod.numero] = parc.volume[prod.numero] * prod.preco;
                         }
+
+                        /*Console.WriteLine("*");
+                        Console.WriteLine("lucro do produto 1: " + parc.lucro[1]);
+                        Console.WriteLine("lucro do produto 2: " + parc.lucro[2]);
+                        Console.WriteLine("lucro do produto 3: " + parc.lucro[3]);
+
+                        Console.WriteLine("///////////");*/
                     }
+
+                    for (int i=0; i < tal.volume.Count(); i++)
+                    {
+                        tal.volume[i] /= tal.parcelas.Count();
+                    }
+                    foreach (Produto prod in produtos)
+                    {
+                        tal.lucro[prod.numero] = tal.volume[prod.numero] * prod.preco;
+                        tal.lucro_hectare[prod.numero] = tal.lucro[prod.numero] / tal.parcelas[0].arvores[0].area_parcela * 10000;
+                    }
+                    //Console.WriteLine("///////////////////////////");
+                    //Console.WriteLine("volume do produto 1: " + tal.volume[1]);
+                    //Console.WriteLine("volume do produto 2: " + tal.volume[2]);
+                    //Console.WriteLine("volume do produto 3: " + tal.volume[3]);
+                    //Console.WriteLine("**");
+                    //Console.WriteLine("///////////////////////////");
+/*
+
+
+                    Console.WriteLine("lucro do produto 1: " + tal.lucro[1]);
+                    Console.WriteLine("lucro do produto 2: " + tal.lucro[2]);
+                    Console.WriteLine("lucro do produto 3: " + tal.lucro[3]);
+                    Console.WriteLine("///////////////////////////");
+  */                  
                 }
-                
-                auxiliar.set_dados();
-                para_desbaste.Add(auxiliar);
             }
-        }
-        void seletivo_arvore(ref List<Regiao> inicial, int porcentagem, int intervalo)
-        {
-            ordena_arv(ref inicial);
 
-            List<Regiao> para_desbaste = new List<Regiao>();
-            foreach (Regiao reg in inicial)
+            foreach (Regiao reg in regioes)
             {
-                Regiao auxiliar = new Regiao(reg.numero);
-
                 foreach (Talhao tal in reg.talhoes)
                 {
                     foreach (Parcela parc in tal.parcelas)
                     {
-                        double dap_limite = parc.arvores.Count() * porcentagem / 100;
-                        int cont = 1;
-                        foreach (Arvore arv in parc.arvores.ToList())
+                        /*foreach (Arvore arv in parc.arvores)
                         {
-                            if (cont % intervalo == 0)
-                            {
-                                dap_limite --;
-                                if (dap_limite < 0)
-                                    break;
-                                auxiliar.adiciona_arvore(arv);
-                                parc.arvores.Remove(arv);
-                            }
-                        }
-                        List<Arvore> aux = parc.arvores.OrderBy(x => x.dap).ToList();
-                        parc.arvores = aux;
-
-                        foreach (Arvore arv in parc.arvores.ToList())
-                        {
-                            dap_limite--;
-                            if (dap_limite < 0)
-                                break;
-                            auxiliar.adiciona_arvore(arv);
-                            parc.arvores.Remove(arv);
-                        }
+                            Console.WriteLine(arv.dap);
+                        }*/
+                        //Console.WriteLine("*");
+                        /*Console.WriteLine(parc.volume[1]);
+                        Console.WriteLine(parc.volume[2]);
+                        Console.WriteLine(parc.volume[3]);
+                        Console.WriteLine("--------------------");*/
                     }
+                    /*Console.WriteLine("*");
+                    Console.WriteLine(tal.volume[1]);
+                    Console.WriteLine(tal.volume[2]);
+                    Console.WriteLine(tal.volume[3]);
+                    Console.WriteLine("*");
+                    */
                 }
-
-                auxiliar.set_dados();
-                para_desbaste.Add(auxiliar);
             }
+            return lucro;
         }
-        void desbaste_dap( ref List<Regiao> inicial, int porcentagem)
+
+
+        private double simular(double idade_desbaste, double idade_corte_final, double porcentagem)
         {
-            ordena_dap(ref inicial);
+            double lucro = 0;
+            List<Regiao> regioes = new List<Regiao>();
+            projetar_desbaste(ref regioes_original, ref regioes, idade_desbaste);
 
-            List<Regiao> para_desbaste = new List<Regiao>();
-            foreach (Regiao reg in inicial)
-            {
-                Regiao auxiliar = new Regiao(reg.numero);
+            List<Regiao> desbastadas = desbaste(ref regioes, porcentagem);
 
-                foreach (Talhao tal in reg.talhoes)
-                {
-                    foreach (Parcela parc in tal.parcelas)
-                    {
-                        double dap_limite = parc.area_basal_total * porcentagem / 100;
-                        foreach (Arvore arv in parc.arvores.ToList())
-                        {
-                            dap_limite -= arv.area_basal;
-                            if (dap_limite < 0)
-                                break;
-                            auxiliar.adiciona_arvore(arv);
-                            parc.arvores.Remove(arv);
-                        }
-                    }
-                }
-                auxiliar.set_dados();
-//                Console.WriteLine(auxiliar.idade);
-                para_desbaste.Add(auxiliar);
-            }
-            produto_final(ref para_desbaste, 1.319010, 0.289590, 1.000007, 0.251762, true);
+            projetar_corte_final(ref regioes, idade_corte_final);
+
+            lucro += produto_final(ref desbastadas);
+            lucro += produto_final(ref regioes);
+            
+
+            return lucro;
         }
-        private void desbaste_arvores(ref List<Regiao> inicial, int porcentagem)
-        {
-            ordena_dap(ref inicial);
-
-            List<Regiao> para_desbaste = new List<Regiao>();
-            foreach (Regiao reg in inicial)
-            {
-                Regiao auxiliar = new Regiao(reg.numero);
-
-                foreach (Talhao tal in reg.talhoes)
-                {
-                    foreach (Parcela parc in tal.parcelas)
-                    {
-                        double dap_limite = parc.arvores.Count() * porcentagem / 100;
-                        foreach (Arvore arv in parc.arvores.ToList())
-                        {
-                            dap_limite --;
-                            if (dap_limite < 0)
-                                break;
-                            auxiliar.adiciona_arvore(arv);
-                            parc.arvores.Remove(arv);
-                        }
-                    }
-                }
-                auxiliar.set_dados();
-                //Console.WriteLine(auxiliar.idade);
-                para_desbaste.Add(auxiliar);
- 
-            }
-            produto_final(ref para_desbaste, 1.319010, 0.289590, 1.000007, 0.251762, true);
-        }
+      
         class comp : IComparer< Resultado>
         {
             public int Compare(Resultado x, Resultado y)
@@ -285,245 +790,25 @@ namespace Simulador
         }
         private void processamento()
         {
-
-            /*   double B1_altura = double.Parse(toolStripTextBox1.Text);
-               double B2_altura = double.Parse(toolStripTextBox2.Text);
-               double B1_dap = double.Parse(toolStripTextBox3.Text);
-               double B2_dap = double.Parse(toolStripTextBox4.Text);
-               int idade_desbaste = int.Parse(toolStripTextBox5.Text);
-               */
-
-            double B1_altura = 5.463964;
-            double B2_altura = -0.338041;
-            double B1_dap = 6.018007;
-            double B2_dap = -1.430330;
-            double idade_desbaste = 10;
-            double idade_final = 15;
-            produtos = new List<Produto>();
-            resultados = new List<Resultado>();
-
-            List<Regiao> regioes = new List<Regiao>();
-            List<Regiao> regioes_desbaste = new List<Regiao>();
+            Importar_produtos();                                 //exporta os dados de cada produto do xls
+            Importar_arvores();                                  //exporta as arvores do xls
+            Importar_coeficientes();                             //exporta os coeficientes do xls
+            Importar_economica();                                //exporta os dados relacionado à simulação economica
+            Importar_simulacoes();                               //exporta todos os dados que devem ser simulados
             
-
-            var excel = new XLWorkbook(arquivo2);
-            var planilha = excel.Worksheet(1);
-            for (int linha = 2; ; linha++)
-            {
-                string confere = planilha.Cell("A" + linha.ToString()).Value.ToString();
-                if (string.IsNullOrEmpty(confere)) break;
-                int numero = int.Parse(planilha.Cell("A" + linha.ToString()).Value.ToString());
-                double min = double.Parse(planilha.Cell("B" + linha.ToString()).Value.ToString());
-                double max = double.Parse(planilha.Cell("C" + linha.ToString()).Value.ToString());
-                double l = double.Parse(planilha.Cell("D" + linha.ToString()).Value.ToString());
-                double preco = double.Parse(planilha.Cell("E" + linha.ToString()).Value.ToString());
-                Produto aux = new Produto(numero, min, max,l, preco);
-                produtos.Add(aux);
-            }
-            excel = new XLWorkbook(arquivo);
-            planilha = excel.Worksheet(1);
-            for (int linha = 2; ; linha++)
-            {
-                string confere = planilha.Cell("A" + linha.ToString()).Value.ToString();
-                if (string.IsNullOrEmpty(confere)) break;
-
-                int regiao = int.Parse(planilha.Cell("A" + linha.ToString()).Value.ToString());
-                int talhao = int.Parse(planilha.Cell("B" + linha.ToString()).Value.ToString());
-                int parcela = int.Parse(planilha.Cell("C" + linha.ToString()).Value.ToString());
-                string material_genetico = planilha.Cell("D" + linha.ToString()).Value.ToString();
-                double idade = double.Parse(planilha.Cell("E" + linha.ToString()).Value.ToString());
-                double area_parcela = double.Parse(planilha.Cell("F" + linha.ToString()).Value.ToString());
-                int fila = int.Parse(planilha.Cell("G" + linha.ToString()).Value.ToString());
-                int arv = int.Parse(planilha.Cell("H" + linha.ToString()).Value.ToString());
-                double dap = double.Parse(planilha.Cell("I" + linha.ToString()).Value.ToString());
-                double altura = double.Parse(planilha.Cell("J" + linha.ToString()).Value.ToString());
-                
-                if (dap == 0 && altura == 0)
-                    continue;
-
-                Arvore auxiliar = new Arvore(regiao, talhao, idade, dap, altura, parcela, area_parcela, fila, arv, material_genetico);
-                
-                foreach (Regiao reg in regioes)
-                {
-                    if (reg.numero == auxiliar.regiao)
-                    {
-                        reg.adiciona_arvore(auxiliar);
-                        goto aqui1;
-                    }
-                }
-
-                Regiao nova_regiao = new Regiao(auxiliar.regiao);
-                nova_regiao.adiciona_arvore(auxiliar);
-                regioes.Add(nova_regiao);
-                aqui1:
-
-                dap = simula_dap(ref idade, ref idade_desbaste, ref dap, ref B1_dap, ref B2_dap);
-
-                altura = simula_altura(ref idade, ref idade_desbaste, ref altura, ref B1_altura, ref B2_altura);
-                idade = idade_desbaste;
-
-                Arvore auxiliar2 = new Arvore(regiao, talhao, idade, dap, altura, parcela, area_parcela, fila, arv, material_genetico);
-                foreach (Regiao reg in regioes_desbaste)
-                {
-                    if (reg.numero == auxiliar.regiao)
-                    {
-                        reg.adiciona_arvore(auxiliar2);
-                        goto aqui2;
-                    }
-                }
-                Regiao nova_regiao2 = new Regiao(auxiliar2.regiao);
-                nova_regiao2.adiciona_arvore(auxiliar2);
-                regioes_desbaste.Add(nova_regiao2);
-                aqui2: int zero = 0;
-
-            }
-            foreach (Regiao reg in regioes)
-            {
-                reg.set_dados();
-            }
-            foreach (Regiao reg in regioes_desbaste)
-            {
-                reg.set_dados();
-            }
-
-            desbaste_dap(ref regioes_desbaste, 50);
-
-            foreach (Regiao reg in regioes_desbaste)
-            {
-                reg.set_dados();
-            }
             
-            foreach(Regiao reg in regioes_desbaste)
+            foreach (int desbaste in simulacoes.idade_desbaste)
             {
-                foreach (Talhao tal in reg.talhoes)
+                foreach(int final in simulacoes.idade_corte_final)
                 {
-                    foreach (Parcela parc in tal.parcelas)
+                    foreach( int porcentagem in simulacoes.porcentagem)
                     {
-                        foreach (Arvore arv in parc.arvores)
-                        {
-                            arv.dap = simula_dap(ref idade_desbaste, ref idade_final,ref arv.dap,ref B1_dap,ref B1_dap);
-                            arv.altura = simula_altura(ref idade_desbaste, ref idade_final, ref arv.altura,ref B1_altura,ref B2_altura);
-                        }
+                        simular(desbaste, final, porcentagem);
+                        //Console.WriteLine(simular(desbaste, final, porcentagem));
+                        return;
                     }
                 }
             }
-            produto_final(ref regioes_desbaste, 1.319010, 0.289590, 1.000007, 0.251762,false);
-            comp qwer = new comp();
-            resultados.Sort(0, resultados.Count(), qwer);
-            foreach (Resultado res in resultados)
-            {
-                Console.WriteLine("Regiao: " + res.regiao);
-                Console.WriteLine("Talhao: " + res.talhao);
-                Console.WriteLine("Parcela: " + res.parcela);
-                double lucro;
-                foreach (Produto prod in produtos)
-                {
-                    foreach (Tuple<int,double> aux in res.produtos)
-                    {
-                        if (aux.Item1 == prod.numero)
-                        {
-                            Console.WriteLine("Produto: " + aux.Item1);
-                            Console.WriteLine("Volume: " + aux.Item2);
-                            Console.WriteLine("Lucro: " + aux.Item2 * prod.preco);
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-         
-        }
-        private void button1_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog excel = new OpenFileDialog();
-            if (excel.ShowDialog() == DialogResult.OK)
-                arquivo = excel.FileName;
-
-            dataGridView1.DataSource = arquivo;
-
-        }
-
-        private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
-        {
-
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            processamento();
-        }
-        private void configuraçõesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
-        {
-
-        }
-
-        private void contextMenuStrip2_Opening(object sender, CancelEventArgs e)
-        {
-
-        }
-
-        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void toolStripComboBox1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void toolStripTextBox1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void toolStripTextBox1_Click_1(object sender, EventArgs e)
-        {
-
-        }
-
-        private void toolStripTextBox2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void toolStripTextBox3_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void toolStripTextBox4_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void toolStripTextBox5_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void tipoDeDesbasteToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog excel = new OpenFileDialog();
-            if (excel.ShowDialog() == DialogResult.OK)
-                arquivo2 = excel.FileName;
-        }
-
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
         }
     }
 }

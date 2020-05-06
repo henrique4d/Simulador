@@ -8,8 +8,18 @@ namespace Simulador
 {
     class Talhao
     {
-        public Talhao(int num)
+        public Talhao(int num, int quant_produtos)
         {
+            volume = new List<double>();
+            lucro = new List<double>();
+            lucro_hectare = new List<double>();
+
+            for (int i = 0; i <= quant_produtos; i++)
+            {
+                volume.Add(0);
+                lucro.Add(0);
+                lucro_hectare.Add(0);
+            }
             parcelas = new List<Parcela>();
             this.numero = num;
         }
@@ -23,7 +33,7 @@ namespace Simulador
                     return;
                 }
             }
-            Parcela nova_parcela = new Parcela(arvore.parcela);
+            Parcela nova_parcela = new Parcela(arvore.parcela, volume.Count());
             nova_parcela.arvores.Add(arvore);
             parcelas.Add(nova_parcela);
         }
@@ -62,5 +72,9 @@ namespace Simulador
         public double idade;
         public double dap_medio;
         string material_genetico;
+        public List<double> volume;
+        public List<double> lucro;
+        public List<double> lucro_hectare;
+
     }
 }

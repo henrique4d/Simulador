@@ -17,3 +17,6 @@ C:\Users\ronal\source\repos\Simulador\bin\Debug\ClosedXML.xml
 C:\Users\ronal\source\repos\Simulador\bin\Debug\DocumentFormat.OpenXml.xml
 C:\Users\ronal\source\repos\Simulador\bin\Debug\ExcelNumberFormat.xml
 C:\Users\ronal\source\repos\Simulador\obj\Debug\Simulador.csproj.CopyComplete
+C:\Users\ronal\source\repos\Simulador\bin\Debug\ExcelDataReader.dll
+C:\Users\ronal\source\repos\Simulador\bin\Debug\ExcelDataReader.pdb
+C:\Users\ronal\source\repos\Simulador\bin\Debug\ExcelDataReader.xml

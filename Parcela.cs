@@ -8,9 +8,16 @@ namespace Simulador
 {
     class Parcela
     {
-        
-        public Parcela(int num)
+        public Parcela(int num, int quant_produtos)
         {
+            volume = new List<double>();
+            lucro = new List<double>();
+
+            for (int i=0; i<= quant_produtos; i++)
+            {
+                volume.Add(0);
+                lucro.Add(0);
+            }
             arvores = new List<Arvore>();
             this.numero = num;
         }
@@ -40,8 +47,6 @@ namespace Simulador
             {
                 area_basal_total += x.area_basal;
             }
-
-            
         }
         public List<Arvore> arvores;
         public int numero;
@@ -53,5 +58,8 @@ namespace Simulador
         public double altura_media;
         public double area_basal_total;
         public string material_genetico;
+        public List<double> volume;
+        public List<double> lucro;
+
     }
 }
