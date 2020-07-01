@@ -754,7 +754,26 @@ namespace Simulador
                 }
             }
         }
-        
+        private void gerar_IMA(ref List<Regiao> regioes_desbaste, ref List<Regiao> regioes_corte_final)
+        {
+            for (int indice_Regiao = 0; indice_Regiao < regioes_desbaste.Count(); indice_Regiao++)
+            {
+                for (int indice_Talhao = 0; indice_Talhao < regioes_desbaste[indice_Regiao].talhoes.Count(); indice_Talhao++)
+                {
+                    for (int Indice_Parcela = 0; Indice_Parcela < regioes_desbaste[indice_Regiao].talhoes[indice_Talhao].parcelas.Count(); Indice_Parcela++)
+                    {
+                        for (int i=1; i < regioes_desbaste[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].volume.Count(); i++)
+                        {
+                            regioes_desbaste[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].ima += regioes_desbaste[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].volume[i];
+                            regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].ima += regioes_desbaste[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].volume[i];
+                            regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].ima += regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].volume[i];
+                        }
+                        regioes_desbaste[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].ima /= regioes_desbaste[indice_Regiao].idade;
+                        regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].ima /= regioes_corte_final[indice_Regiao].idade;
+                    }
+                }
+            }
+        }
 
         private void simular(double idade_desbaste, double idade_corte_final, double porcentagem)
         {
@@ -764,42 +783,11 @@ namespace Simulador
             List<Regiao> desbastadas = desbaste(ref regioes, porcentagem);
             gerar_volumes(ref desbastadas);
             gerar_lucros(ref desbastadas, false);
-            
-            foreach (Regiao reg in desbastadas)
-            {
-                foreach (Talhao tal in reg.talhoes)
-                {
-                    foreach ( Parcela parc in tal.parcelas)
-                    {
-                        for (int i=1; i<parc.volume.Count(); i++)
-                        {
-                            Console.WriteLine("o volume de " + parc.volume[i] + " gerou uma receita de " + parc.lucro[i]);
-                        } 
-                    }
-               }
-            }
-            Console.WriteLine("////////////////////////////////");            
             projetar_idade(ref regioes, idade_corte_final);
             gerar_volumes(ref regioes);
             gerar_lucros(ref regioes, true);
 
-
-            foreach (Regiao reg in regioes)
-            {
-                foreach (Talhao tal in reg.talhoes)
-                {
-                    foreach (Parcela parc in tal.parcelas)
-                    {
-                        for (int i = 1; i < parc.volume.Count(); i++)
-                        {
-                            Console.WriteLine("o volume de " + parc.volume[i] + " gerou uma receita de " + parc.lucro[i]);
-                        }
-                    }
-                }
-            }
-
-            Console.WriteLine("0000000000000000000000000000000000000000");
-            
+            gerar_IMA(ref desbastadas, ref regioes);    
             return;
         /*    projetar_corte_final(ref regioes, idade_corte_final);
 
