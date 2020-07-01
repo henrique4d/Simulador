@@ -20,6 +20,7 @@ namespace Simulador
             }
             arvores = new List<Arvore>();
             ima = 0;
+            vpl = 0;
             this.numero = num;
         }
         public void set_dados()
@@ -61,6 +62,7 @@ namespace Simulador
         public double area_basal_total;
         public double area_parcela;
         public double ima;
+        public double vpl;
         public string material_genetico;
         public List<double> volume;
         public List<double> lucro;

@@ -23,7 +23,6 @@ using System.IO;
 
 namespace Simulador
 {
-
     public partial class Form1 : Form
     {
         string arquivo_arvores;     // arquivo com os dados das árvores
@@ -640,8 +639,6 @@ namespace Simulador
         }
 
 
-
-        
         private void gerar_volumes(ref List<Regiao> regioes)
         {
             foreach (Regiao reg in regioes)
@@ -774,6 +771,38 @@ namespace Simulador
                 }
             }
         }
+        
+        private void gerar_VPL(ref List<Regiao> regioes_desbaste, ref List<Regiao> regioes_corte_final)
+        {
+            for (int indice_Regiao = 0; indice_Regiao < regioes_desbaste.Count(); indice_Regiao++)
+            {
+                for (int indice_Talhao = 0; indice_Talhao < regioes_desbaste[indice_Regiao].talhoes.Count(); indice_Talhao++)
+                {
+                    for (int Indice_Parcela = 0; Indice_Parcela < regioes_desbaste[indice_Regiao].talhoes[indice_Talhao].parcelas.Count(); Indice_Parcela++)
+                    {
+                        for (int i = 1; i < regioes_desbaste[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].lucro.Count(); i++)
+                        {
+                            double receita = regioes_desbaste[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].lucro[i];
+                            regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].vpl += calcular_VPL(receita, 0.08, regioes_desbaste[indice_Regiao].idade);
+                            receita = regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].lucro[i];
+                            regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].vpl += calcular_VPL(receita, 0.08, regioes_corte_final[indice_Regiao].idade);
+                        }
+
+                        regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].vpl -= custos[0].implantacao;
+
+                        for (int idade = 1; idade <= regioes_corte_final[indice_Regiao].idade; idade++)
+                        {
+                            regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].vpl -= calcular_VPL(custos[idade].manutencao, 0.08,idade);
+                        }
+                    }
+                }
+            }
+        }
+        private double calcular_VPL(double receita, double i, double intervalo)
+        {
+            return receita * Math.Pow((1 + i), - intervalo);
+        }
+
 
         private void simular(double idade_desbaste, double idade_corte_final, double porcentagem)
         {
@@ -786,8 +815,52 @@ namespace Simulador
             projetar_idade(ref regioes, idade_corte_final);
             gerar_volumes(ref regioes);
             gerar_lucros(ref regioes, true);
+            gerar_IMA(ref desbastadas, ref regioes);
+            gerar_VPL(ref desbastadas, ref regioes);
 
-            gerar_IMA(ref desbastadas, ref regioes);    
+
+            foreach (Regiao reg in desbastadas)
+            {
+                foreach (Talhao tal in reg.talhoes)
+                {
+                    foreach (Parcela parc in tal.parcelas)
+                    {
+                        Console.WriteLine("Regiao  " + reg.numero + " Talhao " + tal.numero + " Parcela " + parc.numero);
+                        for (int i = 1; i < parc.lucro.Count(); i++)
+                        {
+                            Console.WriteLine("lucro de " + parc.lucro[i]);
+                        }
+                    }
+                }
+            }
+
+
+            foreach (Regiao reg in regioes)
+            {
+                foreach (Talhao tal in reg.talhoes)
+                {
+                    foreach (Parcela parc in tal.parcelas)
+                    {
+                        Console.WriteLine("Regiao  " + reg.numero + " Talhao " + tal.numero + " Parcela " + parc.numero);
+                        for (int i=1; i<parc.lucro.Count(); i++)
+                        {
+                            Console.WriteLine("lucro de " + parc.lucro[i]);
+                        }
+                    }
+                }
+            }
+
+
+            foreach (Regiao reg in regioes)
+            {
+                foreach (Talhao tal in reg.talhoes)
+                {
+                    foreach (Parcela parc in tal.parcelas)
+                    {
+                        Console.WriteLine("Regiao  " + reg.numero + " Talhao " + tal.numero + " Parcela " + parc.numero + " VPL : " + parc.vpl);
+                    }
+                }
+            }
             return;
         /*    projetar_corte_final(ref regioes, idade_corte_final);
 
