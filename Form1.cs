@@ -675,7 +675,7 @@ namespace Simulador
 
                                     if (usar_d_aux)
                                     {
-                                        if (d_aux >= prod.max || d2 < prod.min)
+                                        if (d_aux >= prod.max || d_aux < prod.min)
                                             break;
                                         usar_d_aux = false;
                                     }
@@ -734,7 +734,26 @@ namespace Simulador
            
             return volume;
         }
+        private void gerar_lucros(ref List<Regiao> regioes, bool corte_final)
+        {
+            foreach (Regiao reg in regioes)
+            {
+                foreach (Talhao tal in reg.talhoes)
+                {
+                    foreach (Parcela parc in tal.parcelas)
+                    {
+                        foreach (Produto prod in produtos)
+                        {
+                            if (corte_final)
+                                parc.lucro[prod.numero] = parc.volume[prod.numero] * (prod.preco - custos[(int)parc.idade].cortefinal);
+                            else
+                                parc.lucro[prod.numero] = parc.volume[prod.numero] * (prod.preco - custos[(int)parc.idade].desbaste);
 
+                        }
+                    }
+                }
+            }
+        }
         
 
         private void simular(double idade_desbaste, double idade_corte_final, double porcentagem)
@@ -744,10 +763,43 @@ namespace Simulador
             projetar_idade(ref regioes, idade_desbaste);
             List<Regiao> desbastadas = desbaste(ref regioes, porcentagem);
             gerar_volumes(ref desbastadas);
+            gerar_lucros(ref desbastadas, false);
+            
+            foreach (Regiao reg in desbastadas)
+            {
+                foreach (Talhao tal in reg.talhoes)
+                {
+                    foreach ( Parcela parc in tal.parcelas)
+                    {
+                        for (int i=1; i<parc.volume.Count(); i++)
+                        {
+                            Console.WriteLine("o volume de " + parc.volume[i] + " gerou uma receita de " + parc.lucro[i]);
+                        } 
+                    }
+               }
+            }
+            Console.WriteLine("////////////////////////////////");            
             projetar_idade(ref regioes, idade_corte_final);
             gerar_volumes(ref regioes);
+            gerar_lucros(ref regioes, true);
 
 
+            foreach (Regiao reg in regioes)
+            {
+                foreach (Talhao tal in reg.talhoes)
+                {
+                    foreach (Parcela parc in tal.parcelas)
+                    {
+                        for (int i = 1; i < parc.volume.Count(); i++)
+                        {
+                            Console.WriteLine("o volume de " + parc.volume[i] + " gerou uma receita de " + parc.lucro[i]);
+                        }
+                    }
+                }
+            }
+
+            Console.WriteLine("0000000000000000000000000000000000000000");
+            
             return;
         /*    projetar_corte_final(ref regioes, idade_corte_final);
 
