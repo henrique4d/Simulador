@@ -25,6 +25,7 @@ namespace Simulador
         {
             regiao = arvores[0].regiao;
             talhao = arvores[0].talhao;
+            area_parcela = arvores[0].area_parcela;
             num_arvores = arvores.Count();
             idade = arvores[0].idade;
             material_genetico = arvores[0].material_genetico;
@@ -57,6 +58,7 @@ namespace Simulador
         public double dap_medio;
         public double altura_media;
         public double area_basal_total;
+        public double area_parcela;
         public string material_genetico;
         public List<double> volume;
         public List<double> lucro;

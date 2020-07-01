@@ -106,7 +106,7 @@ namespace Simulador
             {
                 textBox1.Visible = false;
             }
-            if (comboBox1.Text == "SISTEMÁTICO")
+            if (comboBox1.Text == "MISTO")
             {
                 textBox1.Visible = true;
             }
@@ -369,9 +369,9 @@ namespace Simulador
                 reg.set_dados();
             }
         }
-        private void projetar_desbaste( ref List<Regiao> original, ref List<Regiao> nova, double idade_desbaste )
+        private void projetar_idade( ref List<Regiao> regioes, double idade )
         {
-            foreach (Regiao reg in original)
+            foreach (Regiao reg in regioes)
             {
                 foreach (Talhao tal in reg.talhoes)
                 {
@@ -379,39 +379,21 @@ namespace Simulador
                     {
                         foreach (Arvore arv in parc.arvores)
                         {
-                            double dap = simula_dap(arv.idade, idade_desbaste, arv.dap, coeficientes.B0_dap, coeficientes.B1_dap);
-                            double altura = simula_altura(arv.idade, idade_desbaste, arv.altura, coeficientes.B0_altura, coeficientes.B1_altura);
-                            
-                            //double area_basal = arv.area_basal = Math.PI * Math.Pow(arv.dap, 2) / 4000;
-
-                            Arvore projetada = new Arvore(arv.regiao, arv.talhao, idade_desbaste, dap, altura, arv.parcela, arv.area_parcela, arv.fila,arv.numero, arv.material_genetico);
-
-                            bool aux = false;   // verifica se ja foi criada a regiao daquela arvore
-                            foreach (Regiao regi in nova)
-                            {
-                                if (regi.numero == arv.regiao)  // regiao ja foi criada
-                                {
-                                    regi.adiciona_arvore(projetada);  // adiciona a arvore a regiao
-                                    aux = true;
-                                    break;
-                                }
-                            }
-                            if (!aux)   // regiao nao foi criada
-                            {
-                                Regiao nova_regiao = new Regiao(arv.regiao, produtos.Count());   // cria a nova regiao
-                                nova_regiao.adiciona_arvore(projetada);  // adiciona a arvore a regiao
-                                nova.Add(nova_regiao);
-                            }
+                            arv.dap = simula_dap(arv.idade, idade, arv.dap, coeficientes.B0_dap, coeficientes.B1_dap);
+                            arv.altura = simula_altura(arv.idade, idade, arv.altura, coeficientes.B0_altura, coeficientes.B1_altura);
+                            arv.area_basal = arv.area_basal = Math.PI * Math.Pow(arv.dap, 2) / 40000;
+                            arv.idade = idade;
                         }
 
                     }
                 }
             }
-            foreach(Regiao reg in nova)
+            foreach(Regiao reg in regioes)
             {
                 reg.set_dados();
             }
         }
+        
         private double simula_dap(double idade1, double idade2, double dap1, double B1, double B2)
         {
             double dap2;
@@ -425,7 +407,6 @@ namespace Simulador
             return altura2;
         }
         
-        
         private List<Regiao> desbaste(ref List<Regiao> regioes, double porcentagem)
         {
     
@@ -437,11 +418,11 @@ namespace Simulador
             {
                 return seletivo_area_basal(ref regioes, porcentagem);
             }
-            if (tipo_desbaste == "SISTEMÁTICO" && desbaste_por == "ÁRVORE")
+            if (tipo_desbaste == "MISTO" && desbaste_por == "ÁRVORE")
             {
                 return sistematico_arvore(ref regioes, porcentagem, intervalo_sistematico);
             }
-            if (tipo_desbaste == "SISTEMÁTICO" && desbaste_por == "ÁREA BASAL")
+            if (tipo_desbaste == "MISTO" && desbaste_por == "ÁREA BASAL")
             {
                 return sistematico_area_basal(ref regioes, porcentagem, intervalo_sistematico);
             }
@@ -455,22 +436,36 @@ namespace Simulador
             foreach (Regiao reg in regioes)
             {
                 Regiao auxiliar = new Regiao(reg.numero, produtos.Count());
-
+                
                 foreach (Talhao tal in reg.talhoes)
                 {
                     foreach (Parcela parc in tal.parcelas)
                     {
-                       double area_basal_limite = parc.area_basal_total * porcentagem / 100;
-                      
+                        //Console.WriteLine("inicialmente tinham : " + parc.arvores.Count());
+                        double area_basal_limite = parc.area_basal_total * porcentagem / 100;
+                        bool tem_uma = false;
                         foreach (Arvore arv in parc.arvores.ToList())
                         {
+                        //Console.WriteLine("area basal limite :" + area_basal_limite + "  area basal da arvore " + arv.area_basal );
                             area_basal_limite -= arv.area_basal;
-                            if (area_basal_limite < 0)
+                            if (area_basal_limite < -0.000000001)
                                 break;
                             auxiliar.adiciona_arvore(arv);
                             parc.arvores.Remove(arv);
+                            if (parc.arvores.Count() == 0)
+                            {
+                                Arvore lixo = new Arvore(parc.regiao, parc.talhao, parc.idade, 0, 0, parc.numero, arv.area_parcela, arv.fila, arv.numero, arv.material_genetico);
+                                parc.arvores.Add(lixo);
+                            }
+                            tem_uma = true;
+                        }
+                        if (!tem_uma)
+                        {
+                            Arvore lixo = new Arvore(parc.regiao, parc.talhao, parc.idade, 0, 0, parc.numero, parc.arvores[0].area_parcela, parc.arvores[0].fila, parc.arvores[0].numero, parc.arvores[0].material_genetico);
+                            auxiliar.adiciona_arvore(lixo);
                         }
 
+                        //Console.WriteLine("no final tinham : " + parc.arvores.Count());
                     }
                 }
                 auxiliar.set_dados();
@@ -491,17 +486,31 @@ namespace Simulador
                 {
                     foreach (Parcela parc in tal.parcelas)
                     {
-                       double limite = parc.arvores.Count() * porcentagem / 100;
+                        //Console.WriteLine("inicialmente tinham : " + parc.arvores.Count());
+                        double arvores_limite = parc.arvores.Count() * porcentagem / 100;
+                        bool tem_uma = false;
                         foreach (Arvore arv in parc.arvores.ToList())
                         {
-                            limite--;
-                            if (limite < 0)
+                            //Console.WriteLine("arvores para serem retiradas :" + arvores_limite);
+                            arvores_limite--;
+                            if (arvores_limite < 0)
                                 break;
                             auxiliar.adiciona_arvore(arv);
                             parc.arvores.Remove(arv);
+                            if (parc.arvores.Count() == 0)
+                            {
+                                Arvore lixo = new Arvore(parc.regiao, parc.talhao, parc.idade, 0, 0, parc.numero, arv.area_parcela, arv.fila, arv.numero, arv.material_genetico);
+                                parc.arvores.Add(lixo);
+                            }
+                            tem_uma = true;
+                        }
+                        if (!tem_uma)
+                        {
+                            Arvore lixo = new Arvore(parc.regiao, parc.talhao, parc.idade, 0, 0, parc.numero, parc.arvores[0].area_parcela, parc.arvores[0].fila, parc.arvores[0].numero, parc.arvores[0].material_genetico);
+                            auxiliar.adiciona_arvore(lixo);
                         }
 
-                        
+                        //Console.WriteLine("no final tinham : " + parc.arvores.Count() + " " + parc.arvores[0].altura + " "  + parc.arvores[0].dap);
                     }
                 }
                 auxiliar.set_dados();
@@ -526,8 +535,7 @@ namespace Simulador
         }
         private List<Regiao> sistematico_arvore(ref List<Regiao> regioes, double porcentagem, int intervalo)
         {
-            ordena_fila(ref regioes);
-
+            ordena_dap(ref regioes);
             List<Regiao> para_desbaste = new List<Regiao>();
             foreach (Regiao reg in regioes)
             {
@@ -537,34 +545,52 @@ namespace Simulador
                 {
                     foreach (Parcela parc in tal.parcelas)
                     {
-                        double limite = parc.arvores.Count() * porcentagem / 100;
-                        int fila = parc.arvores[0].fila;
+
+                        double arvores_limite = parc.arvores.Count() * porcentagem / 100;
+                        bool tem_uma = false;
+                        Console.WriteLine("inicialmente tinham : " + parc.arvores.Count());
+                        Console.WriteLine("o limite inicial era de : " + arvores_limite);
                         foreach (Arvore arv in parc.arvores.ToList())
                         {
                             if (arv.fila % intervalo == 0)
                             {
-                                
-                                limite--;
+                                arvores_limite--;
                                 auxiliar.adiciona_arvore(arv);
                                 parc.arvores.Remove(arv);
+                                if (parc.arvores.Count() == 0)
+                                {
+                                    Arvore lixo = new Arvore(parc.regiao, parc.talhao, parc.idade, 0, 0, parc.numero, arv.area_parcela, arv.fila, arv.numero, arv.material_genetico);
+                                    parc.arvores.Add(lixo);
+                                }
+                                tem_uma = true;
                             }
                         }
+                        Console.WriteLine("depois de tirar as da fila sobraram : " + parc.arvores.Count());
 
-                        if (limite < 1)
-                            break;
-
-                        List<Arvore> aux = parc.arvores.OrderBy(x => x.dap).ToList();
-                        parc.arvores = aux;
+                        
 
                         foreach (Arvore arv in parc.arvores.ToList())
                         {
-                            limite--;
-                            if (limite < 0)
+                            Console.WriteLine("arvores para serem retiradas :" + arvores_limite);
+                            arvores_limite--;
+                            if (arvores_limite < 0)
                                 break;
                             auxiliar.adiciona_arvore(arv);
                             parc.arvores.Remove(arv);
+                            if (parc.arvores.Count() == 0)
+                            {
+                                Arvore lixo = new Arvore(parc.regiao, parc.talhao, parc.idade, 0, 0, parc.numero, arv.area_parcela, arv.fila, arv.numero, arv.material_genetico);
+                                parc.arvores.Add(lixo);
+                            }
+                            tem_uma = true;
+                        }
+                        if (!tem_uma)
+                        {
+                            Arvore lixo = new Arvore(parc.regiao, parc.talhao, parc.idade, 0, 0, parc.numero, parc.arvores[0].area_parcela, parc.arvores[0].fila, parc.arvores[0].numero, parc.arvores[0].material_genetico);
+                            auxiliar.adiciona_arvore(lixo);
                         }
 
+                        Console.WriteLine("no final tinham : " + parc.arvores.Count() + " " + parc.arvores[0].altura + " "  + parc.arvores[0].dap);
                     }
                 }
                 auxiliar.set_dados();
@@ -574,8 +600,7 @@ namespace Simulador
         }
         private List<Regiao> sistematico_area_basal(ref List<Regiao> regioes, double porcentagem, int intervalo)
         {
-            ordena_fila(ref regioes);
-
+            ordena_dap(ref regioes);
             List<Regiao> para_desbaste = new List<Regiao>();
             foreach (Regiao reg in regioes)
             {
@@ -585,55 +610,57 @@ namespace Simulador
                 {
                     foreach (Parcela parc in tal.parcelas)
                     {
-                        double limite = parc.area_basal_total * porcentagem / 100;
-                        int fila = parc.arvores[0].fila;
+
+                        double area_basal_limite = parc.area_basal_total * porcentagem / 100;
+                        bool tem_uma = false;
+                        //Console.WriteLine("inicialmente tinham : " + parc.arvores.Count());
+                        //Console.WriteLine("o limite inicial era de : " + area_basal_limite);
                         foreach (Arvore arv in parc.arvores.ToList())
                         {
                             if (arv.fila % intervalo == 0)
                             {
-                                
-                                limite-= arv.area_basal;
+                                area_basal_limite-= arv.area_basal;
                                 auxiliar.adiciona_arvore(arv);
                                 parc.arvores.Remove(arv);
+                                if (parc.arvores.Count() == 0)
+                                {
+                                    Arvore lixo = new Arvore(parc.regiao, parc.talhao, parc.idade, 0, 0, parc.numero, arv.area_parcela, arv.fila, arv.numero, arv.material_genetico);
+                                    parc.arvores.Add(lixo);
+                                }
+                                tem_uma = true;
                             }
-                           
                         }
-                        if (limite < 0)
-                            break;
 
-                        List<Arvore> aux = parc.arvores.OrderBy(x => x.dap).ToList();
-                        parc.arvores = aux;
+                        //Console.WriteLine("o limite depois de tirar as arvores da fila era de : " + area_basal_limite);
 
                         foreach (Arvore arv in parc.arvores.ToList())
                         {
-                            limite-=arv.area_basal;
-                            if (limite < 0)
-                            {
+                            //Console.WriteLine("area basal que falta ser retirada :" + area_basal_limite + "   area basal da arvore" + arv.area_basal );
+                            area_basal_limite-= arv.area_basal;
+                            if (area_basal_limite < -0.000000001)
                                 break;
-                            }
                             auxiliar.adiciona_arvore(arv);
                             parc.arvores.Remove(arv);
+                            if (parc.arvores.Count() == 0)
+                            {
+                                Arvore lixo = new Arvore(parc.regiao, parc.talhao, parc.idade, 0, 0, parc.numero, arv.area_parcela, arv.fila, arv.numero, arv.material_genetico);
+                                parc.arvores.Add(lixo);
+                            }
+                            tem_uma = true;
                         }
+                        if (!tem_uma)
+                        {
+                            Arvore lixo = new Arvore(parc.regiao, parc.talhao, parc.idade, 0, 0, parc.numero, parc.arvores[0].area_parcela, parc.arvores[0].fila, parc.arvores[0].numero, parc.arvores[0].material_genetico);
+                            auxiliar.adiciona_arvore(lixo);
+                        }
+
+                        //Console.WriteLine("no final tinham : " + parc.arvores.Count() + " " + parc.arvores[0].altura + " "  + parc.arvores[0].dap);
                     }
                 }
                 auxiliar.set_dados();
                 para_desbaste.Add(auxiliar);
             }
             return para_desbaste;
-        }
-        void ordena_fila(ref List<Regiao> inicial)
-        {
-            foreach (Regiao reg in inicial)
-            {
-                foreach (Talhao tal in reg.talhoes)
-                {
-                    foreach (Parcela parc in tal.parcelas)
-                    {
-                        List<Arvore> auxiliar = parc.arvores.OrderBy(x => x.fila).ToList();
-                        parc.arvores = auxiliar;
-                    }
-                }
-            }
         }
 
         private void projetar_corte_final(ref List<Regiao> regioes, double idade_corte_final)
@@ -782,23 +809,27 @@ namespace Simulador
             }
             return lucro;
         }
-
+        
         private void simular(double idade_desbaste, double idade_corte_final, double porcentagem)
         {
             List<Regiao> regioes = new List<Regiao>();
             
             clonar(ref regioes_original, ref regioes);
             
-            projetar_desbaste(ref regioes_original, ref regioes, idade_desbaste);
+            projetar_idade(ref regioes, idade_desbaste);
 
+            
             List<Regiao> desbastadas = desbaste(ref regioes, porcentagem);
 
+            
+            
+            Console.WriteLine("///////////////////////////////");
+            return;
             projetar_corte_final(ref regioes, idade_corte_final);
 
             produto_final(ref desbastadas);
             produto_final(ref regioes);
         }
-      
         private void processamento()
         {
             Importar_produtos();                                 //exporta os dados de cada produto do xls
@@ -816,7 +847,6 @@ namespace Simulador
                     {
                         simular(desbaste, final, porcentagem);
                         //Console.WriteLine(simular(desbaste, final, porcentagem));
-                        return;
                     }
                 }
             }

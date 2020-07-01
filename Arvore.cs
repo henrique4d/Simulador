@@ -18,7 +18,7 @@ namespace Simulador
             this.idade = idade;
             this.dap = dap;
             this.altura = altura;
-            this.area_basal = Math.PI * Math.Pow(dap, 2) / 4000;
+            this.area_basal = Math.PI * Math.Pow(dap, 2) / 40000;
             this.parcela = parcela;
             this.area_parcela = area_parcela;
             this.fila = fila;
