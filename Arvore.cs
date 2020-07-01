@@ -5,12 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-/*fazer media das idades*/
+/*fazer media das idades*/ 
 
 namespace Simulador
 {
     class Arvore
-    {/*teste*/
+    {
         public Arvore(int regiao, int talhao, double idade, double dap, double altura, int parcela, double area_parcela, int fila, int numero, string material_genetico)
         {
             this.regiao = regiao;

@@ -330,8 +330,45 @@ namespace Simulador
                 simulacoes.porcentagem.Add(double.Parse(planilha.Cell("C" + linha.ToString()).Value.ToString()));
             }
         }
-        
 
+
+        private void clonar(ref List<Regiao> original, ref List<Regiao> nova)
+        {
+            foreach (Regiao reg in original)
+            {
+                foreach (Talhao tal in reg.talhoes)
+                {
+                    foreach (Parcela parc in tal.parcelas)
+                    {
+                        foreach (Arvore arv in parc.arvores)
+                        {
+                            Arvore projetada = new Arvore(arv.regiao, arv.talhao, arv.idade, arv.dap, arv.altura, arv.parcela, arv.area_parcela, arv.fila, arv.numero, arv.material_genetico);
+
+                            bool aux = false;   // verifica se ja foi criada a regiao daquela arvore
+                            foreach (Regiao regi in nova)
+                            {
+                                if (regi.numero == arv.regiao)  // regiao ja foi criada
+                                {
+                                    regi.adiciona_arvore(projetada);  // adiciona a arvore a regiao
+                                    aux = true;
+                                    break;
+                                }
+                            }
+                            if (!aux)   // regiao nao foi criada
+                            {
+                                Regiao nova_regiao = new Regiao(arv.regiao, produtos.Count());   // cria a nova regiao
+                                nova_regiao.adiciona_arvore(projetada);  // adiciona a arvore a regiao
+                                nova.Add(nova_regiao);
+                            }
+                        }
+                    }
+                }
+            }
+            foreach (Regiao reg in nova)
+            {
+                reg.set_dados();
+            }
+        }
         private void projetar_desbaste( ref List<Regiao> original, ref List<Regiao> nova, double idade_desbaste )
         {
             foreach (Regiao reg in original)
@@ -599,7 +636,6 @@ namespace Simulador
             }
         }
 
-
         private void projetar_corte_final(ref List<Regiao> regioes, double idade_corte_final)
         {
             foreach (Regiao reg in regioes)
@@ -619,7 +655,6 @@ namespace Simulador
                 }
             }
         }
-
 
         private double produto_final(ref List<Regiao> regioes)
         {
@@ -748,46 +783,22 @@ namespace Simulador
             return lucro;
         }
 
-
-        private double simular(double idade_desbaste, double idade_corte_final, double porcentagem)
+        private void simular(double idade_desbaste, double idade_corte_final, double porcentagem)
         {
-            double lucro = 0;
             List<Regiao> regioes = new List<Regiao>();
+            
+            clonar(ref regioes_original, ref regioes);
+            
             projetar_desbaste(ref regioes_original, ref regioes, idade_desbaste);
 
             List<Regiao> desbastadas = desbaste(ref regioes, porcentagem);
 
             projetar_corte_final(ref regioes, idade_corte_final);
 
-            lucro += produto_final(ref desbastadas);
-            lucro += produto_final(ref regioes);
-            
-
-            return lucro;
+            produto_final(ref desbastadas);
+            produto_final(ref regioes);
         }
       
-        class comp : IComparer< Resultado>
-        {
-            public int Compare(Resultado x, Resultado y)
-            {
-                    if (x.regiao < y.regiao)
-                        return -1;
-                    if (x.regiao > y.regiao)
-                        return 1;
-                    if (x.talhao < y.talhao)
-                        return -1;
-                    if (x.talhao > y.talhao)
-                        return 1;
-                    if (x.parcela < y.parcela)
-                        return -1;
-                    if (x.parcela > y.parcela)
-                        return 1;
-                    if (x.desbaste)
-                        return -1;
-                    else
-                        return 1;
-            }
-        }
         private void processamento()
         {
             Importar_produtos();                                 //exporta os dados de cada produto do xls
