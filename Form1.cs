@@ -441,12 +441,10 @@ namespace Simulador
                 {
                     foreach (Parcela parc in tal.parcelas)
                     {
-                        //Console.WriteLine("inicialmente tinham : " + parc.arvores.Count());
                         double area_basal_limite = parc.area_basal_total * porcentagem / 100;
                         bool tem_uma = false;
                         foreach (Arvore arv in parc.arvores.ToList())
                         {
-                        //Console.WriteLine("area basal limite :" + area_basal_limite + "  area basal da arvore " + arv.area_basal );
                             area_basal_limite -= arv.area_basal;
                             if (area_basal_limite < -0.000000001)
                                 break;
@@ -464,8 +462,6 @@ namespace Simulador
                             Arvore lixo = new Arvore(parc.regiao, parc.talhao, parc.idade, 0, 0, parc.numero, parc.arvores[0].area_parcela, parc.arvores[0].fila, parc.arvores[0].numero, parc.arvores[0].material_genetico);
                             auxiliar.adiciona_arvore(lixo);
                         }
-
-                        //Console.WriteLine("no final tinham : " + parc.arvores.Count());
                     }
                 }
                 auxiliar.set_dados();
@@ -486,12 +482,10 @@ namespace Simulador
                 {
                     foreach (Parcela parc in tal.parcelas)
                     {
-                        //Console.WriteLine("inicialmente tinham : " + parc.arvores.Count());
                         double arvores_limite = parc.arvores.Count() * porcentagem / 100;
                         bool tem_uma = false;
                         foreach (Arvore arv in parc.arvores.ToList())
                         {
-                            //Console.WriteLine("arvores para serem retiradas :" + arvores_limite);
                             arvores_limite--;
                             if (arvores_limite < 0)
                                 break;
@@ -509,8 +503,6 @@ namespace Simulador
                             Arvore lixo = new Arvore(parc.regiao, parc.talhao, parc.idade, 0, 0, parc.numero, parc.arvores[0].area_parcela, parc.arvores[0].fila, parc.arvores[0].numero, parc.arvores[0].material_genetico);
                             auxiliar.adiciona_arvore(lixo);
                         }
-
-                        //Console.WriteLine("no final tinham : " + parc.arvores.Count() + " " + parc.arvores[0].altura + " "  + parc.arvores[0].dap);
                     }
                 }
                 auxiliar.set_dados();
@@ -518,20 +510,6 @@ namespace Simulador
 
             }
             return para_desbaste;
-        }
-        void ordena_dap(ref List<Regiao> inicial)
-        {
-            foreach (Regiao reg in inicial)
-            {
-                foreach (Talhao tal in reg.talhoes)
-                {
-                    foreach (Parcela parc in tal.parcelas)
-                    {
-                        List<Arvore> auxiliar = parc.arvores.OrderBy(x => x.dap).ToList();
-                        parc.arvores = auxiliar;
-                    }
-                }
-            }
         }
         private List<Regiao> sistematico_arvore(ref List<Regiao> regioes, double porcentagem, int intervalo)
         {
@@ -545,11 +523,8 @@ namespace Simulador
                 {
                     foreach (Parcela parc in tal.parcelas)
                     {
-
                         double arvores_limite = parc.arvores.Count() * porcentagem / 100;
                         bool tem_uma = false;
-                        Console.WriteLine("inicialmente tinham : " + parc.arvores.Count());
-                        Console.WriteLine("o limite inicial era de : " + arvores_limite);
                         foreach (Arvore arv in parc.arvores.ToList())
                         {
                             if (arv.fila % intervalo == 0)
@@ -565,13 +540,9 @@ namespace Simulador
                                 tem_uma = true;
                             }
                         }
-                        Console.WriteLine("depois de tirar as da fila sobraram : " + parc.arvores.Count());
-
-                        
-
+  
                         foreach (Arvore arv in parc.arvores.ToList())
                         {
-                            Console.WriteLine("arvores para serem retiradas :" + arvores_limite);
                             arvores_limite--;
                             if (arvores_limite < 0)
                                 break;
@@ -589,8 +560,6 @@ namespace Simulador
                             Arvore lixo = new Arvore(parc.regiao, parc.talhao, parc.idade, 0, 0, parc.numero, parc.arvores[0].area_parcela, parc.arvores[0].fila, parc.arvores[0].numero, parc.arvores[0].material_genetico);
                             auxiliar.adiciona_arvore(lixo);
                         }
-
-                        Console.WriteLine("no final tinham : " + parc.arvores.Count() + " " + parc.arvores[0].altura + " "  + parc.arvores[0].dap);
                     }
                 }
                 auxiliar.set_dados();
@@ -613,8 +582,6 @@ namespace Simulador
 
                         double area_basal_limite = parc.area_basal_total * porcentagem / 100;
                         bool tem_uma = false;
-                        //Console.WriteLine("inicialmente tinham : " + parc.arvores.Count());
-                        //Console.WriteLine("o limite inicial era de : " + area_basal_limite);
                         foreach (Arvore arv in parc.arvores.ToList())
                         {
                             if (arv.fila % intervalo == 0)
@@ -631,11 +598,8 @@ namespace Simulador
                             }
                         }
 
-                        //Console.WriteLine("o limite depois de tirar as arvores da fila era de : " + area_basal_limite);
-
                         foreach (Arvore arv in parc.arvores.ToList())
                         {
-                            //Console.WriteLine("area basal que falta ser retirada :" + area_basal_limite + "   area basal da arvore" + arv.area_basal );
                             area_basal_limite-= arv.area_basal;
                             if (area_basal_limite < -0.000000001)
                                 break;
@@ -653,8 +617,6 @@ namespace Simulador
                             Arvore lixo = new Arvore(parc.regiao, parc.talhao, parc.idade, 0, 0, parc.numero, parc.arvores[0].area_parcela, parc.arvores[0].fila, parc.arvores[0].numero, parc.arvores[0].material_genetico);
                             auxiliar.adiciona_arvore(lixo);
                         }
-
-                        //Console.WriteLine("no final tinham : " + parc.arvores.Count() + " " + parc.arvores[0].altura + " "  + parc.arvores[0].dap);
                     }
                 }
                 auxiliar.set_dados();
@@ -662,6 +624,22 @@ namespace Simulador
             }
             return para_desbaste;
         }
+        void ordena_dap(ref List<Regiao> inicial)
+        {
+            foreach (Regiao reg in inicial)
+            {
+                foreach (Talhao tal in reg.talhoes)
+                {
+                    foreach (Parcela parc in tal.parcelas)
+                    {
+                        List<Arvore> auxiliar = parc.arvores.OrderBy(x => x.dap).ToList();
+                        parc.arvores = auxiliar;
+                    }
+                }
+            }
+        }
+
+
 
         private void projetar_corte_final(ref List<Regiao> regioes, double idade_corte_final)
         {
@@ -812,18 +790,11 @@ namespace Simulador
         
         private void simular(double idade_desbaste, double idade_corte_final, double porcentagem)
         {
-            List<Regiao> regioes = new List<Regiao>();
-            
+            List<Regiao> regioes = new List<Regiao>();   
             clonar(ref regioes_original, ref regioes);
-            
             projetar_idade(ref regioes, idade_desbaste);
-
-            
             List<Regiao> desbastadas = desbaste(ref regioes, porcentagem);
 
-            
-            
-            Console.WriteLine("///////////////////////////////");
             return;
             projetar_corte_final(ref regioes, idade_corte_final);
 
