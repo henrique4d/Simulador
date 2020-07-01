@@ -40,6 +40,7 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.button3 = new System.Windows.Forms.Button();
             this.comboBox2 = new System.Windows.Forms.ComboBox();
+            this.textBox2 = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -107,9 +108,9 @@
             // button1
             // 
             this.button1.BackColor = System.Drawing.Color.White;
-            this.button1.Location = new System.Drawing.Point(676, 193);
+            this.button1.Location = new System.Drawing.Point(667, 193);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(99, 41);
+            this.button1.Size = new System.Drawing.Size(91, 41);
             this.button1.TabIndex = 12;
             this.button1.Text = "DADOS ECONÔMICOS";
             this.button1.UseVisualStyleBackColor = false;
@@ -121,9 +122,9 @@
             this.comboBox1.Items.AddRange(new object[] {
             "SELETIVO",
             "MISTO"});
-            this.comboBox1.Location = new System.Drawing.Point(676, 253);
+            this.comboBox1.Location = new System.Drawing.Point(667, 253);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(82, 21);
+            this.comboBox1.Size = new System.Drawing.Size(91, 21);
             this.comboBox1.TabIndex = 14;
             this.comboBox1.Text = "DESBASTE";
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
@@ -161,12 +162,21 @@
             this.comboBox2.Text = "          POR";
             this.comboBox2.SelectedIndexChanged += new System.EventHandler(this.comboBox2_SelectedIndexChanged);
             // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(764, 204);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(30, 20);
+            this.textBox2.TabIndex = 18;
+            this.textBox2.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.textBox2);
             this.Controls.Add(this.comboBox2);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.textBox1);
@@ -199,6 +209,7 @@
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.ComboBox comboBox2;
+        private System.Windows.Forms.TextBox textBox2;
     }
 }
 
