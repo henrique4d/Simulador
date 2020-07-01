@@ -431,7 +431,7 @@ namespace Simulador
         private List <Regiao> seletivo_area_basal(ref List<Regiao> regioes, double porcentagem)
         {
             ordena_dap(ref regioes);
-
+           
             List<Regiao> para_desbaste = new List<Regiao>();
             foreach (Regiao reg in regioes)
             {
@@ -632,8 +632,8 @@ namespace Simulador
                 {
                     foreach (Parcela parc in tal.parcelas)
                     {
-                        List<Arvore> auxiliar = parc.arvores.OrderBy(x => x.dap).ToList();
-                        parc.arvores = auxiliar;
+                        parc.arvores = parc.arvores.OrderBy(x => x.dap).ToList();
+              
                     }
                 }
             }
@@ -641,7 +641,8 @@ namespace Simulador
 
 
 
-        private void projetar_corte_final(ref List<Regiao> regioes, double idade_corte_final)
+        
+        private void gerar_volumes(ref List<Regiao> regioes)
         {
             foreach (Regiao reg in regioes)
             {
@@ -651,34 +652,6 @@ namespace Simulador
                     {
                         foreach (Arvore arv in parc.arvores)
                         {
-                            arv.dap = simula_dap(arv.idade, idade_corte_final, arv.dap, coeficientes.B0_dap, coeficientes.B1_dap);
-                            arv.altura = simula_altura(arv.idade, idade_corte_final, arv.altura, coeficientes.B0_altura, coeficientes.B1_altura);
-                            arv.idade = idade_corte_final;
-                            arv.area_basal = Math.PI * Math.Pow(arv.dap, 2) / 4000;
-                        }
-                    }
-                }
-            }
-        }
-
-        private double produto_final(ref List<Regiao> regioes)
-        {
-            double lucro = 0;
-            foreach (Regiao reg in regioes)
-            {
-                foreach (Talhao tal in reg.talhoes)
-                {
-                    //Console.WriteLine("regiao: " + tal.regiao);
-                    //Console.WriteLine("talhao: " + tal.numero);
-                    //Console.WriteLine(tal.parcelas[0].arvores[0].area_parcela);
-                    foreach (Parcela parc in tal.parcelas)
-                    {
-                        //Console.WriteLine("Parcela: " + parc.numero);
-                        foreach (Arvore arv in parc.arvores)
-                        {
-                            //Console.WriteLine("dap da arvore: " + arv.dap);
-                            //Console.WriteLine("altura da arvore: " + arv.altura);
-
                             int idade = (int)arv.idade;
                             double B0 = coeficientes.B0[idade];
                             double B1 = coeficientes.B1[idade];
@@ -686,121 +659,101 @@ namespace Simulador
                             double B3 = coeficientes.B3[idade];
 
                             double altura_atual = 0.10;
+
+                            double d_aux = 0;
+                            bool usar_d_aux = false;
+
                             foreach (Produto prod in produtos)
                             {
                                 while (true)
                                 {
                                     if (altura_atual + prod.l > arv.altura)
                                         break;
+                                    
                                     double d1 = arv.dap * B0 * (1 + B1 * Math.Log(1 - B2 * Math.Pow(altura_atual, B3) * Math.Pow(arv.altura, -B3)));
                                     double d2 = arv.dap * B0 * (1 + B1 * Math.Log(1 - B2 * Math.Pow(altura_atual + prod.l, B3) * Math.Pow(arv.altura, -B3)));
 
-                                    if (d2 > prod.max || d2 < prod.min)
+                                    if (usar_d_aux)
+                                    {
+                                        if (d_aux >= prod.max || d2 < prod.min)
+                                            break;
+                                        usar_d_aux = false;
+                                    }
+                                    else if (d2 >= prod.max || d2 < prod.min)
+                                    {
+                                        usar_d_aux = true;
+                                        d_aux = d2;
                                         break;
-                                    altura_atual += prod.l;
+                                    }
 
-                                    double as1 = Math.PI * Math.Pow(d1, 2) / 40000;
-                                    double as2 = Math.PI * Math.Pow(d2, 2) / 40000;
-
-                                    double volume = (as1 + as2) * prod.l / 2;
-                                    prod.volume += (as1 + as2) * prod.l / 2;
                                     
-                                    parc.volume[prod.numero] += volume;
-                                    tal.volume[prod.numero] += volume;
-                                    //Console.WriteLine("adicionei " + volume + "ao produto de numero" + prod.numero );
-                                    //Console.WriteLine(tal.volume[prod.numero]);
-                                    /*     // 10k/area parcela * volume do produto              */
-                                    lucro += prod.volume * prod.preco;
+                                    parc.volume[prod.numero] += gerar_tora(arv.dap,arv.altura,altura_atual,prod.l,B0,B1,B2,B3,parc.area_parcela);
+
+                                    altura_atual += prod.l;
                                 }
                                 if (altura_atual + prod.l > arv.altura)
                                 {
                                     break;
                                 }
-                            }
-                            
+                            }   
                         }
-                        //Console.WriteLine("volume do produto 1: " + parc.volume[1]);
-                        //Console.WriteLine("volume do produto 2: " + parc.volume[2]);
-                        //Console.WriteLine("volume do produto 3: " + parc.volume[3]);
-                        foreach (Produto prod in produtos)
-                        {
-                            parc.lucro[prod.numero] = parc.volume[prod.numero] * prod.preco;
-                        }
-
-                        /*Console.WriteLine("*");
-                        Console.WriteLine("lucro do produto 1: " + parc.lucro[1]);
-                        Console.WriteLine("lucro do produto 2: " + parc.lucro[2]);
-                        Console.WriteLine("lucro do produto 3: " + parc.lucro[3]);
-
-                        Console.WriteLine("///////////");*/
                     }
-
-                    for (int i=0; i < tal.volume.Count(); i++)
-                    {
-                        tal.volume[i] /= tal.parcelas.Count();
-                    }
-                    foreach (Produto prod in produtos)
-                    {
-                        tal.lucro[prod.numero] = tal.volume[prod.numero] * prod.preco;
-                        tal.lucro_hectare[prod.numero] = tal.lucro[prod.numero] / tal.parcelas[0].arvores[0].area_parcela * 10000;
-                    }
-                    //Console.WriteLine("///////////////////////////");
-                    //Console.WriteLine("volume do produto 1: " + tal.volume[1]);
-                    //Console.WriteLine("volume do produto 2: " + tal.volume[2]);
-                    //Console.WriteLine("volume do produto 3: " + tal.volume[3]);
-                    //Console.WriteLine("**");
-                    //Console.WriteLine("///////////////////////////");
-/*
-
-
-                    Console.WriteLine("lucro do produto 1: " + tal.lucro[1]);
-                    Console.WriteLine("lucro do produto 2: " + tal.lucro[2]);
-                    Console.WriteLine("lucro do produto 3: " + tal.lucro[3]);
-                    Console.WriteLine("///////////////////////////");
-  */                  
                 }
             }
-
-            foreach (Regiao reg in regioes)
-            {
-                foreach (Talhao tal in reg.talhoes)
-                {
-                    foreach (Parcela parc in tal.parcelas)
-                    {
-                        /*foreach (Arvore arv in parc.arvores)
-                        {
-                            Console.WriteLine(arv.dap);
-                        }*/
-                        //Console.WriteLine("*");
-                        /*Console.WriteLine(parc.volume[1]);
-                        Console.WriteLine(parc.volume[2]);
-                        Console.WriteLine(parc.volume[3]);
-                        Console.WriteLine("--------------------");*/
-                    }
-                    /*Console.WriteLine("*");
-                    Console.WriteLine(tal.volume[1]);
-                    Console.WriteLine(tal.volume[2]);
-                    Console.WriteLine(tal.volume[3]);
-                    Console.WriteLine("*");
-                    */
-                }
-            }
-            return lucro;
         }
+        private double gerar_tora(double dap, double altura_arvore, double altura_inicial, double l, double B0, double B1, double B2, double B3, double area_parcela)
+        {
+            double volume = 0;
+            for (double i=0.10; i<l; i+=0.10)
+            {
+                double d1 = dap * B0 * (1 + B1 * Math.Log(1 - B2 * Math.Pow(altura_inicial + i-0.10, B3) * Math.Pow(altura_arvore, -B3)));
+                double d2 = dap * B0 * (1 + B1 * Math.Log(1 - B2 * Math.Pow(altura_inicial + i, B3) * Math.Pow(altura_arvore, -B3)));
+
+                double as1 = Math.PI * Math.Pow(d1, 2) / 40000;
+                double as2 = Math.PI * Math.Pow(d2, 2) / 40000;
+
+                volume += (as1 + as2) * 0.10 / 2;
+            
+                if (i+0.10 >= l)
+                {
+                    double diferenca = l - i;
+                    i = l;
+                    d1 = dap * B0 * (1 + B1 * Math.Log(1 - B2 * Math.Pow(altura_inicial + i - diferenca, B3) * Math.Pow(altura_arvore, -B3)));
+                    d2 = dap * B0 * (1 + B1 * Math.Log(1 - B2 * Math.Pow(altura_inicial + i, B3) * Math.Pow(altura_arvore, -B3)));
+
+                    as1 = Math.PI * Math.Pow(d1, 2) / 40000;
+                    as2 = Math.PI * Math.Pow(d2, 2) / 40000;
+
+                    volume += (as1 + as2) * diferenca / 2;
+
+                    break;
+                }
+            }
+
+            volume = (volume / area_parcela) * 10000;
+           
+            return volume;
+        }
+
         
+
         private void simular(double idade_desbaste, double idade_corte_final, double porcentagem)
         {
             List<Regiao> regioes = new List<Regiao>();   
-            clonar(ref regioes_original, ref regioes);
+            clonar(ref regioes_original, ref regioes);           
             projetar_idade(ref regioes, idade_desbaste);
             List<Regiao> desbastadas = desbaste(ref regioes, porcentagem);
+            gerar_volumes(ref desbastadas);
+            projetar_idade(ref regioes, idade_corte_final);
+            gerar_volumes(ref regioes);
+
 
             return;
-            projetar_corte_final(ref regioes, idade_corte_final);
+        /*    projetar_corte_final(ref regioes, idade_corte_final);
 
             produto_final(ref desbastadas);
             produto_final(ref regioes);
-        }
+        */}
         private void processamento()
         {
             Importar_produtos();                                 //exporta os dados de cada produto do xls
@@ -817,7 +770,6 @@ namespace Simulador
                     foreach( int porcentagem in simulacoes.porcentagem)
                     {
                         simular(desbaste, final, porcentagem);
-                        //Console.WriteLine(simular(desbaste, final, porcentagem));
                     }
                 }
             }

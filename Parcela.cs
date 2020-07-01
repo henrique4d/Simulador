@@ -13,7 +13,7 @@ namespace Simulador
             volume = new List<double>();
             lucro = new List<double>();
 
-            for (int i=0; i<= quant_produtos; i++)
+            for (int i=0; i< quant_produtos; i++)
             {
                 volume.Add(0);
                 lucro.Add(0);
