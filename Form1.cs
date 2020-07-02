@@ -807,6 +807,36 @@ namespace Simulador
         }
 
 
+        private void gerar_VAE_infinito(ref List<Regiao> regioes_corte_final)
+        {
+            for (int indice_Regiao = 0; indice_Regiao < regioes_corte_final.Count(); indice_Regiao++)
+            {
+                for (int indice_Talhao = 0; indice_Talhao < regioes_corte_final[indice_Regiao].talhoes.Count(); indice_Talhao++)
+                {
+                    for (int Indice_Parcela = 0; Indice_Parcela < regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas.Count(); Indice_Parcela++)
+                    {
+                        double vpl = regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].vpl;
+                        double idade = regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].idade;
+                        regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].vae = calcular_VAE(vpl, taxa_juros, idade);
+                        double vae = regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].vae;
+                        regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].vpl_infinito = calcular_VPL_infinito(vae, taxa_juros);
+                    }
+                }
+            }
+        }
+        private double calcular_VAE(double vpl, double i, double intervalo)
+        {
+            return (vpl*i)/(1- Math.Pow(1+i,-intervalo));
+        }
+
+        private double calcular_VPL_infinito(double vae, double i)
+        {
+            return vae/i;
+        }
+
+
+
+
         private void simular(double idade_desbaste, double idade_corte_final, double porcentagem)
         {
             List<Regiao> regioes = new List<Regiao>();
@@ -820,6 +850,19 @@ namespace Simulador
             gerar_lucros(ref regioes, true);
             gerar_IMA(ref desbastadas, ref regioes);
             gerar_VPL(ref desbastadas, ref regioes);
+
+            gerar_VAE_infinito(ref regioes);
+        
+            foreach (Regiao reg in regioes)
+            {
+                foreach (Talhao tal in reg.talhoes)
+                {
+                    foreach (Parcela parc in tal.parcelas)
+                    {
+                        Console.WriteLine(parc.vpl + "    " + parc.vae + "     " + parc.vpl_infinito);
+                    }
+                }
+            }
         }
         private void processamento()
         {
