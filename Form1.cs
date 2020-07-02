@@ -850,19 +850,7 @@ namespace Simulador
             gerar_lucros(ref regioes, true);
             gerar_IMA(ref desbastadas, ref regioes);
             gerar_VPL(ref desbastadas, ref regioes);
-
             gerar_VAE_infinito(ref regioes);
-        
-            foreach (Regiao reg in regioes)
-            {
-                foreach (Talhao tal in reg.talhoes)
-                {
-                    foreach (Parcela parc in tal.parcelas)
-                    {
-                        Console.WriteLine(parc.vpl + "    " + parc.vae + "     " + parc.vpl_infinito);
-                    }
-                }
-            }
         }
         private void processamento()
         {
