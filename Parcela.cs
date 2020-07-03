@@ -22,6 +22,7 @@ namespace Simulador
             ima = 0;
             vpl = 0;
             vae = 0;
+            vet = 0;
             vpl_infinito = 0;
             this.numero = num;
         }
@@ -67,6 +68,8 @@ namespace Simulador
         public double vpl;
         public double vae;
         public double vpl_infinito;
+        public double vet;
+
         public string material_genetico;
         public List<double> volume;
         public List<double> lucro;

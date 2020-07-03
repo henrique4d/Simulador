@@ -807,7 +807,7 @@ namespace Simulador
         }
 
 
-        private void gerar_VAE_infinito(ref List<Regiao> regioes_corte_final)
+        private void gerar_VAE_infinito_vet(ref List<Regiao> regioes_corte_final)
         {
             for (int indice_Regiao = 0; indice_Regiao < regioes_corte_final.Count(); indice_Regiao++)
             {
@@ -820,6 +820,8 @@ namespace Simulador
                         regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].vae = calcular_VAE(vpl, taxa_juros, idade);
                         double vae = regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].vae;
                         regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].vpl_infinito = calcular_VPL_infinito(vae, taxa_juros);
+                        regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].vet = calcular_VET(vpl, taxa_juros, idade);
+
                     }
                 }
             }
@@ -828,16 +830,59 @@ namespace Simulador
         {
             return (vpl*i)/(1- Math.Pow(1+i,-intervalo));
         }
-
         private double calcular_VPL_infinito(double vae, double i)
         {
             return vae/i;
         }
+        private double calcular_VET(double vpl, double i, double intervalo)
+        {
+            return vpl / Math.Pow((1 + i),(intervalo-1));
+        }
+        
+        private Cenario_Parcela gerar_cenario(ref List<Regiao> regioes_desbaste, ref List<Regiao> regioes_corte_final, double porcentagem)
+        {
+            Cenario_Parcela cenario = new Cenario_Parcela();
+            for (int indice_Regiao = 0; indice_Regiao < regioes_desbaste.Count(); indice_Regiao++)
+            {
+                for (int indice_Talhao = 0; indice_Talhao < regioes_desbaste[indice_Regiao].talhoes.Count(); indice_Talhao++)
+                {
+                    for (int Indice_Parcela = 0; Indice_Parcela < regioes_desbaste[indice_Regiao].talhoes[indice_Talhao].parcelas.Count(); Indice_Parcela++)
+                    {
+                        cenario.regiao.Add(regioes_desbaste[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].regiao);
+                        cenario.talhao.Add(regioes_desbaste[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].talhao);
+                        cenario.parcela.Add(regioes_desbaste[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].numero);
+                        cenario.idade.Add(regioes_desbaste[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].idade);
+                        cenario.porcentagem.Add( porcentagem.ToString());
+                        cenario.media_dap.Add(regioes_desbaste[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].dap_medio);
+                        cenario.media_altura.Add(regioes_desbaste[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].altura_media);
+                        cenario.volumes.Add(regioes_desbaste[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].volume);
+                        cenario.IMA.Add(regioes_desbaste[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].ima);
+                        cenario.VPL.Add(-1);
+                        cenario.VAE.Add(-1);
+                        cenario.VPL_infinito.Add(-1);
+                        cenario.VET.Add(-1);
 
 
+                        cenario.regiao.Add(regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].regiao);
+                        cenario.talhao.Add(regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].talhao);
+                        cenario.parcela.Add(regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].numero);
+                        cenario.idade.Add(regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].idade);
+                        cenario.porcentagem.Add(porcentagem.ToString());
+                        cenario.media_dap.Add(regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].dap_medio);
+                        cenario.media_altura.Add(regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].altura_media);
+                        cenario.volumes.Add(regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].volume);
+                        cenario.IMA.Add(regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].ima);
+                        cenario.VPL.Add(regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].vpl);
+                        cenario.VAE.Add(regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].vae);
+                        cenario.VPL_infinito.Add(regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].vpl_infinito);
+                        cenario.VET.Add(regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].vet);
+                    }
+                }
+            }
+            return cenario;
+        }
 
-
-        private void simular(double idade_desbaste, double idade_corte_final, double porcentagem)
+        private Cenario_Parcela simular(double idade_desbaste, double idade_corte_final, double porcentagem)
         {
             List<Regiao> regioes = new List<Regiao>();
             clonar(ref regioes_original, ref regioes);
@@ -850,16 +895,89 @@ namespace Simulador
             gerar_lucros(ref regioes, true);
             gerar_IMA(ref desbastadas, ref regioes);
             gerar_VPL(ref desbastadas, ref regioes);
-            gerar_VAE_infinito(ref regioes);
+            gerar_VAE_infinito_vet(ref regioes);
+
+            return (gerar_cenario(ref desbastadas, ref regioes, porcentagem));
+        }
+
+        private void print_parcela(ref List<Cenario_Parcela> final_parcela)
+        {
+            var Excel = new Microsoft.Office.Interop.Excel.Application();
+            Excel.Visible = false;
+            Excel.Workbooks.Add();
+            Excel.Worksheets.Add();
+            Excel.Worksheets[2].cells[1][1] = "Região";
+            Excel.Worksheets[2].cells[2][1] = "Talhão";
+            Excel.Worksheets[2].cells[3][1] = "Parcela";
+            Excel.Worksheets[2].cells[4][1] = "Idade";
+            Excel.Worksheets[2].cells[5][1] = "Porcentagem";
+            Excel.Worksheets[2].cells[6][1] = "Media dap";
+            Excel.Worksheets[2].cells[7][1] = "Media altura";
+            int coluna = 8;
+            for (int i=0; i<produtos.Count(); i++)
+            {
+                Excel.Worksheets[2].cells[coluna][1] = "Volume" + (i+1);
+                coluna++;
+            }
+            Excel.Worksheets[2].cells[coluna][1] = "IMA";
+            Excel.Worksheets[2].cells[coluna + 1][1] = "VPL";
+            Excel.Worksheets[2].cells[coluna + 2][1] = "VAE";
+            Excel.Worksheets[2].cells[coluna + 3][1] = "VPL∞";
+            Excel.Worksheets[2].cells[coluna + 4][1] = "VET";
+
+            int linha = 2;
+
+            foreach (Cenario_Parcela cenario in final_parcela)
+            {
+                for (int i = 0; i < cenario.regiao.Count(); i++) {
+                    Excel.Worksheets[2].cells[1][linha] = cenario.regiao[i];
+                    Excel.Worksheets[2].cells[2][linha] = cenario.talhao[i];
+                    Excel.Worksheets[2].cells[3][linha] = cenario.parcela[i];
+                    Excel.Worksheets[2].cells[4][linha] = cenario.idade[i];
+                    Excel.Worksheets[2].cells[5][linha] = cenario.porcentagem[i];
+                    Excel.Worksheets[2].cells[6][linha] = cenario.media_dap[i];
+                    Excel.Worksheets[2].cells[7][linha] = cenario.media_altura[i];
+                    
+                    coluna = 8;
+                    for ( int j = 1; j <= produtos.Count(); j++)
+                    {
+                        Excel.Worksheets[2].cells[coluna][linha] = cenario.volumes[i][j];
+                        coluna++;
+                    }
+                    
+                    Excel.Worksheets[2].cells[coluna][linha] = cenario.IMA[i];
+                    if (cenario.VPL[i] == -1 && cenario.VAE[i] == -1 && cenario.VPL_infinito[i] == -1 && cenario.VET[i] == -1)
+                    {
+                        Excel.Worksheets[2].cells[coluna + 1][linha] = "-";
+                        Excel.Worksheets[2].cells[coluna + 2][linha] = "-";
+                        Excel.Worksheets[2].cells[coluna + 3][linha] = "-";
+                        Excel.Worksheets[2].cells[coluna + 4][linha] = "-";
+
+                    }
+                    else
+                    {
+                        Excel.Worksheets[2].cells[coluna + 1][linha] = cenario.VPL[i];
+                        Excel.Worksheets[2].cells[coluna + 2][linha] = cenario.VAE[i];
+                        Excel.Worksheets[2].cells[coluna + 3][linha] = cenario.VPL_infinito[i];
+                        Excel.Worksheets[2].cells[coluna + 4][linha] = cenario.VET[i];
+                    }
+                    linha++;
+
+                }
+                linha++;
+            }
+
+            Excel.Visible = true;
         }
         private void processamento()
-        {
+        {   
             Importar_produtos();                                 //exporta os dados de cada produto do xls
             Importar_arvores();                                  //exporta as arvores do xls
             Importar_coeficientes();                             //exporta os coeficientes do xls
             Importar_economica();                                //exporta os dados relacionado à simulação economica
             Importar_simulacoes();                               //exporta todos os dados que devem ser simulados
-            
+
+            List<Cenario_Parcela> Final_parcela = new List<Cenario_Parcela>();
             
             foreach (int desbaste in simulacoes.idade_desbaste)
             {
@@ -867,12 +985,15 @@ namespace Simulador
                 {
                     foreach( int porcentagem in simulacoes.porcentagem)
                     {
-                        simular(desbaste, final, porcentagem);
+                        Final_parcela.Add(simular(desbaste, final, porcentagem));
                     }
                 }
             }
+            print_parcela(ref Final_parcela);
+
+            
         }
 
-        
+
     }
 }
