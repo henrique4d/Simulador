@@ -18,7 +18,6 @@ namespace Simulador
             {
                 volume.Add(0);
                 lucro.Add(0);
-                lucro_hectare.Add(0);
             }
             parcelas = new List<Parcela>();
             this.numero = num;
@@ -44,25 +43,52 @@ namespace Simulador
             {
                 parc.set_dados();
             }
-
             regiao = parcelas[0].regiao;
             material_genetico = parcelas[0].material_genetico;
             num_parcelas = parcelas.Count();
             
-            idade = 0;
-            foreach (Parcela parc in parcelas)
-            {
-                idade += parc.idade;
-            }
-            idade /= num_parcelas;
+            idade = parcelas[0].idade;
 
+            altura_media = 0;
             dap_medio = 0;
+
+            for (int i=0; i< volume.Count(); i++)
+            {
+                volume[i] = 0;
+            }
+            ima = 0;
+            vpl = 0;
+            vae = 0;
+            vpl_infinito = 0;
+            vet = 0;
+
+
             foreach (Parcela parc in parcelas)
             {
+                for (int i = 0; i < volume.Count(); i++)
+                {
+                    volume[i] += parc.volume[i];
+                }
+                altura_media += parc.altura_media;
                 dap_medio += parc.dap_medio;
+                ima += parc.ima;
+                vpl += parc.vpl;
+                vae += parc.vae;
+                vpl_infinito += parc.vpl_infinito;
+                vet += parc.vet;
             }
-            dap_medio /= num_parcelas;
-
+            
+            dap_medio /= parcelas.Count(); ;
+            altura_media /= parcelas.Count(); ;
+            for (int i = 0; i < volume.Count(); i++)
+            {
+                volume[i] /= parcelas.Count(); ;
+            }
+            ima /= parcelas.Count(); ;
+            vpl /= parcelas.Count(); ;
+            vae /= parcelas.Count(); ;
+            vpl_infinito /= parcelas.Count();
+            vet /= parcelas.Count();
         }
 
         public List<Parcela> parcelas;
@@ -71,10 +97,16 @@ namespace Simulador
         public int num_parcelas;
         public double idade;
         public double dap_medio;
+        public double altura_media;
         string material_genetico;
         public List<double> volume;
         public List<double> lucro;
         public List<double> lucro_hectare;
+        public double ima;
+        public double vpl;
+        public double vae;
+        public double vpl_infinito;
+        public double vet;
 
     }
 }
