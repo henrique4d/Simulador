@@ -11,5 +11,6 @@ namespace Simulador
         public List<double> idade_desbaste;
         public List<double> idade_corte_final;
         public List<double> porcentagem;
+        public List<double> corte_raso;
     }
 }

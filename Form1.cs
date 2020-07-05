@@ -12,13 +12,6 @@ using System.Data.OleDb;
 using System.IO;
 
 
-// multiplicar o volume por 10k e dividir pela area da parcela;
-// desbaste sistematico (linha)
-// converter metro cubico pra hectare
-// lucro em 400... passar para 10000
-// swap sistematico, seletivo
-// porcentagem no sistematico whatever
-// processar por talhao
 
 
 namespace Simulador
@@ -313,6 +306,7 @@ namespace Simulador
             simulacoes.idade_corte_final = new List<double>();
             simulacoes.idade_desbaste = new List<double>();
             simulacoes.porcentagem = new List<double>();
+            simulacoes.corte_raso = new List<double>();
 
             for (int linha = 2; ; linha++)          //percorre o xls
             {
@@ -332,6 +326,14 @@ namespace Simulador
                 if (string.IsNullOrEmpty(confere)) break;
                 simulacoes.porcentagem.Add(double.Parse(planilha.Cell("C" + linha.ToString()).Value.ToString()));
             }
+
+            for (int linha = 2; ; linha++)          //percorre o xls
+            {
+                string confere = planilha.Cell("D" + linha.ToString()).Value.ToString();
+                if (string.IsNullOrEmpty(confere)) break;
+                simulacoes.corte_raso.Add(double.Parse(planilha.Cell("D" + linha.ToString()).Value.ToString()));
+            }
+
         }
 
 
@@ -774,7 +776,27 @@ namespace Simulador
                 }
             }
         }
-        
+        private void gerar_IMA(ref List<Regiao> regioes)
+        {
+            foreach(Regiao reg in regioes){
+                foreach (Talhao tal in reg.talhoes)
+                {
+                    foreach (Parcela parc in tal.parcelas)
+                    {
+                        for (int i = 1; i< parc.volume.Count(); i++)
+                        {
+                            parc.ima += parc.volume[i];
+                        }
+                        parc.ima /= parc.idade;
+                    }
+                }
+
+            }
+            
+        }
+
+
+
         private void gerar_VPL(ref List<Regiao> regioes_desbaste, ref List<Regiao> regioes_corte_final)
         {
             for (int indice_Regiao = 0; indice_Regiao < regioes_desbaste.Count(); indice_Regiao++)
@@ -801,31 +823,60 @@ namespace Simulador
                 }
             }
         }
+
+        private void gerar_VPL(ref List<Regiao> regioes)
+        {
+            foreach (Regiao reg in regioes){
+                foreach (Talhao tal in reg.talhoes)
+                {
+                    foreach (Parcela parc in tal.parcelas)
+                    {
+                        for (int i=1; i< parc.lucro.Count(); i++)
+                        {
+                            parc.vpl += calcular_VPL(parc.lucro[i], taxa_juros, parc.idade);
+                        }
+
+                        parc.vpl -= custos[0].implantacao;
+                        for (int idade = 1; idade <= parc.idade; idade++)
+                        {
+                            parc.vpl -= calcular_VPL(custos[idade].manutencao, taxa_juros, idade);
+                        }
+                    }
+                }
+            }
+        }
+
+
+
         private double calcular_VPL(double receita, double i, double intervalo)
         {
             return receita * Math.Pow((1 + i), - intervalo);
         }
 
 
-        private void gerar_VAE_infinito_vet(ref List<Regiao> regioes_corte_final)
+        private void gerar_VAE_infinito_vet(ref List<Regiao> regioes)
         {
-            for (int indice_Regiao = 0; indice_Regiao < regioes_corte_final.Count(); indice_Regiao++)
-            {
-                for (int indice_Talhao = 0; indice_Talhao < regioes_corte_final[indice_Regiao].talhoes.Count(); indice_Talhao++)
+            foreach (Regiao reg in regioes){
+                foreach (Talhao tal in reg.talhoes)
                 {
-                    for (int Indice_Parcela = 0; Indice_Parcela < regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas.Count(); Indice_Parcela++)
+                    foreach (Parcela parc in tal.parcelas)
                     {
-                        double vpl = regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].vpl;
-                        double idade = regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].idade;
-                        regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].vae = calcular_VAE(vpl, taxa_juros, idade);
-                        double vae = regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].vae;
-                        regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].vpl_infinito = calcular_VPL_infinito(vae, taxa_juros);
-                        regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].vet = calcular_VET(vpl, taxa_juros, idade);
-
+                        parc.vae = calcular_VAE(parc.vpl, taxa_juros, parc.idade);
+                        parc.vpl_infinito = calcular_VPL_infinito(parc.vae, taxa_juros);
+                        parc.vet = calcular_VET(parc.vpl, taxa_juros, parc.idade);
                     }
                 }
+
             }
+            
         }
+
+        private void gerar_indicadores_raso(ref List<Regiao> regioes)
+        {
+
+        }
+
+
         private double calcular_VAE(double vpl, double i, double intervalo)
         {
             return (vpl*i)/(1- Math.Pow(1+i,-intervalo));
@@ -882,6 +933,32 @@ namespace Simulador
 
             return cenario;
         }
+        private Cenario_Parcela gerar_cenario(ref List<Regiao> regioes)
+        {
+            Cenario_Parcela cenario = new Cenario_Parcela();
+            foreach (Regiao reg in regioes) {
+                foreach (Talhao tal in reg.talhoes)
+                {
+                    foreach (Parcela parc in tal.parcelas)
+                    {
+                        cenario.regiao.Add(parc.regiao);
+                        cenario.talhao.Add(parc.talhao);
+                        cenario.parcela.Add(parc.numero);
+                        cenario.idade.Add(parc.idade);
+                        cenario.porcentagem.Add("-");
+                        cenario.media_dap.Add(parc.dap_medio);
+                        cenario.media_altura.Add(parc.altura_media);
+                        cenario.volumes.Add(parc.volume);
+                        cenario.IMA.Add(parc.ima);
+                        cenario.VPL.Add(parc.vpl);
+                        cenario.VAE.Add(parc.vae);
+                        cenario.VPL_infinito.Add(parc.vpl_infinito);
+                        cenario.VET.Add(parc.vet);
+                    }
+                }
+            }
+            return cenario;
+        }
 
         private Cenario_Talhao gerar_talhao(ref List<Regiao> regioes_desbaste, ref List<Regiao> regioes_corte_final, double porcentagem)
         {
@@ -930,6 +1007,37 @@ namespace Simulador
 
             return cenario;
         }
+        private Cenario_Talhao gerar_talhao(ref List<Regiao> regioes)
+        {
+            foreach (Regiao reg in regioes)
+            {
+                reg.set_dados();
+            }
+            foreach (Regiao reg in regioes){
+                reg.set_dados();
+            }
+
+            Cenario_Talhao cenario = new Cenario_Talhao();
+            foreach (Regiao reg in regioes)
+            {
+                foreach (Talhao tal in reg.talhoes)
+                {
+                    cenario.regiao.Add(tal.regiao);
+                    cenario.talhao.Add(tal.numero);
+                    cenario.idade.Add(tal.idade);
+                    cenario.porcentagem.Add("-");
+                    cenario.media_dap.Add(tal.dap_medio);
+                    cenario.media_altura.Add(tal.altura_media);
+                    cenario.volumes.Add(tal.volume);
+                    cenario.IMA.Add(tal.ima);
+                    cenario.VPL.Add(tal.vpl);
+                    cenario.VAE.Add(tal.vae);
+                    cenario.VPL_infinito.Add(tal.vpl_infinito);
+                    cenario.VET.Add(tal.vet);
+                }
+            }
+            return cenario;
+        }
 
 
         private void simular(double idade_desbaste, double idade_corte_final, double porcentagem, ref List<Cenario_Parcela> parcela_final, ref List<Cenario_Talhao> talhao_final)
@@ -946,10 +1054,21 @@ namespace Simulador
             gerar_IMA(ref desbastadas, ref regioes);
             gerar_VPL(ref desbastadas, ref regioes);
             gerar_VAE_infinito_vet(ref regioes);
-
             parcela_final.Add(gerar_cenario(ref desbastadas, ref regioes, porcentagem));
             talhao_final.Add(gerar_talhao(ref desbastadas, ref regioes, porcentagem));
-
+        } 
+        private void simular(double idade, ref List<Cenario_Parcela> parcela_final, ref List<Cenario_Talhao> talhao_final)
+        {
+            List<Regiao> regioes = new List<Regiao>();
+            clonar(ref regioes_original, ref regioes);
+            projetar_idade(ref regioes, idade);
+            gerar_volumes(ref regioes);
+            gerar_lucros(ref regioes, true);
+            gerar_IMA(ref regioes);
+            gerar_VPL(ref regioes);
+            gerar_VAE_infinito_vet(ref regioes);
+            parcela_final.Add(gerar_cenario(ref regioes));
+            talhao_final.Add(gerar_talhao(ref regioes));
         }
 
         private void print_parcela(ref List<Cenario_Parcela> final_parcela, ref Microsoft.Office.Interop.Excel.Application Excel)
@@ -1015,12 +1134,10 @@ namespace Simulador
                 linha++;
             }
 
-            Excel.Visible = true;
         }
 
         private void print_talhao(ref List<Cenario_Talhao> final_talhao, ref Microsoft.Office.Interop.Excel.Application Excel)
         {
-            Excel.Visible = false;
             Excel.Worksheets[1].cells[1][1] = "Região";
             Excel.Worksheets[1].cells[2][1] = "Talhão";
             Excel.Worksheets[1].cells[3][1] = "Idade";
@@ -1094,16 +1211,22 @@ namespace Simulador
             List<Cenario_Parcela> Final_parcela = new List<Cenario_Parcela>();
             List<Cenario_Talhao> final_talhao = new List<Cenario_Talhao>();
 
-            foreach (int desbaste in simulacoes.idade_desbaste)
+            foreach (double desbaste in simulacoes.idade_desbaste)
             {
-                foreach(int final in simulacoes.idade_corte_final)
+                foreach(double final in simulacoes.idade_corte_final)
                 {
-                    foreach( int porcentagem in simulacoes.porcentagem)
+                    foreach( double porcentagem in simulacoes.porcentagem)
                     {
                         simular(desbaste, final, porcentagem, ref Final_parcela, ref final_talhao);
                     }
                 }
             }
+
+            foreach (double idade in simulacoes.corte_raso)
+            {
+                simular(idade, ref Final_parcela, ref final_talhao);
+            }
+
             var Excel = new Microsoft.Office.Interop.Excel.Application();
             Excel.Workbooks.Add();
             Excel.Worksheets.Add();
