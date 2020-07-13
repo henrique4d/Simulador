@@ -22,6 +22,7 @@ namespace Simulador
             VAE = new List<double>();
             VPL_infinito = new List<double>();
             VET = new List<double>();
+            vpl_sort = 0;
         }
 
         public List<double> regiao;
@@ -36,6 +37,6 @@ namespace Simulador
         public List<double> VAE;
         public List<double> VPL_infinito;
         public List<double> VET;
-
+        public double vpl_sort;
     }
 }

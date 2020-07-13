@@ -57,7 +57,19 @@ namespace Simulador
         }
         private void button2_Click(object sender, EventArgs e)
         {
-            processamento();
+            try
+            {
+                processamento();
+            }
+            catch 
+            {
+                const string message =
+                "ERRO";
+                const string caption = "ERRO";
+                
+                MessageBox.Show(message,caption, MessageBoxButtons.OK);
+            }
+            
         }
         private void button3_Click(object sender, EventArgs e)
         {
@@ -109,11 +121,9 @@ namespace Simulador
         }
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-            intervalo_sistematico = int.Parse(textBox1.Text);
         }
         private void textBox2_TextChanged(object sender, EventArgs e)
         {
-            taxa_juros = double.Parse(textBox2.Text);
         }
         private void button3_Click_1(object sender, EventArgs e)
         {
@@ -197,6 +207,7 @@ namespace Simulador
                 Produto aux = new Produto(numero, min, max, l, preco);
                 produtos.Add(aux);
             }
+            excel.Dispose();
         }
         private void Importar_arvores()
         {
@@ -241,9 +252,28 @@ namespace Simulador
                     regioes_original.Add(nova_regiao);
                 }
             }
+            excel.Dispose();
         }
         private void Importar_coeficientes()
         {
+            /*try
+            {*/
+            if (comboBox1.Text == "MISTO")
+            {
+                intervalo_sistematico = int.Parse(textBox1.Text);
+            } 
+            taxa_juros = double.Parse(textBox2.Text);
+
+            /*}
+            catch (System.FormatException)
+            {
+                const string message =
+                "Are you sure that you would like to close the form?";
+                const string caption = "Form Closing";
+                var result = MessageBox.Show(message, caption,
+                                             MessageBoxButtons.YesNo,
+                                             MessageBoxIcon.Question);
+            }*/
             coeficientes = new Coeficientes();
             var excel = new XLWorkbook(arquivo_coeficientes);
             var planilha = excel.Worksheet(1);
@@ -274,6 +304,7 @@ namespace Simulador
                 coeficientes.B2[idade] = double.Parse(planilha.Cell("D" + linha.ToString()).Value.ToString());
                 coeficientes.B3[idade] = double.Parse(planilha.Cell("E" + linha.ToString()).Value.ToString());
             }
+            excel.Dispose();
         }
         private void Importar_economica()
         {
@@ -295,7 +326,7 @@ namespace Simulador
                 custos[periodo].desbaste = double.Parse(planilha.Cell("D" + linha.ToString()).Value.ToString());
                 custos[periodo].cortefinal = double.Parse(planilha.Cell("E" + linha.ToString()).Value.ToString());
             }
-
+            excel.Dispose();
         }
         private void Importar_simulacoes()
         {
@@ -334,6 +365,7 @@ namespace Simulador
                 simulacoes.corte_raso.Add(double.Parse(planilha.Cell("D" + linha.ToString()).Value.ToString()));
             }
 
+            excel.Dispose();
         }
 
 
@@ -654,7 +686,9 @@ namespace Simulador
                     {
                         foreach (Arvore arv in parc.arvores)
                         {
-                            int idade = (int)arv.idade;
+                            /*Console.WriteLine("------------------------");
+                            Console.WriteLine("Arvore de dap " + arv.dap + " e altura " + arv.altura);
+                            */int idade = (int)arv.idade;
                             double B0 = coeficientes.B0[idade];
                             double B1 = coeficientes.B1[idade];
                             double B2 = coeficientes.B2[idade];
@@ -688,10 +722,11 @@ namespace Simulador
                                         break;
                                     }
 
-                                    
+                            //        Console.WriteLine("Gerou tora do produto " + prod.numero);
                                     parc.volume[prod.numero] += gerar_tora(arv.dap,arv.altura,altura_atual,prod.l,B0,B1,B2,B3,parc.area_parcela);
 
                                     altura_atual += prod.l;
+                                    //Console.WriteLine("e foi para a altura atual de " + altura_atual);
                                 }
                                 if (altura_atual + prod.l > arv.altura)
                                 {
@@ -706,16 +741,17 @@ namespace Simulador
         private double gerar_tora(double dap, double altura_arvore, double altura_inicial, double l, double B0, double B1, double B2, double B3, double area_parcela)
         {
             double volume = 0;
-            for (double i=0.10; i<l; i+=0.10)
+            for (double i=0.1; i<l; i+=0.1)
             {
-                double d1 = dap * B0 * (1 + B1 * Math.Log(1 - B2 * Math.Pow(altura_inicial + i-0.10, B3) * Math.Pow(altura_arvore, -B3)));
+                double d1 = dap * B0 * (1 + B1 * Math.Log(1 - B2 * Math.Pow(altura_inicial + i-0.1, B3) * Math.Pow(altura_arvore, -B3)));
                 double d2 = dap * B0 * (1 + B1 * Math.Log(1 - B2 * Math.Pow(altura_inicial + i, B3) * Math.Pow(altura_arvore, -B3)));
 
                 double as1 = Math.PI * Math.Pow(d1, 2) / 40000;
                 double as2 = Math.PI * Math.Pow(d2, 2) / 40000;
 
-                volume += (as1 + as2) * 0.10 / 2;
-            
+                volume += (as1 + as2) * 0.1 / 2;
+                //Console.WriteLine(i + " " + (i+0.1) + " " + l + " " +  (i+0.1 == l));
+                //Console.WriteLine("Volume gerado entre as alturas: " + (altura_inicial + i - 0.1) + " e " + (altura_inicial + i) + " = " + ((as1 + as2) * 0.1 / 2));    
                 if (i+0.10 >= l)
                 {
                     double diferenca = l - i;
@@ -727,6 +763,7 @@ namespace Simulador
                     as2 = Math.PI * Math.Pow(d2, 2) / 40000;
 
                     volume += (as1 + as2) * diferenca / 2;
+                    //Console.WriteLine("Volume gerado entre as alturas: " + (i - diferenca + altura_inicial) + " e " + (i + altura_inicial) + " = " + ((as1 + as2) * diferenca / 2));
 
                     break;
                 }
@@ -871,11 +908,7 @@ namespace Simulador
             
         }
 
-        private void gerar_indicadores_raso(ref List<Regiao> regioes)
-        {
-
-        }
-
+        
 
         private double calcular_VAE(double vpl, double i, double intervalo)
         {
@@ -927,6 +960,7 @@ namespace Simulador
                         cenario.VAE.Add(regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].vae);
                         cenario.VPL_infinito.Add(regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].vpl_infinito);
                         cenario.VET.Add(regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].vet);
+                        cenario.vpl_sort += regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].vpl_infinito;
                     }
                 }
             }
@@ -954,6 +988,7 @@ namespace Simulador
                         cenario.VAE.Add(parc.vae);
                         cenario.VPL_infinito.Add(parc.vpl_infinito);
                         cenario.VET.Add(parc.vet);
+                        cenario.vpl_sort += parc.vpl_infinito;
                     }
                 }
             }
@@ -988,7 +1023,6 @@ namespace Simulador
                     cenario.VPL_infinito.Add(-1);
                     cenario.VET.Add(-1);
 
-
                     cenario.regiao.Add(regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].regiao);
                     cenario.talhao.Add(regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].numero);
                     cenario.idade.Add(regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].idade);
@@ -1001,7 +1035,7 @@ namespace Simulador
                     cenario.VAE.Add(regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].vae);
                     cenario.VPL_infinito.Add(regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].vpl_infinito);
                     cenario.VET.Add(regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].vet);
-
+                    cenario.vpl_sort += regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].vpl_infinito;
                 }
             }
 
@@ -1034,6 +1068,7 @@ namespace Simulador
                     cenario.VAE.Add(tal.vae);
                     cenario.VPL_infinito.Add(tal.vpl_infinito);
                     cenario.VET.Add(tal.vet);
+                    cenario.vpl_sort += tal.vpl_infinito;
                 }
             }
             return cenario;
@@ -1094,6 +1129,7 @@ namespace Simulador
 
             int linha = 2;
 
+            final_parcela = final_parcela.OrderBy(x => -x.vpl_sort).ToList();
             foreach (Cenario_Parcela cenario in final_parcela)
             {
                 for (int i = 0; i < cenario.regiao.Count(); i++) {
@@ -1157,6 +1193,7 @@ namespace Simulador
             Excel.Worksheets[1].cells[coluna + 4][1] = "VET";
 
             int linha = 2;
+            final_talhao = final_talhao.OrderBy(x => -x.vpl_sort).ToList();
 
             foreach (Cenario_Talhao cenario in final_talhao)
             {
@@ -1218,8 +1255,11 @@ namespace Simulador
                     foreach( double porcentagem in simulacoes.porcentagem)
                     {
                         simular(desbaste, final, porcentagem, ref Final_parcela, ref final_talhao);
+                        //break;
                     }
+                    //break;
                 }
+                //break;
             }
 
             foreach (double idade in simulacoes.corte_raso)
