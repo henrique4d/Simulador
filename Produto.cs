@@ -8,9 +8,9 @@ namespace Simulador
 {
     class Produto
     {
-        public Produto(int numero, double min, double max, double l, double preco)
+        public Produto(int numero, double min, double max, double l, double preco, string nome)
         {
-  
+            this.nome = nome;
             this.l = l;
             this.numero = numero;
             this.min = min;
@@ -31,5 +31,6 @@ namespace Simulador
         public double l;
         public double preco;
         public double lucro_final;
+        public string nome;
     }
 }

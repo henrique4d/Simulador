@@ -21,6 +21,10 @@ namespace Simulador
             }
             parcelas = new List<Parcela>();
             this.numero = num;
+            B0_dap = 0;
+            B1_dap = 0;
+            B0_altura = 0;
+            B1_altura = 0;
         }
         public void adiciona_arvore(ref Arvore arvore)
         {
@@ -107,6 +111,10 @@ namespace Simulador
         public double vae;
         public double vpl_infinito;
         public double vet;
+        public double B0_dap;
+        public double B1_dap;
+        public double B0_altura;
+        public double B1_altura;
 
     }
 }

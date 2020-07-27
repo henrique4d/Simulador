@@ -25,8 +25,9 @@ namespace Simulador
             vet = 0;
             vpl_infinito = 0;
             this.numero = num;
-        }
-        public void set_dados()
+    
+    }
+    public void set_dados()
         {
             regiao = arvores[0].regiao;
             talhao = arvores[0].talhao;
@@ -69,6 +70,8 @@ namespace Simulador
         public double vae;
         public double vpl_infinito;
         public double vet;
+
+      
 
         public string material_genetico;
         public List<double> volume;
