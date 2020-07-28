@@ -42,3 +42,4 @@ C:\Users\ronal\Source\Repos\henrique4d\Simulador\obj\Debug\Simulador.csproj.Gene
 C:\Users\ronal\Source\Repos\henrique4d\Simulador\obj\Debug\Simulador.csproj.CopyComplete
 C:\Users\ronal\Source\Repos\henrique4d\Simulador\obj\Debug\Simulador.exe
 C:\Users\ronal\Source\Repos\henrique4d\Simulador\obj\Debug\Simulador.pdb
+C:\Users\ronal\Source\Repos\henrique4d\Simulador\obj\Debug\Simulador.csproj.CoreCompileInputs.cache

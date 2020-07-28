@@ -39,9 +39,10 @@ namespace Simulador
         public Form1()
         {
             InitializeComponent();
+            textBox3.Text = "Título";
             //textBox2.Validating += new CancelEventHandler(radTextBox1_Validating);
             //textBox2.Validated += new EventHandler(radTextBox1_Validated);
-            
+
         }        
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -50,7 +51,7 @@ namespace Simulador
         private void button1_Click(object sender, EventArgs e)
         {
             OpenFileDialog excel = new OpenFileDialog();
-            excel.Title = "Dados de iventário";
+            excel.Title = "Dados de inventário";
             if (excel.ShowDialog() == DialogResult.OK)
                 arquivo_arvores = excel.FileName;
             if (arquivo_arvores != null)
@@ -146,7 +147,7 @@ namespace Simulador
         private void button3_Click_1(object sender, EventArgs e)
         {
             OpenFileDialog excel = new OpenFileDialog();
-            excel.Title = "Cenário";
+            excel.Title = "Cenários";
             if (excel.ShowDialog() == DialogResult.OK)
                 arquivo_simulacoes = excel.FileName;
             if (arquivo_simulacoes != null)
@@ -1351,21 +1352,38 @@ namespace Simulador
 
         private void print_maximizaçao(ref List<Cenario_Talhao> final_talhao)
         {
-            StreamWriter txt = new StreamWriter(@arquivo_saida + "_VPL.txt");
+            
+            string path = Directory.GetCurrentDirectory();
+            string pathString = System.IO.Path.Combine(path, "Função_de_maximização");
+            System.IO.Directory.CreateDirectory(pathString);
+
+            string pathVPL = System.IO.Path.Combine(path, "Função_de_maximização/VPL");
+            System.IO.Directory.CreateDirectory(pathVPL);
+
+            string pathVAE = System.IO.Path.Combine(path, "Função_de_maximização/VAE");
+            System.IO.Directory.CreateDirectory(pathVAE);
+
+            string pathVPL_infinito = System.IO.Path.Combine(path, "Função_de_maximização/VPL∞");
+            System.IO.Directory.CreateDirectory(pathVPL_infinito);
+
+            string pathVET = System.IO.Path.Combine(path, "Função_de_maximização/VET");
+            System.IO.Directory.CreateDirectory(pathVET);
+
+            StreamWriter txt = new StreamWriter(pathVPL + "/" + arquivo_saida + "_VPL.txt");
 
             for (int j = 0; j < 4; j++)
             {
                 if (j == 1)
                 {
-                    txt = new StreamWriter(@arquivo_saida + "_VAE.txt");
+                    txt = new StreamWriter(pathVAE + "/" + arquivo_saida + "_VAE.txt");
                 }
                 if (j == 2)
                 {
-                    txt = new StreamWriter(@arquivo_saida + "_VPL∞.txt");
+                    txt = new StreamWriter(pathVPL_infinito + "/" + arquivo_saida + "_VPL∞.txt");
                 }
                 if (j == 3)
-                { 
-                    txt = new StreamWriter(@arquivo_saida + "_VET.txt");
+                {
+                    txt = new StreamWriter(pathVET + "/" + arquivo_saida + "_VET.txt");
                 }
                 bool is_first = true;
                 txt.Write("MAX = ");
@@ -1453,24 +1471,33 @@ namespace Simulador
             
             var aux = Excel.Workbooks.Item[1];
 
-            Excel.Workbooks[1].SaveAs(arquivo_saida);
+
+            string path = Directory.GetCurrentDirectory();
+            string pathString = System.IO.Path.Combine(path, "Simulações");
+            System.IO.Directory.CreateDirectory(pathString);
+
+            //string path = System.IO.Path.Combine(path, "Função_de_maximização/VPL");
+            //System.IO.Directory.CreateDirectory(pathVPL);
+            Console.WriteLine(pathString + "/" + arquivo_saida);
+
+            Excel.Workbooks[1].SaveAs(pathString + "/" + arquivo_saida);
 
             print_parcela(ref Final_parcela, ref Excel);
             print_talhao(ref final_talhao, ref Excel);
 
             print_maximizaçao(ref final_talhao);
             Excel.Visible = true;
-            
+              
 
          }
 
         
         private void button5_Click(object sender, EventArgs e)
         {
-            try
-            {
+            /*try
+            {*/
                 processamento();
-            }
+            /*}
             catch
             {
                 const string message =
@@ -1478,8 +1505,8 @@ namespace Simulador
                 const string caption = "ERRO";
 
                 MessageBox.Show(message, caption, MessageBoxButtons.OK);
-            }
-            this.Text = "Simulador";
+            }*/
+            this.Text = "Entradas e premissas";
 
         }
 

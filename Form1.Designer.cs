@@ -59,7 +59,7 @@
             this.Botao_Arvore.Name = "Botao_Arvore";
             this.Botao_Arvore.Size = new System.Drawing.Size(164, 40);
             this.Botao_Arvore.TabIndex = 1;
-            this.Botao_Arvore.Text = "Dados de iventário";
+            this.Botao_Arvore.Text = "Dados de inventário";
             this.Botao_Arvore.UseVisualStyleBackColor = false;
             this.Botao_Arvore.Click += new System.EventHandler(this.button1_Click);
             // 
@@ -169,7 +169,7 @@
             this.Botao_cenarios.Name = "Botao_cenarios";
             this.Botao_cenarios.Size = new System.Drawing.Size(164, 41);
             this.Botao_cenarios.TabIndex = 16;
-            this.Botao_cenarios.Text = "Cenário";
+            this.Botao_cenarios.Text = "Cenários";
             this.Botao_cenarios.UseVisualStyleBackColor = false;
             this.Botao_cenarios.Click += new System.EventHandler(this.button3_Click_1);
             // 
@@ -254,7 +254,6 @@
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(164, 26);
             this.textBox3.TabIndex = 25;
-            this.textBox3.Text = "Título";
             this.textBox3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.textBox3.TextChanged += new System.EventHandler(this.textBox3_TextChanged);
             // 
@@ -279,7 +278,7 @@
             this.Controls.Add(this.button2);
             this.Controls.Add(this.Botao_Arvore);
             this.Name = "Form1";
-            this.Text = "Simulador";
+            this.Text = "Entradas e premissas";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);

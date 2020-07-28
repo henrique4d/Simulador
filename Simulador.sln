@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.29424.173
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simulador", "Simulador.csproj", "{B2B1AD0E-0AFD-4DE3-BD83-11F11EA99C7B}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Simulador_Florestal", "Instalador\Simulador_Florestal\Simulador_Florestal.vdproj", "{557C382C-DDA9-4619-B8E7-A9879AB4695E}"
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Simulador_florestal", "Instalador\Simulador_florestal\Simulador_florestal.vdproj", "{E1A948A9-EFAF-46A6-968A-4E5D4533D0F8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,8 +17,8 @@ Global
 		{B2B1AD0E-0AFD-4DE3-BD83-11F11EA99C7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B2B1AD0E-0AFD-4DE3-BD83-11F11EA99C7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B2B1AD0E-0AFD-4DE3-BD83-11F11EA99C7B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{557C382C-DDA9-4619-B8E7-A9879AB4695E}.Debug|Any CPU.ActiveCfg = Debug
-		{557C382C-DDA9-4619-B8E7-A9879AB4695E}.Release|Any CPU.ActiveCfg = Release
+		{E1A948A9-EFAF-46A6-968A-4E5D4533D0F8}.Debug|Any CPU.ActiveCfg = Debug
+		{E1A948A9-EFAF-46A6-968A-4E5D4533D0F8}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
