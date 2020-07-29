@@ -148,9 +148,8 @@
             // 
             this.textBox1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
             this.textBox1.Location = new System.Drawing.Point(757, 280);
-            this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(31, 23);
+            this.textBox1.Size = new System.Drawing.Size(31, 20);
             this.textBox1.TabIndex = 15;
             this.textBox1.Text = "5";
             this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -191,10 +190,9 @@
             // textBox2
             // 
             this.textBox2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
-            this.textBox2.Location = new System.Drawing.Point(757, 199);
-            this.textBox2.Multiline = true;
+            this.textBox2.Location = new System.Drawing.Point(757, 211);
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(31, 41);
+            this.textBox2.Size = new System.Drawing.Size(31, 20);
             this.textBox2.TabIndex = 18;
             this.textBox2.Text = "\r\n0,10\r\n";
             this.textBox2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
