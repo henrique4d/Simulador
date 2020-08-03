@@ -10,9 +10,10 @@ using System.Windows.Forms;
 using ClosedXML.Excel;
 using System.Data.OleDb;
 using System.IO;
-
-
-
+using System.Security.AccessControl;
+using System.Management;
+using System.Management.Instrumentation;
+using System.Security.Principal;
 namespace Simulador
 {
     public partial class Form1 : Form
@@ -23,6 +24,7 @@ namespace Simulador
         string arquivo_economico;   // arquivo com os dados economicos
         string arquivo_simulacoes;
         string arquivo_saida;
+        string error;
 
         List<Regiao> regioes_original;  // armazena as arvores em estado original
         Coeficientes coeficientes;  //armazena os coeficientes
@@ -194,6 +196,7 @@ namespace Simulador
         }
         private void CarregaDadosExcel(string arquivo)
         {
+            textBox4.Visible = false;
             try
             {
                 DataTable dt = getTabelaExcel(arquivo);
@@ -215,20 +218,46 @@ namespace Simulador
         private void Importar_produtos()
         {
             produtos = new List<Produto>();
-            var excel = new XLWorkbook(arquivo_produtos);
-            var planilha = excel.Worksheet(1);
-            for (int linha = 2; ; linha++)
+            XLWorkbook excel;            
+            try
             {
-                string confere = planilha.Cell("A" + linha.ToString()).Value.ToString();
-                if (string.IsNullOrEmpty(confere)) break;
-                string nome = planilha.Cell("A" + linha.ToString()).Value.ToString();
-                //int numero = int.Parse(planilha.Cell("A" + linha.ToString()).Value.ToString());
-                double min = double.Parse(planilha.Cell("B" + linha.ToString()).Value.ToString());
-                double max = double.Parse(planilha.Cell("C" + linha.ToString()).Value.ToString());
-                double l = double.Parse(planilha.Cell("D" + linha.ToString()).Value.ToString());
-                double preco = double.Parse(planilha.Cell("E" + linha.ToString()).Value.ToString());
-                Produto aux = new Produto(0, min, max, l, preco, nome);
-                produtos.Add(aux);
+                excel = new XLWorkbook(arquivo_produtos);
+            }
+            catch
+            {
+                error = "Nao foi possivel acessar a planilha de sortimentos";
+                throw new CustomException("");            
+            }
+            var planilha = excel.Worksheet(1);
+
+            char coluna = 'A';
+            int linha = 0;
+
+            try
+            {
+                for (linha = 2; ; linha++)
+                {
+                    string confere = planilha.Cell(coluna + linha.ToString()).Value.ToString();
+                    if (string.IsNullOrEmpty(confere)) break;
+                    string nome = planilha.Cell(coluna + linha.ToString()).Value.ToString();
+                    coluna++;
+                    double min = double.Parse(planilha.Cell(coluna + linha.ToString()).Value.ToString());
+                    coluna++;
+                    double max = double.Parse(planilha.Cell(coluna + linha.ToString()).Value.ToString());
+                    coluna++;
+                    double l = double.Parse(planilha.Cell(coluna + linha.ToString()).Value.ToString());
+                    coluna++;
+                    double preco = double.Parse(planilha.Cell(coluna + linha.ToString()).Value.ToString());
+                    coluna++;
+                    Produto aux = new Produto(0, min, max, l, preco, nome);
+                    produtos.Add(aux);
+                    coluna = 'A';
+                }
+            }
+            catch
+            {
+                error = "Erro na planilha de sortimentos, Coluna: " + coluna + " linha: " + linha.ToString();
+                throw new CustomException("");
             }
 
             produtos = produtos.OrderBy(x => -x.max).ToList();
@@ -242,45 +271,74 @@ namespace Simulador
         private void Importar_arvores()
         {
             regioes_original = new List<Regiao>();  //lista que ira armazenar as arvores
-            var excel = new XLWorkbook(arquivo_arvores);        //acessa o xls
+            XLWorkbook excel;
+            try
+            {
+                excel = new XLWorkbook(arquivo_arvores);        //acessa o xls
+            }
+            catch
+            {
+                error = "Não foi possivel acessar os dados de inventario";
+                throw new CustomException("");
+            }
             var planilha = excel.Worksheet(1);
             dataGridView1.DataSource = planilha;
-            for (int linha = 2; ; linha++)          //percorre o xls
+
+            int linha = 0;
+            char coluna = 'A';
+            try
             {
-                string confere = planilha.Cell("A" + linha.ToString()).Value.ToString();
-                if (string.IsNullOrEmpty(confere)) break;                                  // testa se o xls acabou
-                int regiao = int.Parse(planilha.Cell("A" + linha.ToString()).Value.ToString());
-                int talhao = int.Parse(planilha.Cell("B" + linha.ToString()).Value.ToString());
-                int parcela = int.Parse(planilha.Cell("C" + linha.ToString()).Value.ToString());
-                string material_genetico = planilha.Cell("D" + linha.ToString()).Value.ToString();
-                double idade = double.Parse(planilha.Cell("E" + linha.ToString()).Value.ToString());
-                double area_parcela = double.Parse(planilha.Cell("F" + linha.ToString()).Value.ToString());
-                int fila = int.Parse(planilha.Cell("G" + linha.ToString()).Value.ToString());
-                int arv = int.Parse(planilha.Cell("H" + linha.ToString()).Value.ToString());
-                double dap = double.Parse(planilha.Cell("I" + linha.ToString()).Value.ToString());
-                double altura = double.Parse(planilha.Cell("J" + linha.ToString()).Value.ToString());
-
-                if (dap == 0 && altura == 0)    // ignora arvores mortas
-                    continue;
-                // cria a arvore
-                Arvore auxiliar = new Arvore(regiao, talhao, idade, dap, altura, parcela, area_parcela, fila, arv, material_genetico);
-
-                bool aux = false;   // verifica se ja foi criada a regiao daquela arvore
-                foreach (Regiao reg in regioes_original)
+                for (linha = 2; ; linha++)          //percorre o xls
                 {
-                    if (reg.numero == auxiliar.regiao)  // regiao ja foi criada
+                    string confere = planilha.Cell("A" + linha.ToString()).Value.ToString();
+                    if (string.IsNullOrEmpty(confere)) break;                                  // testa se o xls acabou
+                    int regiao = int.Parse(planilha.Cell("A" + linha.ToString()).Value.ToString());
+                    coluna++;
+                    int talhao = int.Parse(planilha.Cell("B" + linha.ToString()).Value.ToString());
+                    coluna++;
+                    int parcela = int.Parse(planilha.Cell("C" + linha.ToString()).Value.ToString());
+                    coluna++;
+                    string material_genetico = planilha.Cell("D" + linha.ToString()).Value.ToString();
+                    coluna++;
+                    double idade = double.Parse(planilha.Cell("E" + linha.ToString()).Value.ToString());
+                    coluna++;
+                    double area_parcela = double.Parse(planilha.Cell("F" + linha.ToString()).Value.ToString());
+                    coluna++;
+                    int fila = int.Parse(planilha.Cell("G" + linha.ToString()).Value.ToString());
+                    coluna++;
+                    int arv = int.Parse(planilha.Cell("H" + linha.ToString()).Value.ToString());
+                    coluna++;
+                    double dap = double.Parse(planilha.Cell("I" + linha.ToString()).Value.ToString());
+                    coluna++;
+                    double altura = double.Parse(planilha.Cell("J" + linha.ToString()).Value.ToString());
+                    coluna = 'A';
+                    if (dap == 0 && altura == 0)    // ignora arvores mortas
+                        continue;
+                    // cria a arvore
+                    Arvore auxiliar = new Arvore(regiao, talhao, idade, dap, altura, parcela, area_parcela, fila, arv, material_genetico);
+
+                    bool aux = false;   // verifica se ja foi criada a regiao daquela arvore
+                    foreach (Regiao reg in regioes_original)
                     {
-                        reg.adiciona_arvore(auxiliar);  // adiciona a arvore a regiao
-                        aux = true;
-                        break;
+                        if (reg.numero == auxiliar.regiao)  // regiao ja foi criada
+                        {
+                            reg.adiciona_arvore(auxiliar);  // adiciona a arvore a regiao
+                            aux = true;
+                            break;
+                        }
+                    }
+                    if (!aux)   // regiao nao foi criada
+                    {
+                        Regiao nova_regiao = new Regiao(auxiliar.regiao, produtos.Count());   // cria a nova regiao
+                        nova_regiao.adiciona_arvore(auxiliar);  // adiciona a arvore a regiao
+                        regioes_original.Add(nova_regiao);
                     }
                 }
-                if (!aux)   // regiao nao foi criada
-                {
-                    Regiao nova_regiao = new Regiao(auxiliar.regiao, produtos.Count());   // cria a nova regiao
-                    nova_regiao.adiciona_arvore(auxiliar);  // adiciona a arvore a regiao
-                    regioes_original.Add(nova_regiao);
-                }
+            }
+            catch
+            {
+                error = "Erro na planilha de dados de inventário, Coluna: " + coluna + " linha: " + linha.ToString();
+                throw new CustomException("");
             }
             excel.Dispose();
         }
@@ -294,138 +352,236 @@ namespace Simulador
                 }
                 else
                 {
-                    intervalo_sistematico = int.Parse(textBox1.Text);
+                    try
+                    {
+                        intervalo_sistematico = int.Parse(textBox1.Text);
+                    }
+                    catch
+                    {
+                        error = "numero de fila para o desbaste misto invalido";
+                        throw new CustomException("");
+                    }
                 }
             }
             if (textBox2.Text == "")
             {
                 taxa_juros = 0.10;
             }
-            else 
+            else
             {
-                taxa_juros = double.Parse(textBox2.Text);
+                try
+                {
+                    taxa_juros = double.Parse(textBox2.Text) / 100;
+                }
+                catch
+                {
+                    error = "taxa de juros invalida";
+                    throw new CustomException("");
+                }
             }
             coeficientes = new Coeficientes();
-            var excel = new XLWorkbook(arquivo_coeficientes);
+            XLWorkbook excel;
+            try
+            {
+                excel = new XLWorkbook(arquivo_coeficientes);
+            }
+            catch
+            {
+                error = "Não foi possivel acessar a planilha de coeficientes - MAI";
+                throw new CustomException("");
+            }
             var planilha = excel.Worksheet(1);
 
             int linha = 2;
-            for ( linha = 2; ; linha++)
+            char coluna = 'A';
+            try
             {
-                string confere = planilha.Cell("A" + linha.ToString()).Value.ToString();
-                if (string.IsNullOrEmpty(confere)) break;                                  // testa se o xls acabou
-                if (confere == "idade") break;
-
-                string Regiao = (planilha.Cell("A" + linha.ToString()).Value.ToString());
-                string Talhao = (planilha.Cell("B" + linha.ToString()).Value.ToString());
-
-                if (Regiao == "all")
+                for (linha = 2; ; linha++)
                 {
-                    foreach (Regiao reg in regioes_original)
+                    coluna = 'A';
+                    string confere = planilha.Cell("A" + linha.ToString()).Value.ToString();
+                    if (string.IsNullOrEmpty(confere)) break;                                  // testa se o xls acabou
+                    if (confere == "idade") break;
+
+                    string Regiao_aux = (planilha.Cell("A" + linha.ToString()).Value.ToString());
+                    int Regiao = 0;
+                    if (Regiao_aux != "all")
                     {
-                        foreach (Talhao tal in reg.talhoes)
+                        Regiao = int.Parse(Regiao_aux);
+                    }
+
+                    coluna = 'B';
+                    string Talhao_aux = (planilha.Cell("B" + linha.ToString()).Value.ToString());
+                    int Talhao = 0;
+                    if (Talhao_aux != "all")
+                    {
+                        Talhao = int.Parse(Talhao_aux);
+                    }
+
+                    if (Regiao_aux == "all")
+                    {
+                        foreach (Regiao reg in regioes_original)
                         {
-                            tal.B0_dap = double.Parse(planilha.Cell("C" + linha.ToString()).Value.ToString());
-                            tal.B1_dap = double.Parse(planilha.Cell("D" + linha.ToString()).Value.ToString());
-                            tal.B0_altura = double.Parse(planilha.Cell("E" + linha.ToString()).Value.ToString());
-                            tal.B1_altura = double.Parse(planilha.Cell("F" + linha.ToString()).Value.ToString());
+                            foreach (Talhao tal in reg.talhoes)
+                            {
+                                coluna = 'C';
+                                tal.B0_dap = double.Parse(planilha.Cell(coluna + linha.ToString()).Value.ToString());
+                                coluna++;
+                                tal.B1_dap = double.Parse(planilha.Cell(coluna + linha.ToString()).Value.ToString());
+                                coluna++;
+                                tal.B0_altura = double.Parse(planilha.Cell(coluna + linha.ToString()).Value.ToString());
+                                coluna++;
+                                tal.B1_altura = double.Parse(planilha.Cell(coluna + linha.ToString()).Value.ToString());
+                                coluna = 'C';
+                            }
+                        }
+                    }
+                    else
+                    {
+                        foreach (Regiao reg in regioes_original)
+                        {
+                            if (reg.numero == Regiao)
+                            {
+                                if (Talhao_aux == "all")
+                                {
+                                    foreach (Talhao tal in reg.talhoes)
+                                    {
+                                        coluna = 'C';
+                                        tal.B0_dap = double.Parse(planilha.Cell(coluna + linha.ToString()).Value.ToString());
+                                        coluna++;
+                                        tal.B1_dap = double.Parse(planilha.Cell(coluna + linha.ToString()).Value.ToString());
+                                        coluna++;
+                                        tal.B0_altura = double.Parse(planilha.Cell(coluna + linha.ToString()).Value.ToString());
+                                        coluna++;
+                                        tal.B1_altura = double.Parse(planilha.Cell(coluna + linha.ToString()).Value.ToString());
+                                        coluna = 'C';
+                                    }
+                                }
+                                else
+                                {
+                                    foreach (Talhao tal in reg.talhoes)
+                                    {
+                                        if (tal.numero == Talhao)
+                                        {
+                                            coluna = 'C';
+                                            tal.B0_dap = double.Parse(planilha.Cell(coluna + linha.ToString()).Value.ToString());
+                                            coluna++;
+                                            tal.B1_dap = double.Parse(planilha.Cell(coluna + linha.ToString()).Value.ToString());
+                                            coluna++;
+                                            tal.B0_altura = double.Parse(planilha.Cell(coluna + linha.ToString()).Value.ToString());
+                                            coluna++;
+                                            tal.B1_altura = double.Parse(planilha.Cell(coluna + linha.ToString()).Value.ToString());
+                                            coluna = 'C';
+                                            break;
+                                        }
+
+                                    }
+                                }
+
+                                break;
+                            }
                         }
                     }
                 }
-                else
+            
+                coeficientes.B0 = new List<double>();
+                coeficientes.B1 = new List<double>();
+                coeficientes.B2 = new List<double>();
+                coeficientes.B3 = new List<double>();
+
+
+                linha++;
+                coluna = 'A';
+                for (; ; linha++)          //percorre o xls
                 {
-                    foreach (Regiao reg in regioes_original)
+                    string confere = planilha.Cell("A" + linha.ToString()).Value.ToString();
+                    if (string.IsNullOrEmpty(confere)) break;                                  // testa se o xls acabou
+                    int idade = int.Parse(planilha.Cell("A" + linha.ToString()).Value.ToString());
+                    while (coeficientes.B0.Count() <= idade)    // trata o caso lista < idade
                     {
-                        if (reg.numero == int.Parse(Regiao))
-                        {
-                            if (Talhao == "all")
-                            {
-                                foreach (Talhao tal in reg.talhoes)
-                                {
-                                    tal.B0_dap = double.Parse(planilha.Cell("C" + linha.ToString()).Value.ToString());
-                                    tal.B1_dap = double.Parse(planilha.Cell("D" + linha.ToString()).Value.ToString());
-                                    tal.B0_altura = double.Parse(planilha.Cell("E" + linha.ToString()).Value.ToString());
-                                    tal.B1_altura = double.Parse(planilha.Cell("F" + linha.ToString()).Value.ToString());
-                                }
-                            }
-                            else
-                            {
-                                foreach (Talhao tal in reg.talhoes)
-                                {
-                                    if (tal.numero == int.Parse(Talhao))
-                                    {
-                                        tal.B0_dap = double.Parse(planilha.Cell("C" + linha.ToString()).Value.ToString());
-                                        tal.B1_dap = double.Parse(planilha.Cell("D" + linha.ToString()).Value.ToString());
-                                        tal.B0_altura = double.Parse(planilha.Cell("E" + linha.ToString()).Value.ToString());
-                                        tal.B1_altura = double.Parse(planilha.Cell("F" + linha.ToString()).Value.ToString());
-                                        break;
-                                    }
-
-                                }
-                            }
-
-                            break;
-                        }
+                        coeficientes.B0.Add(0);
+                        coeficientes.B1.Add(0);
+                        coeficientes.B2.Add(0);
+                        coeficientes.B3.Add(0);
                     }
+                    coluna++;
+                    coeficientes.B0[idade] = double.Parse(planilha.Cell(coluna + linha.ToString()).Value.ToString());
+                    coluna++;
+                    coeficientes.B1[idade] = double.Parse(planilha.Cell(coluna + linha.ToString()).Value.ToString());
+                    coluna++;
+                    coeficientes.B2[idade] = double.Parse(planilha.Cell(coluna + linha.ToString()).Value.ToString());
+                    coluna++;
+                    coeficientes.B3[idade] = double.Parse(planilha.Cell(coluna + linha.ToString()).Value.ToString());
+                    coluna = 'A';
                 }
             }
-
-            /*coeficientes.B0_dap = double.Parse(planilha.Cell("B" + 2.ToString()).Value.ToString());
-            coeficientes.B1_dap = double.Parse(planilha.Cell("C" + 2.ToString()).Value.ToString());
-            coeficientes.B0_altura = double.Parse(planilha.Cell("D" + 2.ToString()).Value.ToString());
-            coeficientes.B1_altura = double.Parse(planilha.Cell("E" + 2.ToString()).Value.ToString());
-            */
-            coeficientes.B0 = new List<double>();
-            coeficientes.B1 = new List<double>();
-            coeficientes.B2 = new List<double>();
-            coeficientes.B3 = new List<double>();
-
-
-            linha++;
-            for (; ; linha++)          //percorre o xls
+            catch
             {
-                string confere = planilha.Cell("A" + linha.ToString()).Value.ToString();
-                if (string.IsNullOrEmpty(confere)) break;                                  // testa se o xls acabou
-                int idade = int.Parse(planilha.Cell("A" + linha.ToString()).Value.ToString());
-                while (coeficientes.B0.Count() <= idade)    // trata o caso lista < idade
-                {
-                    coeficientes.B0.Add(0);
-                    coeficientes.B1.Add(0);
-                    coeficientes.B2.Add(0);
-                    coeficientes.B3.Add(0);
-                }
-                coeficientes.B0[idade] = double.Parse(planilha.Cell("B" + linha.ToString()).Value.ToString());
-                coeficientes.B1[idade] = double.Parse(planilha.Cell("C" + linha.ToString()).Value.ToString());
-                coeficientes.B2[idade] = double.Parse(planilha.Cell("D" + linha.ToString()).Value.ToString());
-                coeficientes.B3[idade] = double.Parse(planilha.Cell("E" + linha.ToString()).Value.ToString());
+                error = "Erro na planilha de coeficientes - MAI, Coluna: " + coluna + " linha: " + linha.ToString();
+                throw new CustomException("");
             }
             excel.Dispose();
         }
         private void Importar_economica()
         {
             custos = new List<Custos>();
-            var excel = new XLWorkbook(arquivo_economico);
-            var planilha = excel.Worksheet(1);
-            for (int linha = 2; ; linha++)
+            XLWorkbook excel;
+            try
             {
-                string confere = planilha.Cell("A" + linha.ToString()).Value.ToString();
-                if (string.IsNullOrEmpty(confere)) break;
-                int periodo = int.Parse(planilha.Cell("A" + linha.ToString()).Value.ToString());
-                while (periodo >= custos.Count())
+                excel = new XLWorkbook(arquivo_economico);
+            }
+            catch
+            {
+                error = "Não foi possivel acessar a planilha de custos";
+                throw new CustomException("");
+            }
+        
+            var planilha = excel.Worksheet(1);
+            int linha = 0;
+            char coluna = 'A';
+            try
+            {
+                for (linha = 2; ; linha++)
                 {
-                    Custos aux = new Custos();
-                    custos.Add(aux);
+                    string confere = planilha.Cell("A" + linha.ToString()).Value.ToString();
+                    if (string.IsNullOrEmpty(confere)) break;
+                    int periodo = int.Parse(planilha.Cell("A" + linha.ToString()).Value.ToString());
+                    while (periodo >= custos.Count())
+                    {
+                        Custos aux = new Custos();
+                        custos.Add(aux);
+                    }
+                    coluna++;
+                    custos[periodo].implantacao = double.Parse(planilha.Cell(coluna + linha.ToString()).Value.ToString());
+                    coluna++;
+                    custos[periodo].manutencao = double.Parse(planilha.Cell(coluna + linha.ToString()).Value.ToString());
+                    coluna++;
+                    custos[periodo].desbaste = double.Parse(planilha.Cell(coluna + linha.ToString()).Value.ToString());
+                    coluna++;
+                    custos[periodo].cortefinal = double.Parse(planilha.Cell(coluna + linha.ToString()).Value.ToString());
+                    coluna = 'A';
                 }
-                custos[periodo].implantacao = double.Parse(planilha.Cell("B" + linha.ToString()).Value.ToString());
-                custos[periodo].manutencao = double.Parse(planilha.Cell("C" + linha.ToString()).Value.ToString());
-                custos[periodo].desbaste = double.Parse(planilha.Cell("D" + linha.ToString()).Value.ToString());
-                custos[periodo].cortefinal = double.Parse(planilha.Cell("E" + linha.ToString()).Value.ToString());
+            }
+            catch
+            {
+                error = "Erro na planilha de custos, Coluna: " + coluna + " linha: " + linha.ToString();
+                throw new CustomException("");
             }
             excel.Dispose();
         }
         private void Importar_simulacoes()
         {
-            var excel = new XLWorkbook(arquivo_simulacoes);
+            XLWorkbook excel;
+            try
+            {
+                excel = new XLWorkbook(arquivo_simulacoes);
+            }
+            catch
+            {
+                error = "Não foi possivel acessar a planilha de cenários";
+                throw new CustomException("");
+            }
+
             var planilha = excel.Worksheet(1);
 
             simulacoes = new Simulacoes();
@@ -434,30 +590,43 @@ namespace Simulador
             simulacoes.porcentagem = new List<double>();
             simulacoes.corte_raso = new List<double>();
 
-            for (int linha = 2; ; linha++)          //percorre o xls
+            int linha = 2;
+            char coluna = 'A';
+            try
             {
-                string confere = planilha.Cell("A" + linha.ToString()).Value.ToString();
-                if (string.IsNullOrEmpty(confere)) break;
-                simulacoes.idade_desbaste.Add(double.Parse(planilha.Cell("A" + linha.ToString()).Value.ToString()));
-            }
-            for (int linha = 2; ; linha++)          //percorre o xls
-            {
-                string confere = planilha.Cell("B" + linha.ToString()).Value.ToString();
-                if (string.IsNullOrEmpty(confere)) break;
-                simulacoes.idade_corte_final.Add(double.Parse(planilha.Cell("B" + linha.ToString()).Value.ToString()));
-            }
-            for (int linha = 2; ; linha++)          //percorre o xls
-            {
-                string confere = planilha.Cell("C" + linha.ToString()).Value.ToString();
-                if (string.IsNullOrEmpty(confere)) break;
-                simulacoes.porcentagem.Add(double.Parse(planilha.Cell("C" + linha.ToString()).Value.ToString()));
-            }
+                for (linha = 2; ; linha++)          //percorre o xls
+                {
+                    string confere = planilha.Cell("A" + linha.ToString()).Value.ToString();
+                    if (string.IsNullOrEmpty(confere)) break;
+                    simulacoes.idade_desbaste.Add(double.Parse(planilha.Cell("A" + linha.ToString()).Value.ToString()));
+                }
+                coluna++;
+                for (linha = 2; ; linha++)          //percorre o xls
+                {
+                    string confere = planilha.Cell("B" + linha.ToString()).Value.ToString();
+                    if (string.IsNullOrEmpty(confere)) break;
+                    simulacoes.idade_corte_final.Add(double.Parse(planilha.Cell("B" + linha.ToString()).Value.ToString()));
+                }
+                coluna++;
+                for (linha = 2; ; linha++)          //percorre o xls
+                {
+                    string confere = planilha.Cell("C" + linha.ToString()).Value.ToString();
+                    if (string.IsNullOrEmpty(confere)) break;
+                    simulacoes.porcentagem.Add(double.Parse(planilha.Cell("C" + linha.ToString()).Value.ToString()));
+                }
+                coluna++;
 
-            for (int linha = 2; ; linha++)          //percorre o xls
+                for (linha = 2; ; linha++)          //percorre o xls
+                {
+                    string confere = planilha.Cell("D" + linha.ToString()).Value.ToString();
+                    if (string.IsNullOrEmpty(confere)) break;
+                    simulacoes.corte_raso.Add(double.Parse(planilha.Cell("D" + linha.ToString()).Value.ToString()));
+                }
+            }
+            catch
             {
-                string confere = planilha.Cell("D" + linha.ToString()).Value.ToString();
-                if (string.IsNullOrEmpty(confere)) break;
-                simulacoes.corte_raso.Add(double.Parse(planilha.Cell("D" + linha.ToString()).Value.ToString()));
+                error = "Erro na planilha de custos, cenários: " + coluna + " linha: " + linha.ToString();
+                throw new CustomException("");
             }
 
             excel.Dispose();
@@ -1190,16 +1359,99 @@ namespace Simulador
         {
             List<Regiao> regioes = new List<Regiao>();
             clonar(ref regioes_original, ref regioes);
-            projetar_idade(ref regioes, idade_desbaste);
-            List<Regiao> desbastadas = desbaste(ref regioes, porcentagem);
-            gerar_volumes(ref desbastadas);
-            gerar_lucros(ref desbastadas, false);
-            projetar_idade(ref regioes, idade_corte_final);
-            gerar_volumes(ref regioes);
-            gerar_lucros(ref regioes, true);
-            gerar_IMA(ref desbastadas, ref regioes);
-            gerar_VPL(ref desbastadas, ref regioes);
-            gerar_VAE_infinito_vet(ref regioes);
+
+            try
+            {
+                projetar_idade(ref regioes, idade_desbaste);
+            }
+            catch
+            {
+                error = "erro ao projetar para a idade de desbaste";
+                throw new CustomException("");
+            }
+
+            List<Regiao> desbastadas = null;
+            try
+            {
+                desbastadas = desbaste(ref regioes, porcentagem);
+            }
+            catch
+            {
+                error = "erro ao realizar o desbaste";
+                throw new CustomException("");
+            }
+            try
+            {
+                gerar_volumes(ref desbastadas);
+            }
+            catch
+            {
+                error = "erro ao gerar volumes de desbaste";
+                throw new CustomException("");
+            }
+            try
+            {
+                gerar_lucros(ref desbastadas, false);
+            }
+            catch 
+            {
+                error = "erro ao gerar receita no desbaste";
+                throw new CustomException("");
+            }
+            try
+            {
+                projetar_idade(ref regioes, idade_corte_final);
+            }
+            catch
+            {
+                error = "erro ao projetar para a idade de corte raso";
+                throw new CustomException("");
+            }
+            try
+            {
+                gerar_volumes(ref regioes);
+            }
+            catch
+            {
+                error = "erro ao gerar volumes no corte raso";
+                throw new CustomException("");
+            }
+            try
+            {
+                gerar_lucros(ref regioes, true);
+            }
+            catch
+            {
+                error = "erro ao gerar receita no corte raso";
+                throw new CustomException("");
+            }
+            try
+            {
+                gerar_IMA(ref desbastadas, ref regioes);
+            }
+            catch
+            {
+                error = "erro ao gerar IMA";
+                throw new CustomException("");
+            }
+            try
+            {
+                gerar_VPL(ref desbastadas, ref regioes);
+            }
+            catch
+            {
+                error = "erro ao gerar VPL";
+                throw new CustomException("");
+            }
+            try
+            {
+                gerar_VAE_infinito_vet(ref regioes);
+            }
+            catch 
+            {
+                error = "erro ao gerar dados economicos";
+                throw new CustomException("");
+            }
             parcela_final.Add(gerar_cenario(ref desbastadas, ref regioes, porcentagem));
             talhao_final.Add(gerar_talhao(ref desbastadas, ref regioes, porcentagem));
         }
@@ -1375,14 +1627,17 @@ namespace Simulador
             {
                 if (j == 1)
                 {
+                    txt.Close();
                     txt = new StreamWriter(pathVAE + "/" + arquivo_saida + "_VAE.txt");
                 }
                 if (j == 2)
                 {
+                    txt.Close();
                     txt = new StreamWriter(pathVPL_infinito + "/" + arquivo_saida + "_VPL∞.txt");
                 }
                 if (j == 3)
                 {
+                    txt.Close();
                     txt = new StreamWriter(pathVET + "/" + arquivo_saida + "_VET.txt");
                 }
                 bool is_first = true;
@@ -1439,6 +1694,7 @@ namespace Simulador
             Importar_coeficientes();                             //exporta os coeficientes do xls
             Importar_economica();                                //exporta os dados relacionado à simulação economica
             Importar_simulacoes();                               //exporta todos os dados que devem ser simulados
+            textBox4.Visible = true;
 
             List<Cenario_Parcela> Final_parcela = new List<Cenario_Parcela>();
             List<Cenario_Talhao> final_talhao = new List<Cenario_Talhao>();
@@ -1473,12 +1729,19 @@ namespace Simulador
 
 
             string path = Directory.GetCurrentDirectory();
+            //Console.WriteLine(path);
+            //string pathaux = path.Remove(path.Length - 20);
+            //SetFullControlPermissionsToEveryone(pathaux);
+
             string pathString = System.IO.Path.Combine(path, "Simulações");
             System.IO.Directory.CreateDirectory(pathString);
+            
+            //SetFullControlPermissionsToEveryone(pathString);
+
 
             //string path = System.IO.Path.Combine(path, "Função_de_maximização/VPL");
             //System.IO.Directory.CreateDirectory(pathVPL);
-            Console.WriteLine(pathString + "/" + arquivo_saida);
+            //Console.WriteLine(pathString + "/" + arquivo_saida);
 
             Excel.Workbooks[1].SaveAs(pathString + "/" + arquivo_saida);
 
@@ -1486,26 +1749,70 @@ namespace Simulador
             print_talhao(ref final_talhao, ref Excel);
 
             print_maximizaçao(ref final_talhao);
+            Excel.Workbooks[1].Save();
             Excel.Visible = true;
               
-
          }
 
-        
+
+        static void SetFullControlPermissionsToEveryone(string path)
+        {
+            const FileSystemRights rights = FileSystemRights.FullControl;
+
+            var allUsers = new SecurityIdentifier(WellKnownSidType.BuiltinUsersSid, null);
+
+            // Add Access Rule to the actual directory itself
+            var accessRule = new FileSystemAccessRule(
+                allUsers,
+                rights,
+                InheritanceFlags.None,
+                PropagationFlags.NoPropagateInherit,
+                AccessControlType.Allow);
+
+            var info = new DirectoryInfo(path);
+            var security = info.GetAccessControl(AccessControlSections.Access);
+
+            bool result;
+            security.ModifyAccessRule(AccessControlModification.Set, accessRule, out result);
+
+            if (!result)
+            {
+                throw new InvalidOperationException("Failed to give full-control permission to all users for path " + path);
+            }
+
+            // add inheritance
+            var inheritedAccessRule = new FileSystemAccessRule(
+                allUsers,
+                rights,
+                InheritanceFlags.ContainerInherit | InheritanceFlags.ObjectInherit,
+                PropagationFlags.InheritOnly,
+                AccessControlType.Allow);
+
+            bool inheritedResult;
+            security.ModifyAccessRule(AccessControlModification.Add, inheritedAccessRule, out inheritedResult);
+
+            if (!inheritedResult)
+            {
+                throw new InvalidOperationException("Failed to give full-control permission inheritance to all users for " + path);
+            }
+
+            info.SetAccessControl(security);
+        }
+
+
         private void button5_Click(object sender, EventArgs e)
         {
-            /*try
-            {*/
+            try
+            {
                 processamento();
-            /*}
-            catch
+            }
+            catch (CustomException)
             {
                 const string message =
                 "ERRO";
-                const string caption = "ERRO";
-
-                MessageBox.Show(message, caption, MessageBoxButtons.OK);
-            }*/
+                
+                MessageBox.Show(error,message, MessageBoxButtons.OK);
+            }
             this.Text = "Entradas e premissas";
 
         }
