@@ -43,4 +43,3 @@ C:\Users\ronal\Source\Repos\henrique4d\Simulador\obj\Debug\Simulador.csproj.Copy
 C:\Users\ronal\Source\Repos\henrique4d\Simulador\obj\Debug\Simulador.exe
 C:\Users\ronal\Source\Repos\henrique4d\Simulador\obj\Debug\Simulador.pdb
 C:\Users\ronal\Source\Repos\henrique4d\Simulador\obj\Debug\Simulador.csproj.CoreCompileInputs.cache
-C:\Users\ronal\Source\Repos\henrique4d\Simulador\obj\Debug\Simulador.csprojAssemblyReference.cache

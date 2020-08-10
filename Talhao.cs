@@ -8,7 +8,7 @@ namespace Simulador
 {
     class Talhao
     {
-        public Talhao(int num, int quant_produtos)
+        public Talhao(string num, int quant_produtos)
         {
             volume = new List<double>();
             lucro = new List<double>();
@@ -96,8 +96,8 @@ namespace Simulador
         }
 
         public List<Parcela> parcelas;
-        public int numero;
-        public int regiao;
+        public string numero;
+        public string regiao;
         public int num_parcelas;
         public double idade;
         public double dap_medio;

@@ -264,7 +264,7 @@
             this.textBox4.Name = "textBox4";
             this.textBox4.Size = new System.Drawing.Size(195, 73);
             this.textBox4.TabIndex = 26;
-            this.textBox4.Text = "GMPf";
+            this.textBox4.Text = "GPMf";
             // 
             // Form1
             // 

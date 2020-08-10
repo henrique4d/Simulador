@@ -8,7 +8,7 @@ namespace Simulador
 {
     class Regiao
     {
-        public Regiao(int num, int quant_produtos)
+        public Regiao(string num, int quant_produtos)
         {
             talhoes = new List<Talhao>();
             this.numero = num;
@@ -55,7 +55,7 @@ namespace Simulador
         }
         public List<Talhao> talhoes;
         public int num_talhoes;
-        public int numero;
+        public string numero;
         public double idade;
         public double dap_medio;
         public int quant_produtos;

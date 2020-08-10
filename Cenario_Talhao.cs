@@ -10,8 +10,8 @@ namespace Simulador
     {
         public Cenario_Talhao()
         {
-            regiao = new List<double>();
-            talhao = new List<double>();
+            regiao = new List<string>();
+            talhao = new List<string>();
             idade = new List<double>();
             porcentagem = new List<string>();
             media_altura = new List<double>();
@@ -25,8 +25,8 @@ namespace Simulador
             vpl_sort = 0;
         }
 
-        public List<double> regiao;
-        public List<double> talhao;
+        public List<string> regiao;
+        public List<string> talhao;
         public List<double> idade;
         public List<string> porcentagem;
         public List<double> media_dap;

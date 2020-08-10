@@ -206,6 +206,7 @@ namespace Simulador
 
                 //lblRegistros.Text = (dgvDados.Rows.Count - 1).ToString();
                 string[] listaNomeColunas = dt.Columns.OfType<DataColumn>().Select(x => x.ColumnName).ToArray();
+                dt.Dispose();
             }
 
             catch (Exception ex)
@@ -278,7 +279,7 @@ namespace Simulador
             }
             catch
             {
-                error = "Não foi possivel acessar os dados de inventario";
+                error = "Não foi possivel acessar os dados de inventário";
                 throw new CustomException("");
             }
             var planilha = excel.Worksheet(1);
@@ -292,11 +293,11 @@ namespace Simulador
                 {
                     string confere = planilha.Cell("A" + linha.ToString()).Value.ToString();
                     if (string.IsNullOrEmpty(confere)) break;                                  // testa se o xls acabou
-                    int regiao = int.Parse(planilha.Cell("A" + linha.ToString()).Value.ToString());
+                    string regiao = planilha.Cell("A" + linha.ToString()).Value.ToString();
                     coluna++;
-                    int talhao = int.Parse(planilha.Cell("B" + linha.ToString()).Value.ToString());
+                    string talhao = planilha.Cell("B" + linha.ToString()).Value.ToString();
                     coluna++;
-                    int parcela = int.Parse(planilha.Cell("C" + linha.ToString()).Value.ToString());
+                    string parcela = planilha.Cell("C" + linha.ToString()).Value.ToString();
                     coluna++;
                     string material_genetico = planilha.Cell("D" + linha.ToString()).Value.ToString();
                     coluna++;
@@ -358,7 +359,7 @@ namespace Simulador
                     }
                     catch
                     {
-                        error = "numero de fila para o desbaste misto invalido";
+                        error = "número de fila para o desbaste misto inválido";
                         throw new CustomException("");
                     }
                 }
@@ -375,7 +376,7 @@ namespace Simulador
                 }
                 catch
                 {
-                    error = "taxa de juros invalida";
+                    error = "taxa de juros inválida";
                     throw new CustomException("");
                 }
             }
@@ -403,22 +404,12 @@ namespace Simulador
                     if (string.IsNullOrEmpty(confere)) break;                                  // testa se o xls acabou
                     if (confere == "idade") break;
 
-                    string Regiao_aux = (planilha.Cell("A" + linha.ToString()).Value.ToString());
-                    int Regiao = 0;
-                    if (Regiao_aux != "all")
-                    {
-                        Regiao = int.Parse(Regiao_aux);
-                    }
-
+                    string Regiao = (planilha.Cell("A" + linha.ToString()).Value.ToString());
+                
                     coluna = 'B';
-                    string Talhao_aux = (planilha.Cell("B" + linha.ToString()).Value.ToString());
-                    int Talhao = 0;
-                    if (Talhao_aux != "all")
-                    {
-                        Talhao = int.Parse(Talhao_aux);
-                    }
-
-                    if (Regiao_aux == "all")
+                    string Talhao = (planilha.Cell("B" + linha.ToString()).Value.ToString());
+                    
+                    if (Regiao == "all")
                     {
                         foreach (Regiao reg in regioes_original)
                         {
@@ -442,7 +433,7 @@ namespace Simulador
                         {
                             if (reg.numero == Regiao)
                             {
-                                if (Talhao_aux == "all")
+                                if (Talhao == "all")
                                 {
                                     foreach (Talhao tal in reg.talhoes)
                                     {
@@ -532,7 +523,7 @@ namespace Simulador
             }
             catch
             {
-                error = "Não foi possivel acessar a planilha de custos";
+                error = "Não foi possível acessar a planilha de custos";
                 throw new CustomException("");
             }
         
@@ -578,7 +569,7 @@ namespace Simulador
             }
             catch
             {
-                error = "Não foi possivel acessar a planilha de cenários";
+                error = "Não foi possível acessar a planilha de cenários";
                 throw new CustomException("");
             }
 
@@ -625,7 +616,7 @@ namespace Simulador
             }
             catch
             {
-                error = "Erro na planilha de custos, cenários: " + coluna + " linha: " + linha.ToString();
+                error = "Erro na planilha de cenários, coluna: " + coluna + " linha: " + linha.ToString();
                 throw new CustomException("");
             }
 
@@ -1449,7 +1440,7 @@ namespace Simulador
             }
             catch 
             {
-                error = "erro ao gerar dados economicos";
+                error = "erro ao gerar dados econômicos";
                 throw new CustomException("");
             }
             parcela_final.Add(gerar_cenario(ref desbastadas, ref regioes, porcentagem));
@@ -1712,46 +1703,54 @@ namespace Simulador
                 }
                 //break;
             }
-
-            foreach (double idade in simulacoes.corte_raso)
+            try
             {
-                simular(idade, ref Final_parcela, ref final_talhao);
+                foreach (double idade in simulacoes.corte_raso)
+                {
+                    simular(idade, ref Final_parcela, ref final_talhao);
+                }
+            }
+            catch{
+                error = "erro ao simular corte raso";
+                throw new CustomException("");
             }
 
             var Excel = new Microsoft.Office.Interop.Excel.Application();
-            Excel.Workbooks.Add();
-            Excel.Worksheets.Add();
+            try
+            {
+                Excel.Workbooks.Add();
+                Excel.Worksheets.Add();
 
-            Excel.Workbooks[1].Worksheets[1].Name = "Talhão";
-            Excel.Workbooks[1].Worksheets[2].Name = "Parcela";
-            
-            var aux = Excel.Workbooks.Item[1];
+                Excel.Workbooks[1].Worksheets[1].Name = "Talhão";
+                Excel.Workbooks[1].Worksheets[2].Name = "Parcela";
 
+                var aux = Excel.Workbooks.Item[1];
+                string path = Directory.GetCurrentDirectory();
 
-            string path = Directory.GetCurrentDirectory();
-            //Console.WriteLine(path);
-            //string pathaux = path.Remove(path.Length - 20);
-            //SetFullControlPermissionsToEveryone(pathaux);
+                string pathString = System.IO.Path.Combine(path, "Simulações");
+                System.IO.Directory.CreateDirectory(pathString);
 
-            string pathString = System.IO.Path.Combine(path, "Simulações");
-            System.IO.Directory.CreateDirectory(pathString);
-            
-            //SetFullControlPermissionsToEveryone(pathString);
-
-
-            //string path = System.IO.Path.Combine(path, "Função_de_maximização/VPL");
-            //System.IO.Directory.CreateDirectory(pathVPL);
-            //Console.WriteLine(pathString + "/" + arquivo_saida);
-
-            Excel.Workbooks[1].SaveAs(pathString + "/" + arquivo_saida);
-
-            print_parcela(ref Final_parcela, ref Excel);
-            print_talhao(ref final_talhao, ref Excel);
-
+                Excel.Workbooks[1].SaveAs(pathString + "/" + arquivo_saida);
+            }
+            catch
+            {
+                error = "nao foi possivel gerar o excel";
+                throw new CustomException("");
+            }
+            try
+            {
+                print_parcela(ref Final_parcela, ref Excel);
+                print_talhao(ref final_talhao, ref Excel);
+            }
+            catch
+            {
+                error = "erro ao gerar simulações";
+                throw new CustomException("");
+            }
             print_maximizaçao(ref final_talhao);
             Excel.Workbooks[1].Save();
             Excel.Visible = true;
-              
+                
          }
 
 

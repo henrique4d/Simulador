@@ -8,7 +8,7 @@ namespace Simulador
 {
     class Parcela
     {
-        public Parcela(int num, int quant_produtos)
+        public Parcela(string num, int quant_produtos)
         {
             volume = new List<double>();
             lucro = new List<double>();
@@ -56,9 +56,9 @@ namespace Simulador
             }
         }
         public List<Arvore> arvores;
-        public int numero;
-        public int regiao;
-        public int talhao;
+        public string numero;
+        public string regiao;
+        public string talhao;
         public int num_arvores;
         public double idade;
         public double dap_medio;
