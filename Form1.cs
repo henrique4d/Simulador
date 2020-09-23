@@ -881,7 +881,6 @@ namespace Simulador
                 {
                     foreach (Parcela parc in tal.parcelas)
                     {
-
                         double area_basal_limite = parc.area_basal_total * porcentagem / 100;
                         bool tem_uma = false;
                         foreach (Arvore arv in parc.arvores.ToList())
@@ -1350,7 +1349,20 @@ namespace Simulador
         {
             List<Regiao> regioes = new List<Regiao>();
             clonar(ref regioes_original, ref regioes);
-
+            foreach (Regiao reg in regioes)
+            {
+                foreach (Talhao tal in reg.talhoes)
+                {
+                    foreach(Parcela parc in tal.parcelas)
+                    {
+                        foreach(Arvore arv in parc.arvores)
+                        {
+                            Console.WriteLine("Dap: " + arv.dap + " numero " + arv.fila + " dap " + arv.dap);
+                        }
+                    }
+                    
+                }
+            }
             try
             {
                 projetar_idade(ref regioes, idade_desbaste);
@@ -1371,6 +1383,25 @@ namespace Simulador
                 error = "erro ao realizar o desbaste";
                 throw new CustomException("");
             }
+
+            Console.WriteLine("----------------------------------------------------------------------------------------------------------------");
+
+            foreach (Regiao reg in regioes)
+            {
+                foreach (Talhao tal in reg.talhoes)
+                {
+                    foreach (Parcela parc in tal.parcelas)
+                    {
+                        foreach (Arvore arv in parc.arvores)
+                        {
+                            Console.WriteLine("Dap: " + arv.dap + " numero " + arv.fila + " dap " + arv.dap);
+                        }
+                    }
+
+                }
+            }
+
+
             try
             {
                 gerar_volumes(ref desbastadas);
@@ -1475,11 +1506,13 @@ namespace Simulador
                 Excel.Worksheets[2].cells[coluna][1] = "Volume " + produtos[i].nome;
                 coluna++;
             }
-            Excel.Worksheets[2].cells[coluna][1] = "IMA";
-            Excel.Worksheets[2].cells[coluna + 1][1] = "VPL";
-            Excel.Worksheets[2].cells[coluna + 2][1] = "VAE";
-            Excel.Worksheets[2].cells[coluna + 3][1] = "VPL∞";
-            Excel.Worksheets[2].cells[coluna + 4][1] = "VET";
+            Excel.Worksheets[2].cells[coluna][1] = "Volume total";
+
+            Excel.Worksheets[2].cells[coluna + 1][1] = "IMA";
+            Excel.Worksheets[2].cells[coluna + 2][1] = "VPL";
+            Excel.Worksheets[2].cells[coluna + 3][1] = "VAE";
+            Excel.Worksheets[2].cells[coluna + 4][1] = "VPL∞";
+            Excel.Worksheets[2].cells[coluna + 5][1] = "VET";
 
             int linha = 2;
 
@@ -1497,27 +1530,32 @@ namespace Simulador
                     Excel.Worksheets[2].cells[7][linha] = cenario.media_altura[i];
 
                     coluna = 8;
+                    double total = 0;
+
                     for (int j = 1; j <= produtos.Count(); j++)
                     {
                         Excel.Worksheets[2].cells[coluna][linha] = cenario.volumes[i][j];
+                        total = cenario.volumes[i][j];
                         coluna++;
                     }
 
-                    Excel.Worksheets[2].cells[coluna][linha] = cenario.IMA[i];
+                    Excel.Worksheets[2].cells[coluna][linha] = total;
+
+                    Excel.Worksheets[2].cells[coluna + 1][linha] = cenario.IMA[i];
                     if (cenario.VPL[i] == -1 && cenario.VAE[i] == -1 && cenario.VPL_infinito[i] == -1 && cenario.VET[i] == -1)
                     {
-                        Excel.Worksheets[2].cells[coluna + 1][linha] = "-";
                         Excel.Worksheets[2].cells[coluna + 2][linha] = "-";
                         Excel.Worksheets[2].cells[coluna + 3][linha] = "-";
                         Excel.Worksheets[2].cells[coluna + 4][linha] = "-";
+                        Excel.Worksheets[2].cells[coluna + 5][linha] = "-";
 
                     }
                     else
                     {
-                        Excel.Worksheets[2].cells[coluna + 1][linha] = cenario.VPL[i];
-                        Excel.Worksheets[2].cells[coluna + 2][linha] = cenario.VAE[i];
-                        Excel.Worksheets[2].cells[coluna + 3][linha] = cenario.VPL_infinito[i];
-                        Excel.Worksheets[2].cells[coluna + 4][linha] = cenario.VET[i];
+                        Excel.Worksheets[2].cells[coluna + 2][linha] = cenario.VPL[i];
+                        Excel.Worksheets[2].cells[coluna + 3][linha] = cenario.VAE[i];
+                        Excel.Worksheets[2].cells[coluna + 4][linha] = cenario.VPL_infinito[i];
+                        Excel.Worksheets[2].cells[coluna + 5][linha] = cenario.VET[i];
                     }
                     linha++;
 
@@ -1541,11 +1579,13 @@ namespace Simulador
                 Excel.Worksheets[1].cells[coluna][1] = "Volume " + produtos[i].nome;
                 coluna++;
             }
-            Excel.Worksheets[1].cells[coluna][1] = "IMA";
-            Excel.Worksheets[1].cells[coluna + 1][1] = "VPL";
-            Excel.Worksheets[1].cells[coluna + 2][1] = "VAE";
-            Excel.Worksheets[1].cells[coluna + 3][1] = "VPL∞";
-            Excel.Worksheets[1].cells[coluna + 4][1] = "VET";
+            Excel.Worksheets[1].cells[coluna][1] = "Volume total";
+
+            Excel.Worksheets[1].cells[coluna + 1][1] = "IMA";
+            Excel.Worksheets[1].cells[coluna + 2][1] = "VPL";
+            Excel.Worksheets[1].cells[coluna + 3][1] = "VAE";
+            Excel.Worksheets[1].cells[coluna + 4][1] = "VPL∞";
+            Excel.Worksheets[1].cells[coluna + 5][1] = "VET";
 
             int linha = 2;
             final_talhao = final_talhao.OrderBy(x => -x.vpl_sort).ToList();
@@ -1560,29 +1600,32 @@ namespace Simulador
                     Excel.Worksheets[1].cells[4][linha] = cenario.porcentagem[i];
                     Excel.Worksheets[1].cells[5][linha] = cenario.media_dap[i];
                     Excel.Worksheets[1].cells[6][linha] = cenario.media_altura[i];
-
                     coluna = 7;
+                    double total = 0;
                     for (int j = 1; j <= produtos.Count(); j++)
                     {
                         Excel.Worksheets[1].cells[coluna][linha] = cenario.volumes[i][j];
+                        total += cenario.volumes[i][j];
                         coluna++;
                     }
 
-                    Excel.Worksheets[1].cells[coluna][linha] = cenario.IMA[i];
+                    Excel.Worksheets[1].cells[coluna][linha] = total;
+
+                    Excel.Worksheets[1].cells[coluna + 1][linha] = cenario.IMA[i];
                     if (cenario.VPL[i] == -1 && cenario.VAE[i] == -1 && cenario.VPL_infinito[i] == -1 && cenario.VET[i] == -1)
                     {
-                        Excel.Worksheets[1].cells[coluna + 1][linha] = "-";
                         Excel.Worksheets[1].cells[coluna + 2][linha] = "-";
                         Excel.Worksheets[1].cells[coluna + 3][linha] = "-";
                         Excel.Worksheets[1].cells[coluna + 4][linha] = "-";
+                        Excel.Worksheets[1].cells[coluna + 5][linha] = "-";
 
                     }
                     else
                     {
-                        Excel.Worksheets[1].cells[coluna + 1][linha] = cenario.VPL[i];
-                        Excel.Worksheets[1].cells[coluna + 2][linha] = cenario.VAE[i];
-                        Excel.Worksheets[1].cells[coluna + 3][linha] = cenario.VPL_infinito[i];
-                        Excel.Worksheets[1].cells[coluna + 4][linha] = cenario.VET[i];
+                        Excel.Worksheets[1].cells[coluna + 2][linha] = cenario.VPL[i];
+                        Excel.Worksheets[1].cells[coluna + 3][linha] = cenario.VAE[i];
+                        Excel.Worksheets[1].cells[coluna + 4][linha] = cenario.VPL_infinito[i];
+                        Excel.Worksheets[1].cells[coluna + 5][linha] = cenario.VET[i];
                     }
                     linha++;
 
@@ -1750,7 +1793,7 @@ namespace Simulador
             print_maximizaçao(ref final_talhao);
             Excel.Workbooks[1].Save();
             Excel.Visible = true;
-                
+            
          }
 
 
