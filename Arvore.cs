@@ -16,6 +16,7 @@ namespace Simulador
             this.regiao = regiao;
             this.talhao = talhao;
             this.idade = idade;
+            this.idade_original = idade;
             this.dap = dap;
             this.altura = altura;
             this.area_basal = Math.PI * Math.Pow(dap, 2) / 40000;
@@ -30,6 +31,7 @@ namespace Simulador
         public string talhao;
         public string parcela;
         public double idade;
+        public double idade_original;
         public double dap;
         public double altura;
         public double area_basal;

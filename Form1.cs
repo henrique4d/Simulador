@@ -35,6 +35,8 @@ namespace Simulador
         string desbaste_por;
         int intervalo_sistematico;     // intervalo de corte para o desbaste Seletivo
         double taxa_juros;
+        double horizonte;
+        int N_planejamento;
 
         public BorderStyle BorderStyle { get; private set; }
 
@@ -42,6 +44,8 @@ namespace Simulador
         {
             InitializeComponent();
             textBox3.Text = "Título";
+            textBox5.Text = "Horizonte";
+            textBox6.Text = "N_planejamento";
             //textBox2.Validating += new CancelEventHandler(radTextBox1_Validating);
             //textBox2.Validated += new EventHandler(radTextBox1_Validated);
 
@@ -342,9 +346,14 @@ namespace Simulador
                 throw new CustomException("");
             }
             excel.Dispose();
+            foreach (Regiao reg in regioes_original)
+            {
+                reg.set_dados();
+            }
         }
         private void Importar_coeficientes()
         {
+            
             if (comboBox1.Text == "Misto")
             {
                 if (textBox1.Text == "")
@@ -379,6 +388,24 @@ namespace Simulador
                     error = "taxa de juros inválida";
                     throw new CustomException("");
                 }
+            }
+            try
+            {
+                horizonte = double.Parse(textBox5.Text);
+            }
+            catch
+            {
+                error = "horizonte de planejamento inválido";
+                throw new CustomException("");
+            }
+            try
+            {
+                N_planejamento = int.Parse(textBox6.Text);
+            }
+            catch 
+            {
+                error = "N_planejamento inválido";
+                throw new CustomException("");
             }
             coeficientes = new Coeficientes();
             XLWorkbook excel;
@@ -1052,7 +1079,6 @@ namespace Simulador
                                 parc.lucro[prod.numero] = parc.volume[prod.numero] * (prod.preco - custos[(int)parc.idade].cortefinal);
                             else
                                 parc.lucro[prod.numero] = parc.volume[prod.numero] * (prod.preco - custos[(int)parc.idade].desbaste);
-
                         }
                     }
                 }
@@ -1108,19 +1134,62 @@ namespace Simulador
                 {
                     for (int Indice_Parcela = 0; Indice_Parcela < regioes_desbaste[indice_Regiao].talhoes[indice_Talhao].parcelas.Count(); Indice_Parcela++)
                     {
+                        double idade_original = regioes_desbaste[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].idade_original;
+
                         for (int i = 1; i < regioes_desbaste[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].lucro.Count(); i++)
                         {
+//                          Console.WriteLine(idade_original);
                             double receita = regioes_desbaste[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].lucro[i];
+                            
                             regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].vpl += calcular_VPL(receita, taxa_juros, regioes_desbaste[indice_Regiao].idade);
+                            regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].vpl2 += calcular_VPL(receita, taxa_juros, regioes_desbaste[indice_Regiao].idade - idade_original);
+
                             receita = regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].lucro[i];
+                            
                             regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].vpl += calcular_VPL(receita, taxa_juros, regioes_corte_final[indice_Regiao].idade);
+                            regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].vpl2 += calcular_VPL(receita, taxa_juros, regioes_corte_final[indice_Regiao].idade - idade_original);
                         }
 
-                        regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].vpl -= custos[0].implantacao;
+                        //regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].vpl -= custos[0].implantacao;
 
-                        for (int idade = 1; idade <= regioes_corte_final[indice_Regiao].idade; idade++)
+                        for (int idade = 0; idade <= regioes_corte_final[indice_Regiao].idade; idade++)
                         {
                             regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].vpl -= calcular_VPL(custos[idade].manutencao, taxa_juros, idade);
+                            regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].vpl2 -= calcular_VPL(custos[idade].manutencao, taxa_juros, idade - idade_original);
+
+                            regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].vpl -= calcular_VPL(custos[idade].implantacao, taxa_juros, idade);
+                            regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].vpl2 -= calcular_VPL(custos[idade].implantacao, taxa_juros, idade - idade_original);
+                        }
+
+                        regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].vpl2 = 0;
+                        regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].vpl2 -= calcular_VPL(custos[0].implantacao, taxa_juros, -idade_original);
+                        int idade_desbaste = (int)regioes_desbaste[indice_Regiao].idade;
+                        int idade_corte_final = (int)regioes_corte_final[indice_Regiao].idade;
+                        double receita1 = 0;
+                        double receita2 = 0;
+                        for (int i = 1; i < regioes_desbaste[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].lucro.Count(); i++)
+                        {
+                            receita1 += regioes_desbaste[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].lucro[i];
+                            receita2 += regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].lucro[i];
+                        }
+                        
+                        int idade_aux = 1;
+                        for (int idade_atual =1; idade_atual <= horizonte + idade_original; idade_atual++)
+                        {
+                            if (idade_aux % idade_corte_final == 0)
+                            {
+                                regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].vpl2 += calcular_VPL(receita2, taxa_juros, idade_atual - idade_original);
+                                if (idade_atual + idade_desbaste > horizonte + idade_original) break;
+                                idade_aux = 1;
+                                continue;
+                            }
+                            regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].vpl2 -= calcular_VPL(custos[idade_aux].manutencao, taxa_juros, idade_atual - idade_original);
+                            if (idade_aux%idade_desbaste == 0)
+                            {
+                                regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].vpl2 += calcular_VPL(receita1, taxa_juros, idade_atual - idade_original);
+                                if (idade_atual + idade_corte_final - idade_desbaste > horizonte + idade_original) break;
+                            }
+                            idade_aux++;
                         }
                     }
                 }
@@ -1138,12 +1207,18 @@ namespace Simulador
                         for (int i = 1; i < parc.lucro.Count(); i++)
                         {
                             parc.vpl += calcular_VPL(parc.lucro[i], taxa_juros, parc.idade);
+                            parc.vpl2 += calcular_VPL(parc.lucro[i], taxa_juros, parc.idade - parc.idade_original);
                         }
 
-                        parc.vpl -= custos[0].implantacao;
-                        for (int idade = 1; idade <= parc.idade; idade++)
+                        //parc.vpl -= custos[0].implantacao;
+                        for (int idade = 0; idade <= parc.idade; idade++)
                         {
                             parc.vpl -= calcular_VPL(custos[idade].manutencao, taxa_juros, idade);
+                            parc.vpl2 -= calcular_VPL(custos[idade].manutencao, taxa_juros, idade - parc.idade_original);
+
+                            parc.vpl -= calcular_VPL(custos[idade].implantacao, taxa_juros, idade);
+                            parc.vpl2 -= calcular_VPL(custos[idade].implantacao, taxa_juros, idade - parc.idade_original);
+
                         }
                     }
                 }
@@ -1169,11 +1244,14 @@ namespace Simulador
                         parc.vae = calcular_VAE(parc.vpl, taxa_juros, parc.idade);
                         parc.vpl_infinito = calcular_VPL_infinito(parc.vae, taxa_juros);
                         parc.vet = calcular_VET(parc.vpl, taxa_juros, parc.idade);
+
+                        parc.vae2 = calcular_VAE(parc.vpl2, taxa_juros, parc.idade - parc.idade_original);
+                        parc.vpl_infinito2 = calcular_VPL_infinito(parc.vae2, taxa_juros);
+                        parc.vet2 = calcular_VET(parc.vpl2, taxa_juros, parc.idade - parc.idade_original);
                     }
                 }
 
             }
-
         }
 
 
@@ -1210,9 +1288,16 @@ namespace Simulador
                         cenario.volumes.Add(regioes_desbaste[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].volume);
                         cenario.IMA.Add(regioes_desbaste[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].ima);
                         cenario.VPL.Add(-1);
+                        cenario.VPL2.Add(-1);
+
                         cenario.VAE.Add(-1);
+                        cenario.VAE2.Add(-1);
+
                         cenario.VPL_infinito.Add(-1);
+                        cenario.VPL_infinito2.Add(-1);
+
                         cenario.VET.Add(-1);
+                        cenario.VET2.Add(-1);
 
 
                         cenario.regiao.Add(regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].regiao);
@@ -1225,9 +1310,17 @@ namespace Simulador
                         cenario.volumes.Add(regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].volume);
                         cenario.IMA.Add(regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].ima);
                         cenario.VPL.Add(regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].vpl);
+                        cenario.VPL2.Add(regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].vpl2);
+
                         cenario.VAE.Add(regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].vae);
+                        cenario.VAE2.Add(regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].vae2);
+
                         cenario.VPL_infinito.Add(regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].vpl_infinito);
+                        cenario.VPL_infinito2.Add(regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].vpl_infinito2);
+
                         cenario.VET.Add(regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].vet);
+                        cenario.VET2.Add(regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].vet2);
+
                         cenario.vpl_sort += regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].vpl_infinito;
                     }
                 }
@@ -1254,9 +1347,18 @@ namespace Simulador
                         cenario.volumes.Add(parc.volume);
                         cenario.IMA.Add(parc.ima);
                         cenario.VPL.Add(parc.vpl);
+                        cenario.VPL2.Add(parc.vpl2);
+
                         cenario.VAE.Add(parc.vae);
+                        cenario.VAE2.Add(parc.vae2);
+
                         cenario.VPL_infinito.Add(parc.vpl_infinito);
+                        cenario.VPL_infinito2.Add(parc.vpl_infinito2);
+
+
                         cenario.VET.Add(parc.vet);
+                        cenario.VET2.Add(parc.vet2);
+
                         cenario.vpl_sort += parc.vpl_infinito;
                     }
                 }
@@ -1288,9 +1390,16 @@ namespace Simulador
                     cenario.volumes.Add(regioes_desbaste[indice_Regiao].talhoes[indice_Talhao].volume);
                     cenario.IMA.Add(regioes_desbaste[indice_Regiao].talhoes[indice_Talhao].ima);
                     cenario.VPL.Add(-1);
+                    cenario.VPL2.Add(-1);
+
                     cenario.VAE.Add(-1);
+                    cenario.VAE2.Add(-1);
+
                     cenario.VPL_infinito.Add(-1);
+                    cenario.VPL_infinito2.Add(-1);
+
                     cenario.VET.Add(-1);
+                    cenario.VET2.Add(-1);
 
                     cenario.regiao.Add(regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].regiao);
                     cenario.talhao.Add(regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].numero);
@@ -1301,9 +1410,18 @@ namespace Simulador
                     cenario.volumes.Add(regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].volume);
                     cenario.IMA.Add(regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].ima);
                     cenario.VPL.Add(regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].vpl);
+                    cenario.VPL2.Add(regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].vpl2);
+
                     cenario.VAE.Add(regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].vae);
+                    cenario.VAE2.Add(regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].vae2);
+
                     cenario.VPL_infinito.Add(regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].vpl_infinito);
+                    cenario.VPL_infinito2.Add(regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].vpl_infinito2);
+
+
                     cenario.VET.Add(regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].vet);
+                    cenario.VET2.Add(regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].vet2);
+
                     cenario.vpl_sort += regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].vpl_infinito;
                 }
             }
@@ -1335,9 +1453,19 @@ namespace Simulador
                     cenario.volumes.Add(tal.volume);
                     cenario.IMA.Add(tal.ima);
                     cenario.VPL.Add(tal.vpl);
+                    cenario.VPL2.Add(tal.vpl2);
+
                     cenario.VAE.Add(tal.vae);
+                    cenario.VAE2.Add(tal.vae2);
+
                     cenario.VPL_infinito.Add(tal.vpl_infinito);
+                    cenario.VPL_infinito2.Add(tal.vpl_infinito2);
+
+
+
                     cenario.VET.Add(tal.vet);
+                    cenario.VET2.Add(tal.vet2);
+
                     cenario.vpl_sort += tal.vpl_infinito;
                 }
             }
@@ -1349,7 +1477,7 @@ namespace Simulador
         {
             List<Regiao> regioes = new List<Regiao>();
             clonar(ref regioes_original, ref regioes);
-            foreach (Regiao reg in regioes)
+            /*foreach (Regiao reg in regioes)
             {
                 foreach (Talhao tal in reg.talhoes)
                 {
@@ -1362,7 +1490,7 @@ namespace Simulador
                     }
                     
                 }
-            }
+            }*/
             try
             {
                 projetar_idade(ref regioes, idade_desbaste);
@@ -1384,9 +1512,9 @@ namespace Simulador
                 throw new CustomException("");
             }
 
-            Console.WriteLine("----------------------------------------------------------------------------------------------------------------");
+            //Console.WriteLine("----------------------------------------------------------------------------------------------------------------");
 
-            foreach (Regiao reg in regioes)
+            /*foreach (Regiao reg in regioes)
             {
                 foreach (Talhao tal in reg.talhoes)
                 {
@@ -1399,7 +1527,7 @@ namespace Simulador
                     }
 
                 }
-            }
+            }*/
 
 
             try
@@ -1636,6 +1764,23 @@ namespace Simulador
             Excel.Visible = true;
         }
 
+        private void horizonte_planejamento(ref List<Cenario_Talhao> cenarios)
+        {
+            foreach ( Cenario_Talhao cenario in cenarios)
+            {
+                for (int i=0; i<cenario.VPL2.Count(); i++)
+                {
+
+                }
+            }
+            /*for (int i=0; i<cenarios.Count(); i++)
+            {
+                /*if (cenarios[i].porcentagem != "")
+                {
+
+                }
+            }*/
+        }
         private void print_maximizaçao(ref List<Cenario_Talhao> final_talhao)
         {
             
@@ -1689,13 +1834,13 @@ namespace Simulador
                                 txt.Write(" + ");
                             }
                             if (j == 0)
-                            txt.Write(cenario.VPL[i] + " * R" + cenario.regiao[i] + "_T" + cenario.talhao[i]);
+                            txt.Write(cenario.VPL2[i] + " * R" + cenario.regiao[i] + "_T" + cenario.talhao[i]);
                             if (j == 1)
-                                txt.Write(cenario.VAE[i] + " * R" + cenario.regiao[i] + "_T" + cenario.talhao[i]);
+                                txt.Write(cenario.VAE2[i] + " * R" + cenario.regiao[i] + "_T" + cenario.talhao[i]);
                             if (j == 2)
-                                txt.Write(cenario.VPL_infinito[i] + " * R" + cenario.regiao[i] + "_T" + cenario.talhao[i]);
+                                txt.Write(cenario.VPL_infinito2[i] + " * R" + cenario.regiao[i] + "_T" + cenario.talhao[i]);
                             if (j == 3)
-                                txt.Write(cenario.VET[i] + " * R" + cenario.regiao[i] + "_T" + cenario.talhao[i]);
+                                txt.Write(cenario.VET2[i] + " * R" + cenario.regiao[i] + "_T" + cenario.talhao[i]);
                             if (cenario.porcentagem[i] != "-")
                             {
                                 txt.Write("_D" + idade_aux + "-" + cenario.porcentagem[i]);
@@ -1729,7 +1874,8 @@ namespace Simulador
             Importar_economica();                                //exporta os dados relacionado à simulação economica
             Importar_simulacoes();                               //exporta todos os dados que devem ser simulados
             textBox4.Visible = true;
-
+            Console.WriteLine(horizonte);
+            Console.WriteLine(N_planejamento);
             List<Cenario_Parcela> Final_parcela = new List<Cenario_Parcela>();
             List<Cenario_Talhao> final_talhao = new List<Cenario_Talhao>();
 
@@ -1795,8 +1941,6 @@ namespace Simulador
             Excel.Visible = true;
             
          }
-
-
         static void SetFullControlPermissionsToEveryone(string path)
         {
             const FileSystemRights rights = FileSystemRights.FullControl;
@@ -1840,8 +1984,6 @@ namespace Simulador
 
             info.SetAccessControl(security);
         }
-
-
         private void button5_Click(object sender, EventArgs e)
         {
             try
@@ -1858,15 +2000,23 @@ namespace Simulador
             this.Text = "Entradas e premissas";
 
         }
-
         private void button4_Click(object sender, EventArgs e)
         {
 
         }
-
         private void textBox3_TextChanged(object sender, EventArgs e)
         {
             arquivo_saida = textBox3.Text;
+        }
+
+        private void textBox5_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox6_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

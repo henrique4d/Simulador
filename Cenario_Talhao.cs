@@ -19,9 +19,14 @@ namespace Simulador
             volumes = new List<List<double>>();
             IMA = new List<double>();
             VPL = new List<double>();
+            VPL2 = new List<double>();
             VAE = new List<double>();
+            VAE2 = new List<double>();
             VPL_infinito = new List<double>();
+            VPL_infinito2 = new List<double>();
             VET = new List<double>();
+            VET2 = new List<double>();
+            Idade_Original = new List<double>();
             vpl_sort = 0;
         }
 
@@ -34,9 +39,14 @@ namespace Simulador
         public List<List<double>> volumes;
         public List<double> IMA;
         public List<double> VPL;
+        public List<double> VPL2;
         public List<double> VAE;
+        public List<double> VAE2;
         public List<double> VPL_infinito;
+        public List<double> VPL_infinito2;
         public List<double> VET;
+        public List<double> VET2;
+        public List<double> Idade_Original;
         public double vpl_sort;
     }
 }

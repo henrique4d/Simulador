@@ -62,9 +62,13 @@ namespace Simulador
             }
             ima = 0;
             vpl = 0;
+            vpl2 = 0;
             vae = 0;
+            vae2 = 0;
             vpl_infinito = 0;
+            vpl_infinito2 = 0;
             vet = 0;
+            vet2 = 0;
 
 
             foreach (Parcela parc in parcelas)
@@ -76,10 +80,15 @@ namespace Simulador
                 altura_media += parc.altura_media;
                 dap_medio += parc.dap_medio;
                 ima += parc.ima;
+                
                 vpl += parc.vpl;
+                vpl2 += parc.vpl2;
                 vae += parc.vae;
+                vae2 += parc.vae2;
                 vpl_infinito += parc.vpl_infinito;
+                vpl_infinito2 += parc.vpl_infinito2;
                 vet += parc.vet;
+                vet2 += parc.vet2;
             }
             
             dap_medio /= parcelas.Count(); ;
@@ -90,9 +99,17 @@ namespace Simulador
             }
             ima /= parcelas.Count(); ;
             vpl /= parcelas.Count(); ;
+            vpl2 /= parcelas.Count(); ;
+
             vae /= parcelas.Count(); ;
+            vae2 /= parcelas.Count(); ;
+
             vpl_infinito /= parcelas.Count();
+            vpl_infinito2 /= parcelas.Count();
+
+
             vet /= parcelas.Count();
+            vet2 /= parcelas.Count();
         }
 
         public List<Parcela> parcelas;
@@ -108,9 +125,13 @@ namespace Simulador
         public List<double> lucro_hectare;
         public double ima;
         public double vpl;
+        public double vpl2;
         public double vae;
+        public double vae2;
         public double vpl_infinito;
+        public double vpl_infinito2;
         public double vet;
+        public double vet2;
         public double B0_dap;
         public double B1_dap;
         public double B0_altura;

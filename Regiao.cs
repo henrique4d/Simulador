@@ -59,5 +59,6 @@ namespace Simulador
         public double idade;
         public double dap_medio;
         public int quant_produtos;
+        public double idade_original;
     }
 }
