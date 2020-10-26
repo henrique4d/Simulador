@@ -1871,41 +1871,62 @@ namespace Simulador
                 }
                 bool is_first = true;
                 txt.Write("MAX = ");
-                double idade_aux = 0;
-                int cont = 0;
-                foreach (aux_maximizacao cenario in casos)
-                {
-                    if (!is_first)
-                    {
-                        txt.Write(" + ");
-                    }
-                    if (j == 0)
-                        txt.Write(cenario.VPL + " * R" + cenario.regiao + "_T" + cenario.talhao);
-                    if (j == 1)
-                        txt.Write(cenario.VAE + " * R" + cenario.regiao + "_T" + cenario.talhao);
-                    if (j == 2)
-                        txt.Write(cenario.VPL_infinito + " * R" + cenario.regiao + "_T" + cenario.talhao);
-                    if (j == 3)
-                        txt.Write(cenario.VET + " * R" + cenario.regiao + "_T" + cenario.talhao);
-                    
-                    
-                    if (cenario.tem_desbaste)
-                    {
-                        txt.Write("_D" + cenario.idade_desbaste + "-" + cenario.porcentagem);
-                        if (desbaste_por == "Árvore")
-                        {
-                            txt.Write("N");
-                        }
 
-                        if (desbaste_por == "Área basal")
-                        {
-                            txt.Write("B");
-                        }
+                casos = casos.OrderBy(x => x.regiao).ToList();
+                casos = casos.OrderBy(x => x.talhao).ToList();
+
+
+                produtos = produtos.OrderBy(x => -x.max).ToList();
+
+                int i = 0;
+
+                while (true)
+                {
+                    List<aux_maximizacao> atual = new List<aux_maximizacao>();
+                    atual.Add(casos[i]);
+                    i++;
+                    for (; i < casos.Count(); i++)
+                    {
+                        if (casos[i].regiao != casos[i - 1].regiao || casos[i].talhao != casos[i - 1].talhao) break;
+                        atual.Add(casos[i]);
                     }
-                    txt.Write("_CR" + cenario.idade);
-                    is_first = false;
-                    cont++;
-                    if (cont == N_planejamento) break;
+                    int cont = 0;
+                    foreach (aux_maximizacao cenario in atual)
+                    {
+                        if (!is_first)
+                        {
+                            txt.Write(" + ");
+                        }
+                        if (j == 0)
+                            txt.Write(cenario.VPL + " * R" + cenario.regiao + "_T" + cenario.talhao);
+                        if (j == 1)
+                            txt.Write(cenario.VAE + " * R" + cenario.regiao + "_T" + cenario.talhao);
+                        if (j == 2)
+                            txt.Write(cenario.VPL_infinito + " * R" + cenario.regiao + "_T" + cenario.talhao);
+                        if (j == 3)
+                            txt.Write(cenario.VET + " * R" + cenario.regiao + "_T" + cenario.talhao);
+
+
+                        if (cenario.tem_desbaste)
+                        {
+                            txt.Write("_D" + cenario.idade_desbaste + "-" + cenario.porcentagem);
+                            if (desbaste_por == "Árvore")
+                            {
+                                txt.Write("N");
+                            }
+
+                            if (desbaste_por == "Área basal")
+                            {
+                                txt.Write("B");
+                            }
+                        }
+                        txt.Write("_CR" + cenario.idade);
+                        is_first = false;
+                        cont++;
+                        if (cont == N_planejamento) break;                    
+                    }
+                    if (i == casos.Count()) break;
+
                 }
 
             }
