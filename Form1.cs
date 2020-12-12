@@ -37,6 +37,7 @@ namespace Simulador
         double taxa_juros;
         double horizonte;
         int N_planejamento;
+        int N_regulacao;
 
         public BorderStyle BorderStyle { get; private set; }
 
@@ -44,8 +45,7 @@ namespace Simulador
         {
             InitializeComponent();
             textBox3.Text = "Título";
-            textBox5.Text = "Horizonte";
-            textBox6.Text = "N_planejamento";
+
             //textBox2.Validating += new CancelEventHandler(radTextBox1_Validating);
             //textBox2.Validated += new EventHandler(radTextBox1_Validated);
 
@@ -220,7 +220,7 @@ namespace Simulador
         }
 
 
-        private void Importar_produtos()
+        private void importar_produtos()
         {
             produtos = new List<Produto>();
             XLWorkbook excel;            
@@ -273,7 +273,7 @@ namespace Simulador
 
             excel.Dispose();
         }
-        private void Importar_arvores()
+        private void importar_arvores()
         {
             regioes_original = new List<Regiao>();  //lista que ira armazenar as arvores
             XLWorkbook excel;
@@ -297,6 +297,7 @@ namespace Simulador
                 {
                     string confere = planilha.Cell("A" + linha.ToString()).Value.ToString();
                     if (string.IsNullOrEmpty(confere)) break;                                  // testa se o xls acabou
+                    
                     string regiao = planilha.Cell("A" + linha.ToString()).Value.ToString();
                     coluna++;
                     string talhao = planilha.Cell("B" + linha.ToString()).Value.ToString();
@@ -351,7 +352,7 @@ namespace Simulador
                 reg.set_dados();
             }
         }
-        private void Importar_coeficientes()
+        private void importar_coeficientes()
         {
             
             if (comboBox1.Text == "Misto")
@@ -388,24 +389,6 @@ namespace Simulador
                     error = "taxa de juros inválida";
                     throw new CustomException("");
                 }
-            }
-            try
-            {
-                horizonte = double.Parse(textBox5.Text);
-            }
-            catch
-            {
-                error = "horizonte de planejamento inválido";
-                throw new CustomException("");
-            }
-            try
-            {
-                N_planejamento = int.Parse(textBox6.Text);
-            }
-            catch 
-            {
-                error = "N_planejamento inválido";
-                throw new CustomException("");
             }
             coeficientes = new Coeficientes();
             XLWorkbook excel;
@@ -507,7 +490,6 @@ namespace Simulador
                 coeficientes.B2 = new List<double>();
                 coeficientes.B3 = new List<double>();
 
-
                 linha++;
                 coluna = 'A';
                 for (; ; linha++)          //percorre o xls
@@ -540,7 +522,7 @@ namespace Simulador
             }
             excel.Dispose();
         }
-        private void Importar_economica()
+        private void importar_economica()
         {
             custos = new List<Custos>();
             XLWorkbook excel;
@@ -553,7 +535,6 @@ namespace Simulador
                 error = "Não foi possível acessar a planilha de custos";
                 throw new CustomException("");
             }
-        
             var planilha = excel.Worksheet(1);
             int linha = 0;
             char coluna = 'A';
@@ -587,7 +568,7 @@ namespace Simulador
             }
             excel.Dispose();
         }
-        private void Importar_simulacoes()
+        private void importar_simulacoes()
         {
             XLWorkbook excel;
             try
@@ -603,6 +584,7 @@ namespace Simulador
             var planilha = excel.Worksheet(1);
 
             simulacoes = new Simulacoes();
+            
             simulacoes.idade_corte_final = new List<double>();
             simulacoes.idade_desbaste = new List<double>();
             simulacoes.porcentagem = new List<double>();
@@ -710,7 +692,7 @@ namespace Simulador
                         {
                             arv.dap = simula_dap(arv.idade, idade, arv.dap, tal.B0_dap, tal.B1_dap);
                             arv.altura = simula_altura(arv.idade, idade, arv.altura, tal.B0_altura, tal.B1_altura);
-                            arv.area_basal = arv.area_basal = Math.PI * Math.Pow(arv.dap, 2) / 40000;
+                            arv.area_basal = Math.PI * Math.Pow(arv.dap, 2) / 40000;
                             arv.idade = idade;
                         }
 
@@ -836,7 +818,6 @@ namespace Simulador
                 }
                 auxiliar.set_dados();
                 para_desbaste.Add(auxiliar);
-
             }
             return para_desbaste;
         }
@@ -977,9 +958,6 @@ namespace Simulador
                     {
                         foreach (Arvore arv in parc.arvores)
                         {
-                            /*Console.WriteLine("------------------------");
-                            Console.WriteLine("Arvore de dap " + arv.dap + " e altura " + arv.altura);
-                            */
                             int idade = (int)arv.idade;
                             double B0 = coeficientes.B0[idade];
                             double B1 = coeficientes.B1[idade];
@@ -1014,11 +992,9 @@ namespace Simulador
                                         break;
                                     }
 
-                                    //        Console.WriteLine("Gerou tora do produto " + prod.numero);
                                     parc.volume[prod.numero] += gerar_tora(arv.dap, arv.altura, altura_atual, prod.l, B0, B1, B2, B3, parc.area_parcela);
 
                                     altura_atual += prod.l;
-                                    //Console.WriteLine("e foi para a altura atual de " + altura_atual);
                                 }
                                 if (altura_atual + prod.l > arv.altura)
                                 {
@@ -1042,8 +1018,6 @@ namespace Simulador
                 double as2 = Math.PI * Math.Pow(d2, 2) / 40000;
 
                 volume += (as1 + as2) * 0.1 / 2;
-                //Console.WriteLine(i + " " + (i+0.1) + " " + l + " " +  (i+0.1 == l));
-                //Console.WriteLine("Volume gerado entre as alturas: " + (altura_inicial + i - 0.1) + " e " + (altura_inicial + i) + " = " + ((as1 + as2) * 0.1 / 2));    
                 if (i + 0.10 >= l)
                 {
                     double diferenca = l - i;
@@ -1055,8 +1029,6 @@ namespace Simulador
                     as2 = Math.PI * Math.Pow(d2, 2) / 40000;
 
                     volume += (as1 + as2) * diferenca / 2;
-                    //Console.WriteLine("Volume gerado entre as alturas: " + (i - diferenca + altura_inicial) + " e " + (i + altura_inicial) + " = " + ((as1 + as2) * diferenca / 2));
-
                     break;
                 }
             }
@@ -1138,7 +1110,7 @@ namespace Simulador
 
                         for (int i = 1; i < regioes_desbaste[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].lucro.Count(); i++)
                         {
-//                          Console.WriteLine(idade_original);
+
                             double receita = regioes_desbaste[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].lucro[i];
                             
                             regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].vpl += calcular_VPL(receita, taxa_juros, regioes_desbaste[indice_Regiao].idade);
@@ -1358,7 +1330,6 @@ namespace Simulador
 
                         cenario.VET.Add(regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].vet);
                         cenario.VET2.Add(regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].vet2);
-
                         cenario.vpl_sort += regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].vpl_infinito;
                     }
                 }
@@ -1427,6 +1398,7 @@ namespace Simulador
                     cenario.media_altura.Add(regioes_desbaste[indice_Regiao].talhoes[indice_Talhao].altura_media);
                     cenario.volumes.Add(regioes_desbaste[indice_Regiao].talhoes[indice_Talhao].volume);
                     cenario.IMA.Add(regioes_desbaste[indice_Regiao].talhoes[indice_Talhao].ima);
+                    cenario.area_talhao.Add(regioes_desbaste[indice_Regiao].talhoes[indice_Talhao].area_talhao);
                     cenario.VPL.Add(-1);
                     cenario.VPL2.Add(-1);
 
@@ -1447,18 +1419,23 @@ namespace Simulador
                     cenario.media_altura.Add(regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].altura_media);
                     cenario.volumes.Add(regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].volume);
                     cenario.IMA.Add(regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].ima);
+                    cenario.area_talhao.Add(regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].area_talhao);
+
                     cenario.VPL.Add(regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].vpl);
                     cenario.VPL2.Add(regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].vpl2);
 
-                    cenario.VAE.Add(regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].vae);
+                    
+cenario.VAE.Add(regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].vae);
                     cenario.VAE2.Add(regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].vae2);
 
                     cenario.VPL_infinito.Add(regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].vpl_infinito);
                     cenario.VPL_infinito2.Add(regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].vpl_infinito2);
 
-
                     cenario.VET.Add(regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].vet);
                     cenario.VET2.Add(regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].vet2);
+
+                    cenario.Idade_Original.Add(regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[0].idade_original);
+                    cenario.Idade_Original.Add(regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[0].idade_original);
 
                     cenario.vpl_sort += regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].vpl_infinito;
                 }
@@ -1492,7 +1469,7 @@ namespace Simulador
                     cenario.IMA.Add(tal.ima);
                     cenario.VPL.Add(tal.vpl);
                     cenario.VPL2.Add(tal.vpl2);
-
+                    cenario.area_talhao.Add(tal.area_talhao);
                     cenario.VAE.Add(tal.vae);
                     cenario.VAE2.Add(tal.vae2);
 
@@ -1503,7 +1480,7 @@ namespace Simulador
 
                     cenario.VET.Add(tal.vet);
                     cenario.VET2.Add(tal.vet2);
-
+                    cenario.Idade_Original.Add(tal.parcelas[0].idade_original);
                     cenario.vpl_sort += tal.vpl_infinito;
                 }
             }
@@ -1695,7 +1672,6 @@ namespace Simulador
                 }
                 linha++;
             }
-
         }
 
         private void print_talhao(ref List<Cenario_Talhao> final_talhao, ref Microsoft.Office.Interop.Excel.Application Excel)
@@ -1765,27 +1741,283 @@ namespace Simulador
                 }
                 linha++;
             }
-
-            Excel.Visible = true;
         }
 
-        private void horizonte_planejamento(ref List<Cenario_Talhao> cenarios)
+        private void print_Sortimentos(ref List<Cenario_Talhao> final_talhao)
         {
-            foreach ( Cenario_Talhao cenario in cenarios)
+            var Excel_Sortimentos = new Microsoft.Office.Interop.Excel.Application();
+            Excel_Sortimentos.Workbooks.Add();
+            Excel_Sortimentos.Workbooks[1].Worksheets[1].Name = "Sortimentos";
+            var aux_sortimento = Excel_Sortimentos.Workbooks.Item[1];
+            
+            Excel_Sortimentos.Worksheets[1].cells[1][1] = "X";
+            int num_sortimentos = final_talhao[0].volumes[0].Count();
+            for (int i=0; i<final_talhao[0].volumes[0].Count(); i++)
             {
-                for (int i=0; i<cenario.VPL2.Count(); i++)
+                Console.WriteLine(final_talhao[0].volumes[0][i]);
+            }
+            for (int i = 0; i <= horizonte; i++)
+            {
+                for (int j = 1; j < num_sortimentos; j++)
                 {
+                    Excel_Sortimentos.Worksheets[1].cells[i * (num_sortimentos-1) + j + 1][1] = i;
+                }
+            }
+
+            int linha = 2;
+           
+            foreach (Cenario_Talhao cenario in final_talhao)
+            {
+                for (int i = 0; i < cenario.regiao.Count(); i++)
+                {
+                    string registro;
+                    registro = "R" + cenario.regiao[i] + "_T" + cenario.talhao[i];
+                    if (cenario.VPL[i] == -1 && cenario.VAE[i] == -1 && cenario.VPL_infinito[i] == -1 && cenario.VET[i] == -1)
+                    { 
+                        registro += "_D" + cenario.idade[i] + "-" + cenario.idade[i + 1];
+                        if (desbaste_por == "Árvore")
+                        {
+                            registro += "N";
+                        }
+
+                        if (desbaste_por == "Área basal")
+                        {
+                            registro += "B";
+                        }
+                        registro += "_CR" + cenario.idade[i + 1];
+                    }
+                    else registro += "_CR" + cenario.idade[i];
+
+                    Excel_Sortimentos.Worksheets[1].cells[1][linha] = registro;
+                    if (cenario.VPL[i] == -1 && cenario.VAE[i] == -1 && cenario.VPL_infinito[i] == -1 && cenario.VET[i] == -1)
+                    {
+                    for (int idade_atual = 0; idade_atual <= horizonte; idade_atual++)
+                    {
+                        if ((idade_atual + cenario.Idade_Original[i]) % cenario.idade[i + 1] == 0)
+                        {
+                            for (int j = 1; j < num_sortimentos; j++)
+                            {
+                                    Excel_Sortimentos.Worksheets[1].cells[ idade_atual * (num_sortimentos - 1) + j + 1][linha] = cenario.volumes[i + 1][j];
+                            }
+                        }
+                        else if ((idade_atual + cenario.Idade_Original[i]) % cenario.idade[i + 1] == cenario.idade[i])
+                        {
+                            for (int j = 1; j < num_sortimentos; j++)
+                            {
+                                    Excel_Sortimentos.Worksheets[1].cells[idade_atual * (num_sortimentos - 1) + j + 1][linha] = cenario.volumes[i][j];
+                            }
+                        }
+                        else
+                        {
+                            for (int j = 1; j < num_sortimentos; j++)
+                            {
+                                    Excel_Sortimentos.Worksheets[1].cells[idade_atual * (num_sortimentos - 1) + j + 1][linha] = 0;
+                            }
+                        }
+                    }
+                    linha++;
+                    i++;
+                }
+                else
+                {
+                    for (int idade_atual = 0; idade_atual <= horizonte; idade_atual++)
+                    {
+                        if ( (idade_atual + cenario.Idade_Original[i])%cenario.idade[i] == 0)
+                        {
+                            for (int j=1; j< num_sortimentos; j++)
+                            {
+                                    Excel_Sortimentos.Worksheets[1].cells[idade_atual * (num_sortimentos - 1) + j + 1][linha] = cenario.volumes[i][j];
+                            }
+                        }
+                        else
+                        {
+                            for (int j = 1; j < num_sortimentos; j++)
+                            {
+                                    Excel_Sortimentos.Worksheets[1].cells[idade_atual * (num_sortimentos - 1) + j + 1][linha] = 0;
+                            }
+                        }
+                    }
+                }
 
                 }
             }
-            /*for (int i=0; i<cenarios.Count(); i++)
+            string path = Directory.GetCurrentDirectory();
+            string pathString_Sortimentos = System.IO.Path.Combine(path, "Sortimentos");
+            System.IO.Directory.CreateDirectory(pathString_Sortimentos);
+            Excel_Sortimentos.Workbooks[1].SaveAs(pathString_Sortimentos + "/" + arquivo_saida);
+            Excel_Sortimentos.Workbooks[1].Save();
+            Excel_Sortimentos.Quit();
+        }
+
+        private void print_Binary(ref List<Cenario_Talhao> final_talhao)
+        {
+            var Excel_Binary = new Microsoft.Office.Interop.Excel.Application();
+            Excel_Binary.Workbooks.Add();
+            Excel_Binary.Workbooks[1].Worksheets[1].Name = "Binária";
+            var aux_binary = Excel_Binary.Workbooks.Item[1];
+
+
+
+            Excel_Binary.Worksheets[1].cells[1][1] = "X";
+            
+            for (int i = 0; i <= horizonte; i++)
             {
-                /*if (cenarios[i].porcentagem != "")
+                Excel_Binary.Worksheets[1].cells[i+2][1] = i;
+            }
+
+            int linha = 2;
+
+            foreach (Cenario_Talhao cenario in final_talhao)
+            {
+                for (int i = 0; i < cenario.regiao.Count(); i++)
                 {
+                    string registro;
+                    registro = "R" + cenario.regiao[i] + "_T" + cenario.talhao[i];
+                    if (cenario.VPL[i] == -1 && cenario.VAE[i] == -1 && cenario.VPL_infinito[i] == -1 && cenario.VET[i] == -1)
+                    {
+                        registro += "_D" + cenario.idade[i] + "-" + cenario.idade[i + 1];
+                        if (desbaste_por == "Árvore")
+                        {
+                            registro += "N";
+                        }
+
+                        if (desbaste_por == "Área basal")
+                        {
+                            registro += "B";
+                        }
+                        registro += "_CR" + cenario.idade[i + 1];
+                    }
+                    else registro += "_CR" + cenario.idade[i];
+                    Excel_Binary.Worksheets[1].cells[1][linha] = registro;
+
+                    if (cenario.VPL[i] == -1 && cenario.VAE[i] == -1 && cenario.VPL_infinito[i] == -1 && cenario.VET[i] == -1)
+                    {
+                        for (int idade_atual = 0; idade_atual <= horizonte; idade_atual++)
+                        {
+                            if ((idade_atual + cenario.Idade_Original[i]) % cenario.idade[i + 1] == 0)
+                            {
+                                Excel_Binary.Worksheets[1].cells[idade_atual+2][linha] = 1;
+                            }
+                            else if ((idade_atual + cenario.Idade_Original[i]) % cenario.idade[i + 1] == cenario.idade[i])
+                            {
+                                Excel_Binary.Worksheets[1].cells[idade_atual+2][linha] = 1;
+                            }
+                            else
+                            {
+                                Excel_Binary.Worksheets[1].cells[idade_atual+2][linha] = 0;
+                            }
+                        }
+                        linha++;
+                        i++;
+                    }
+                    else
+                    {
+                        for (int idade_atual = 0; idade_atual <= horizonte; idade_atual++)
+                        {
+                            if ((idade_atual + cenario.Idade_Original[i]) % cenario.idade[i] == 0)
+                            {
+                                Excel_Binary.Worksheets[1].cells[idade_atual+2][linha] = 1;
+                            }
+                            else
+                            {
+                                Excel_Binary.Worksheets[1].cells[idade_atual+2][linha] = 0;
+                            
+                            }
+                        }
+                    }
+                     
+                }
+            }
+            string path = Directory.GetCurrentDirectory();
+            string pathString_Binary = System.IO.Path.Combine(path, "Tabela Binária");
+            System.IO.Directory.CreateDirectory(pathString_Binary);
+            Excel_Binary.Workbooks[1].SaveAs(pathString_Binary + "/" + arquivo_saida);
+            Excel_Binary.Workbooks[1].Save();
+            Excel_Binary.Quit();
+        }
+
+        private void print_Regulação(ref List<Cenario_Talhao> final_talhao)
+        {
+            var Excel_Regulacao = new Microsoft.Office.Interop.Excel.Application();
+            Excel_Regulacao.Workbooks.Add();
+            Excel_Regulacao.Workbooks[1].Worksheets[1].Name = "Regulação";
+            var aux_regulacao = Excel_Regulacao.Workbooks.Item[1];
+
+            Excel_Regulacao.Worksheets[1].cells[1][1] = "X";
+
+            for (int i = 0; i <= N_regulacao; i++)
+            {
+                Excel_Regulacao.Worksheets[1].cells[i + 2][1] = i;
+            }
+
+            int linha = 2;
+
+            foreach (Cenario_Talhao cenario in final_talhao)
+            {
+                for (int i = 0; i < cenario.regiao.Count(); i++)
+                {
+                    string registro;
+                    registro = "R" + cenario.regiao[i] + "_T" + cenario.talhao[i];
+                    if (cenario.VPL[i] == -1 && cenario.VAE[i] == -1 && cenario.VPL_infinito[i] == -1 && cenario.VET[i] == -1)
+                    {
+                        registro += "_D" + cenario.idade[i] + "-" + cenario.idade[i + 1];
+                        if (desbaste_por == "Árvore")
+                        {
+                            registro += "N";
+                        }
+
+                        if (desbaste_por == "Área basal")
+                        {
+                            registro += "B";
+                        }
+                        registro += "_CR" + cenario.idade[i + 1];
+                    }
+                    else registro += "_CR" + cenario.idade[i];
+                    Excel_Regulacao.Worksheets[1].cells[1][linha] = registro;
+
+                    if (cenario.VPL[i] == -1 && cenario.VAE[i] == -1 && cenario.VPL_infinito[i] == -1 && cenario.VET[i] == -1)
+                    {
+                        for (int idade_atual = 0; idade_atual <= N_regulacao; idade_atual++)
+                        {
+                            Excel_Regulacao.Worksheets[1].cells[idade_atual + 2][linha] = 0;
+                        }
+                        int idade_final = (int)(cenario.Idade_Original[i] + horizonte);
+                        idade_final %= (int)cenario.idade[i + 1];
+                        idade_final %= (int)cenario.idade[i];
+
+                        if (idade_final <= N_regulacao)
+                        {
+                            Excel_Regulacao.Worksheets[1].cells[idade_final + 2][linha] = cenario.area_talhao[i];
+                        }
+                        i++;
+                    }
+                    else
+                    {
+                        for (int idade_atual = 0; idade_atual <= N_regulacao; idade_atual++)
+                        {
+                            Excel_Regulacao.Worksheets[1].cells[idade_atual + 2][linha] = 0;
+
+                        }
+                        int idade_final = (int)(cenario.Idade_Original[i] + horizonte);
+                        idade_final %= (int)cenario.idade[i];
+                        if (idade_final <= N_regulacao)
+                        {
+                            Excel_Regulacao.Worksheets[1].cells[idade_final + 2][linha] = cenario.area_talhao[i];
+                        }
+                    }
+                    linha++;
 
                 }
-            }*/
+            }
+            string path = Directory.GetCurrentDirectory();
+            string pathString_Regulacao = System.IO.Path.Combine(path, "Regulação");
+            System.IO.Directory.CreateDirectory(pathString_Regulacao);
+            Excel_Regulacao.Workbooks[1].SaveAs(pathString_Regulacao + "/" + arquivo_saida);
+            Excel_Regulacao.Workbooks[1].Save();
+            Excel_Regulacao.Quit();
+
         }
+
 
         public struct aux_maximizacao
         {
@@ -1802,6 +2034,10 @@ namespace Simulador
         }
         private void print_maximizaçao(ref List<Cenario_Talhao> final_talhao)
         {
+            horizonte = double.Parse(textBox9.Text);
+            N_planejamento = int.Parse(textBox10.Text);
+            arquivo_saida = textBox8.Text;
+
             List<aux_maximizacao> casos = new List<aux_maximizacao>();
             aux_maximizacao aux = new aux_maximizacao();
             foreach (Cenario_Talhao cenario in final_talhao)
@@ -1906,7 +2142,6 @@ namespace Simulador
                         if (j == 3)
                             txt.Write(cenario.VET + " * R" + cenario.regiao + "_T" + cenario.talhao);
 
-
                         if (cenario.tem_desbaste)
                         {
                             txt.Write("_D" + cenario.idade_desbaste + "-" + cenario.porcentagem);
@@ -1926,26 +2161,24 @@ namespace Simulador
                         if (cont == N_planejamento) break;                    
                     }
                     if (i == casos.Count()) break;
-
                 }
 
             }
             txt.Close();
-
         }
+
+
+        List<Cenario_Parcela> Final_parcela = new List<Cenario_Parcela>();
+        List<Cenario_Talhao> final_talhao = new List<Cenario_Talhao>();
         private void processamento()
         {
-            Importar_produtos();                                 //exporta os dados de cada produto do xls
-            Importar_arvores();                                  //exporta as arvores do xls
-            Importar_coeficientes();                             //exporta os coeficientes do xls
-            Importar_economica();                                //exporta os dados relacionado à simulação economica
-            Importar_simulacoes();                               //exporta todos os dados que devem ser simulados
+            importar_produtos();                                 //exporta os dados de cada produto do xls
+            importar_arvores();                                  //exporta as arvores do xls
+            importar_coeficientes();                             //exporta os coeficientes do xls
+            importar_economica();                                //exporta os dados relacionado à simulação economica
+            importar_simulacoes();                               //exporta todos os dados que devem ser simulados
             textBox4.Visible = true;
-            Console.WriteLine(horizonte);
-            Console.WriteLine(N_planejamento);
-            List<Cenario_Parcela> Final_parcela = new List<Cenario_Parcela>();
-            List<Cenario_Talhao> final_talhao = new List<Cenario_Talhao>();
-
+            
             foreach (double desbaste in simulacoes.idade_desbaste)
             {
                 foreach (double final in simulacoes.idade_corte_final)
@@ -1972,20 +2205,22 @@ namespace Simulador
             }
 
             var Excel = new Microsoft.Office.Interop.Excel.Application();
+
             try
             {
                 Excel.Workbooks.Add();
                 Excel.Worksheets.Add();
-
+                
                 Excel.Workbooks[1].Worksheets[1].Name = "Talhão";
                 Excel.Workbooks[1].Worksheets[2].Name = "Parcela";
-
+                
                 var aux = Excel.Workbooks.Item[1];
+
                 string path = Directory.GetCurrentDirectory();
 
                 string pathString = System.IO.Path.Combine(path, "Simulações");
                 System.IO.Directory.CreateDirectory(pathString);
-
+                
                 Excel.Workbooks[1].SaveAs(pathString + "/" + arquivo_saida);
             }
             catch
@@ -2003,53 +2238,9 @@ namespace Simulador
                 error = "erro ao gerar simulações";
                 throw new CustomException("");
             }
-            print_maximizaçao(ref final_talhao);
+            //print_maximizaçao(ref final_talhao);
             Excel.Workbooks[1].Save();
-            Excel.Visible = true;
-            
-         }
-        static void SetFullControlPermissionsToEveryone(string path)
-        {
-            const FileSystemRights rights = FileSystemRights.FullControl;
-
-            var allUsers = new SecurityIdentifier(WellKnownSidType.BuiltinUsersSid, null);
-
-            // Add Access Rule to the actual directory itself
-            var accessRule = new FileSystemAccessRule(
-                allUsers,
-                rights,
-                InheritanceFlags.None,
-                PropagationFlags.NoPropagateInherit,
-                AccessControlType.Allow);
-
-            var info = new DirectoryInfo(path);
-            var security = info.GetAccessControl(AccessControlSections.Access);
-
-            bool result;
-            security.ModifyAccessRule(AccessControlModification.Set, accessRule, out result);
-
-            if (!result)
-            {
-                throw new InvalidOperationException("Failed to give full-control permission to all users for path " + path);
-            }
-
-            // add inheritance
-            var inheritedAccessRule = new FileSystemAccessRule(
-                allUsers,
-                rights,
-                InheritanceFlags.ContainerInherit | InheritanceFlags.ObjectInherit,
-                PropagationFlags.InheritOnly,
-                AccessControlType.Allow);
-
-            bool inheritedResult;
-            security.ModifyAccessRule(AccessControlModification.Add, inheritedAccessRule, out inheritedResult);
-
-            if (!inheritedResult)
-            {
-                throw new InvalidOperationException("Failed to give full-control permission inheritance to all users for " + path);
-            }
-
-            info.SetAccessControl(security);
+            Excel.Quit();         
         }
         private void button5_Click(object sender, EventArgs e)
         {
@@ -2084,6 +2275,220 @@ namespace Simulador
         private void textBox6_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void textBox7_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
+        }
+
+        private void maximizaçãoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Botao_Arvore.Visible = false; //arvores ( geral )
+            Botao_cenarios.Visible = false; //cenarios ( geral )
+            Botao_Coeficientes.Visible = false; //coeficientes ( geral ) 
+            botao_produto.Visible = false;  //sortimentos ( geral )
+            Botao_custos.Visible = false; //custos ( geral )
+            button4.Visible = false;
+            textBox2.Visible = false;
+            comboBox1.Visible = false;
+            comboBox2.Visible = false;
+            textBox3.Visible = false;
+            button5.Visible = false;
+            textBox11.Visible = false;
+            textBox12.Visible = false;
+            button3.Visible = false;
+            textBox13.Visible = false;
+            textBox14.Visible = false;
+            button6.Visible = false;
+
+            textBox15.Visible = false;
+            textBox16.Visible = false;
+            textBox17.Visible = false;
+            button7.Visible = false;
+
+
+            textBox9.Visible = true;
+            textBox10.Visible = true;
+            textBox8.Visible = true;
+            button1.Visible = true;
+
+
+            textBox9.Text = "Horizonte";
+            textBox10.Text = "N_Planejamento";
+            textBox8.Text = "Título";
+            button1.Text = "Gerar Maximização";
+        }
+
+        private void button1_Click_3(object sender, EventArgs e)
+        {
+            print_maximizaçao(ref final_talhao);
+        }
+
+        private void sortimentosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Botao_Arvore.Visible = false; //arvores ( geral )
+            Botao_cenarios.Visible = false; //cenarios ( geral )
+            Botao_Coeficientes.Visible = false; //coeficientes ( geral ) 
+            botao_produto.Visible = false;  //sortimentos ( geral )
+            Botao_custos.Visible = false; //custos ( geral )
+            button4.Visible = false;
+            textBox2.Visible = false;
+            comboBox1.Visible = false;
+            comboBox2.Visible = false;
+            textBox3.Visible = false;
+            button5.Visible = false;
+            textBox9.Visible = false;
+            textBox10.Visible = false;
+            textBox8.Visible = false;
+            button1.Visible = false;
+            textBox13.Visible = false;
+            textBox14.Visible = false;
+            button6.Visible = false;
+            textBox15.Visible = false;
+            textBox16.Visible = false;
+            textBox17.Visible = false;
+            button7.Visible = false;
+
+            textBox11.Visible = true;
+            textBox12.Visible = true;
+            button3.Visible = true;
+
+            textBox11.Text = "Horizonte";
+            textBox12.Text = "Título";
+            button3.Text = "Gerar Sortimentos";
+        }
+
+        private void button3_Click_2(object sender, EventArgs e)
+        {
+            horizonte = double.Parse(textBox11.Text);
+            arquivo_saida = textBox12.Text;
+            print_Sortimentos(ref final_talhao);
+        }
+
+        private void bináriaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Botao_Arvore.Visible = false; //arvores ( geral )
+            Botao_cenarios.Visible = false; //cenarios ( geral )
+            Botao_Coeficientes.Visible = false; //coeficientes ( geral ) 
+            botao_produto.Visible = false;  //sortimentos ( geral )
+            Botao_custos.Visible = false; //custos ( geral )
+            button4.Visible = false;
+            textBox2.Visible = false;
+            comboBox1.Visible = false;
+            comboBox2.Visible = false;
+            textBox3.Visible = false;
+            button5.Visible = false;
+            textBox9.Visible = false;
+            textBox10.Visible = false;
+            textBox8.Visible = false;
+            button1.Visible = false;
+            textBox11.Visible = false;
+            textBox12.Visible = false;
+            button3.Visible = false;
+            textBox15.Visible = false;
+            textBox16.Visible = false;
+            textBox17.Visible = false;
+            button7.Visible = false;
+
+
+            textBox13.Visible = true;
+            textBox14.Visible = true;
+            button6.Visible = true;
+            textBox13.Text = "Horizonte";
+            textBox14.Text = "Titulo";
+            button6.Text = "Gerarar binária";
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            horizonte = double.Parse(textBox13.Text);
+            arquivo_saida = textBox14.Text;
+            print_Binary(ref final_talhao);
+        }
+
+        private void regulaçãoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Botao_Arvore.Visible = false; //arvores ( geral )
+            Botao_cenarios.Visible = false; //cenarios ( geral )
+            Botao_Coeficientes.Visible = false; //coeficientes ( geral ) 
+            botao_produto.Visible = false;  //sortimentos ( geral )
+            Botao_custos.Visible = false; //custos ( geral )
+            button4.Visible = false;
+            textBox2.Visible = false;
+            comboBox1.Visible = false;
+            comboBox2.Visible = false;
+            textBox3.Visible = false;
+            button5.Visible = false;
+            textBox9.Visible = false;
+            textBox10.Visible = false;
+            textBox8.Visible = false;
+            button1.Visible = false;
+            textBox11.Visible = false;
+            textBox12.Visible = false;
+            button3.Visible = false;
+            textBox13.Visible = false;
+            textBox14.Visible = false;
+            button6.Visible = false;
+
+            textBox15.Visible = true;
+            textBox16.Visible = true;
+            textBox17.Visible = true;
+            button7.Visible = true;
+
+
+            textBox15.Text = "Horizonte";
+            textBox16.Text = "Idade Regulação";
+            textBox17.Text = "Titulo";
+            button7.Text = "Gerar Regulação";
+        }
+
+        private void textBox15_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            horizonte = double.Parse(textBox15.Text);
+            N_regulacao = int.Parse(textBox16.Text);
+            arquivo_saida = textBox17.Text;
+            print_Regulação(ref final_talhao);
+        }
+
+        private void simularToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Botao_Arvore.Visible = true; //arvores ( geral )
+            Botao_cenarios.Visible = true; //cenarios ( geral )
+            Botao_Coeficientes.Visible = true; //coeficientes ( geral ) 
+            botao_produto.Visible = true;  //sortimentos ( geral )
+            Botao_custos.Visible = true; //custos ( geral )
+            button4.Visible = true;
+            textBox2.Visible = true;
+            comboBox1.Visible = true;
+            comboBox2.Visible = true;
+            textBox3.Visible = true;
+            button5.Visible = true;
+            textBox9.Visible = false;
+            textBox10.Visible = false;
+            textBox8.Visible = false;
+            button1.Visible = false;
+            textBox11.Visible = false;
+            textBox12.Visible = false;
+            button3.Visible = false;
+            textBox13.Visible = false;
+            textBox14.Visible = false;
+            button6.Visible = false;
+
+            textBox15.Visible = false;
+            textBox16.Visible = false;
+            textBox17.Visible = false;
+            button7.Visible = false;
         }
     }
 }

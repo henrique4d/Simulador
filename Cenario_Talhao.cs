@@ -28,6 +28,7 @@ namespace Simulador
             VET2 = new List<double>();
             Idade_Original = new List<double>();
             vpl_sort = 0;
+            area_talhao = new List<double>();
         }
 
         public List<string> regiao;
@@ -47,6 +48,8 @@ namespace Simulador
         public List<double> VET;
         public List<double> VET2;
         public List<double> Idade_Original;
+        public List<double> area_talhao;
+  
         public double vpl_sort;
     }
 }

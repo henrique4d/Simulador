@@ -28,7 +28,6 @@ namespace Simulador
             novo_talhao.adiciona_arvore(ref arvore);
             talhoes.Add(novo_talhao);
         }
-
         public void set_dados()
         {
             foreach (Talhao tal in talhoes)
@@ -51,7 +50,6 @@ namespace Simulador
             }
             dap_medio /= num_talhoes;
 
-            
         }
         public List<Talhao> talhoes;
         public int num_talhoes;

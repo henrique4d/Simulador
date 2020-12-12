@@ -31,7 +31,7 @@ namespace Simulador
             VET = new List<double>();
             VET2 = new List<double>();
 
-            vpl_sort = 0; ;
+            vpl_sort = 0;
         }
 
         public List<string> regiao;

@@ -29,9 +29,8 @@ namespace Simulador
             vpl_infinito = 0;
             vpl_infinito2 = 0;
             this.numero = num;
-    
-    }
-    public void set_dados()
+        }
+        public void set_dados()
         {
             regiao = arvores[0].regiao;
             talhao = arvores[0].talhao;
@@ -60,10 +59,11 @@ namespace Simulador
                 area_basal_total += x.area_basal;
             }
         }
+        
         public List<Arvore> arvores;
         public string numero;
-        public string regiao;
         public string talhao;
+        public string regiao;
         public int num_arvores;
         public double idade;
         public double idade_original;
@@ -83,8 +83,7 @@ namespace Simulador
       
 
         public string material_genetico;
-        public List<double> volume;
+        public List<double> volume;//[volume_produto1 = 33, volume_produto2, volume_produto3]
         public List<double> lucro;
-
     }
 }

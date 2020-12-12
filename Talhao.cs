@@ -8,6 +8,31 @@ namespace Simulador
 {
     class Talhao
     {
+        public List<Parcela> parcelas;
+        public string numero;
+        public string regiao;
+        public int num_parcelas;
+        public double idade;
+        public double dap_medio;
+        public double altura_media;
+        string material_genetico;
+        public List<double> volume;
+        public List<double> lucro;
+        public List<double> lucro_hectare;
+        public double ima;
+        public double vpl;
+        public double vpl2;
+        public double vae;
+        public double vae2;
+        public double vpl_infinito;
+        public double vpl_infinito2;
+        public double vet;
+        public double vet2;
+        public double B0_dap;
+        public double B1_dap;
+        public double B0_altura;
+        public double B1_altura;
+        public double area_talhao;
         public Talhao(string num, int quant_produtos)
         {
             volume = new List<double>();
@@ -18,6 +43,7 @@ namespace Simulador
             {
                 volume.Add(0);
                 lucro.Add(0);
+                lucro_hectare.Add(0);
             }
             parcelas = new List<Parcela>();
             this.numero = num;
@@ -90,6 +116,11 @@ namespace Simulador
                 vet += parc.vet;
                 vet2 += parc.vet2;
             }
+            area_talhao = 0;
+            foreach (Parcela parc in parcelas)
+            {
+                area_talhao += parc.area_parcela;
+            }
             
             dap_medio /= parcelas.Count(); ;
             altura_media /= parcelas.Count(); ;
@@ -97,45 +128,20 @@ namespace Simulador
             {
                 volume[i] /= parcelas.Count(); ;
             }
-            ima /= parcelas.Count(); ;
-            vpl /= parcelas.Count(); ;
-            vpl2 /= parcelas.Count(); ;
+            ima /= parcelas.Count();
+            vpl /= parcelas.Count();
+            vpl2 /= parcelas.Count();
 
-            vae /= parcelas.Count(); ;
-            vae2 /= parcelas.Count(); ;
+            vae /= parcelas.Count();
+            vae2 /= parcelas.Count();
 
             vpl_infinito /= parcelas.Count();
             vpl_infinito2 /= parcelas.Count();
-
 
             vet /= parcelas.Count();
             vet2 /= parcelas.Count();
         }
 
-        public List<Parcela> parcelas;
-        public string numero;
-        public string regiao;
-        public int num_parcelas;
-        public double idade;
-        public double dap_medio;
-        public double altura_media;
-        string material_genetico;
-        public List<double> volume;
-        public List<double> lucro;
-        public List<double> lucro_hectare;
-        public double ima;
-        public double vpl;
-        public double vpl2;
-        public double vae;
-        public double vae2;
-        public double vpl_infinito;
-        public double vpl_infinito2;
-        public double vet;
-        public double vet2;
-        public double B0_dap;
-        public double B1_dap;
-        public double B0_altura;
-        public double B1_altura;
-
+        
     }
 }
