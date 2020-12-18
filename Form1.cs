@@ -1425,7 +1425,7 @@ namespace Simulador
                     cenario.VPL2.Add(regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].vpl2);
 
                     
-cenario.VAE.Add(regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].vae);
+                    cenario.VAE.Add(regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].vae);
                     cenario.VAE2.Add(regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].vae2);
 
                     cenario.VPL_infinito.Add(regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].vpl_infinito);
@@ -1774,7 +1774,7 @@ cenario.VAE.Add(regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].vae);
                     registro = "R" + cenario.regiao[i] + "_T" + cenario.talhao[i];
                     if (cenario.VPL[i] == -1 && cenario.VAE[i] == -1 && cenario.VPL_infinito[i] == -1 && cenario.VET[i] == -1)
                     { 
-                        registro += "_D" + cenario.idade[i] + "-" + cenario.idade[i + 1];
+                        registro += "_D" + cenario.idade[i] + "-" + cenario.porcentagem[i];
                         if (desbaste_por == "Árvore")
                         {
                             registro += "N";
