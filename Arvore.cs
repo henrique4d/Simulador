@@ -11,24 +11,26 @@ namespace Simulador
 {
     class Arvore
     {
-        public Arvore(string regiao, string talhao, double idade, double dap, double altura, string parcela, double area_parcela, int fila, int numero, string material_genetico)
+        public Arvore(string regiao, string talhao, double area_talhao, string parcela, string material_genetico, double idade, double area_parcela, int fila, int numero, double dap, double altura )
         {
             this.regiao = regiao;
             this.talhao = talhao;
+            this.area_talhao = area_talhao;
+            this.parcela = parcela;
+            this.material_genetico = material_genetico;
             this.idade = idade;
             this.idade_original = idade;
-            this.dap = dap;
-            this.altura = altura;
-            this.area_basal = Math.PI * Math.Pow(dap, 2) / 40000;
-            this.parcela = parcela;
             this.area_parcela = area_parcela;
             this.fila = fila;
             this.numero = numero;
-            this.material_genetico = material_genetico;
+            this.dap = dap;
+            this.altura = altura;
+            this.area_basal = Math.PI * Math.Pow(dap, 2) / 40000;
         }
 
         public string regiao;
         public string talhao;
+        public double area_talhao;
         public string parcela;
         public double idade;
         public double idade_original;

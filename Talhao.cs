@@ -116,11 +116,7 @@ namespace Simulador
                 vet += parc.vet;
                 vet2 += parc.vet2;
             }
-            area_talhao = 0;
-            foreach (Parcela parc in parcelas)
-            {
-                area_talhao += parc.area_parcela;
-            }
+            area_talhao = parcelas[0].area_talhao;
             
             dap_medio /= parcelas.Count(); ;
             altura_media /= parcelas.Count(); ;
