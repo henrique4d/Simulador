@@ -14,6 +14,8 @@ using System.Security.AccessControl;
 using System.Management;
 using System.Management.Instrumentation;
 using System.Security.Principal;
+using Simulador.Models;
+
 namespace Simulador
 {
     public partial class Form1 : Form
@@ -44,16 +46,13 @@ namespace Simulador
         public Form1()
         {
             InitializeComponent();
-            textBox3.Text = "Título";
+            txtSimTitle.Text = "Título";
 
             //textBox2.Validating += new CancelEventHandler(radTextBox1_Validating);
             //textBox2.Validated += new EventHandler(radTextBox1_Validated);
 
         }        
-        private void Form1_Load(object sender, EventArgs e)
-        {
-           
-        }
+        
         private void button1_Click(object sender, EventArgs e)
         {
             OpenFileDialog excel = new OpenFileDialog();
@@ -63,7 +62,7 @@ namespace Simulador
             if (arquivo_arvores != null)
             {
                 CarregaDadosExcel(arquivo_arvores);
-                this.Text =  Botao_Arvore.Text;
+                this.Text =  btnSimDadosInventario.Text;
             }
         }
         private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
@@ -95,7 +94,7 @@ namespace Simulador
             if (arquivo_produtos != null)
             {
                 CarregaDadosExcel(arquivo_produtos);
-                this.Text = botao_produto.Text;
+                this.Text = btnSimSortimentos.Text;
 
             }
         }
@@ -112,7 +111,7 @@ namespace Simulador
             if (arquivo_coeficientes != null)
             {
                 CarregaDadosExcel(arquivo_coeficientes);
-                this.Text = Botao_Coeficientes.Text;
+                this.Text = btnSimCoeficientesMAI.Text;
             }
         }
         private void button1_Click_2(object sender, EventArgs e)
@@ -124,25 +123,25 @@ namespace Simulador
             if (arquivo_economico != null)
             {
                 CarregaDadosExcel(arquivo_economico);
-                this.Text = Botao_custos.Text;
+                this.Text = btnSimPalhanilhaCustos.Text;
 
             }
         }
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            tipo_desbaste = comboBox1.Text;
-            if (comboBox1.Text == "Seletivo")
+            tipo_desbaste = cmbSimTipoDesbaste.Text;
+            if (cmbSimTipoDesbaste.Text == "Seletivo")
             {
                 textBox1.Visible = false;
             }
-            if (comboBox1.Text == "Misto")
+            if (cmbSimTipoDesbaste.Text == "Misto")
             {
                 textBox1.Visible = true;
             }
         }
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
-            desbaste_por = comboBox2.Text;
+            desbaste_por = cmbSimControleDesbaste.Text;
         }
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
@@ -159,7 +158,7 @@ namespace Simulador
             if (arquivo_simulacoes != null)
             {
                 CarregaDadosExcel(arquivo_simulacoes);
-                this.Text = Botao_cenarios.Text;
+                this.Text = btnSimCenarios.Text;
             }
         }
         private DataTable getTabelaExcel(string arquivo)
@@ -355,7 +354,7 @@ namespace Simulador
         private void importar_coeficientes()
         {
             
-            if (comboBox1.Text == "Misto")
+            if (cmbSimTipoDesbaste.Text == "Misto")
             {
                 if (textBox1.Text == "")
                 {
@@ -2034,9 +2033,9 @@ cenario.VAE.Add(regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].vae);
         }
         private void print_maximizaçao(ref List<Cenario_Talhao> final_talhao)
         {
-            horizonte = double.Parse(textBox9.Text);
-            N_planejamento = int.Parse(textBox10.Text);
-            arquivo_saida = textBox8.Text;
+            horizonte = double.Parse(txtMaxHorizonte.Text);
+            N_planejamento = int.Parse(txtMaxNumPlanejamento.Text);
+            arquivo_saida = txtMaxTitle.Text;
 
             List<aux_maximizacao> casos = new List<aux_maximizacao>();
             aux_maximizacao aux = new aux_maximizacao();
@@ -2264,7 +2263,7 @@ cenario.VAE.Add(regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].vae);
         }
         private void textBox3_TextChanged(object sender, EventArgs e)
         {
-            arquivo_saida = textBox3.Text;
+            arquivo_saida = txtSimTitle.Text;
         }
 
         private void textBox5_TextChanged(object sender, EventArgs e)
@@ -2289,40 +2288,12 @@ cenario.VAE.Add(regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].vae);
 
         private void maximizaçãoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Botao_Arvore.Visible = false; //arvores ( geral )
-            Botao_cenarios.Visible = false; //cenarios ( geral )
-            Botao_Coeficientes.Visible = false; //coeficientes ( geral ) 
-            botao_produto.Visible = false;  //sortimentos ( geral )
-            Botao_custos.Visible = false; //custos ( geral )
-            button4.Visible = false;
-            textBox2.Visible = false;
-            comboBox1.Visible = false;
-            comboBox2.Visible = false;
-            textBox3.Visible = false;
-            button5.Visible = false;
-            textBox11.Visible = false;
-            textBox12.Visible = false;
-            button3.Visible = false;
-            textBox13.Visible = false;
-            textBox14.Visible = false;
-            button6.Visible = false;
+            tabNavibar.SelectedTab = tpMax;
 
-            textBox15.Visible = false;
-            textBox16.Visible = false;
-            textBox17.Visible = false;
-            button7.Visible = false;
-
-
-            textBox9.Visible = true;
-            textBox10.Visible = true;
-            textBox8.Visible = true;
-            button1.Visible = true;
-
-
-            textBox9.Text = "Horizonte";
-            textBox10.Text = "N_Planejamento";
-            textBox8.Text = "Título";
-            button1.Text = "Gerar Maximização";
+            txtMaxHorizonte.Text = "Horizonte";
+            txtMaxNumPlanejamento.Text = "N_Planejamento";
+            txtMaxTitle.Text = "Título";
+            btnMax.Text = "Gerar Maximização";
         }
 
         private void button1_Click_3(object sender, EventArgs e)
@@ -2332,120 +2303,44 @@ cenario.VAE.Add(regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].vae);
 
         private void sortimentosToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Botao_Arvore.Visible = false; //arvores ( geral )
-            Botao_cenarios.Visible = false; //cenarios ( geral )
-            Botao_Coeficientes.Visible = false; //coeficientes ( geral ) 
-            botao_produto.Visible = false;  //sortimentos ( geral )
-            Botao_custos.Visible = false; //custos ( geral )
-            button4.Visible = false;
-            textBox2.Visible = false;
-            comboBox1.Visible = false;
-            comboBox2.Visible = false;
-            textBox3.Visible = false;
-            button5.Visible = false;
-            textBox9.Visible = false;
-            textBox10.Visible = false;
-            textBox8.Visible = false;
-            button1.Visible = false;
-            textBox13.Visible = false;
-            textBox14.Visible = false;
-            button6.Visible = false;
-            textBox15.Visible = false;
-            textBox16.Visible = false;
-            textBox17.Visible = false;
-            button7.Visible = false;
+            tabNavibar.SelectedTab = tpSor;
 
-            textBox11.Visible = true;
-            textBox12.Visible = true;
-            button3.Visible = true;
-
-            textBox11.Text = "Horizonte";
-            textBox12.Text = "Título";
-            button3.Text = "Gerar Sortimentos";
+            txtSorHorizonte.Text = "Horizonte";
+            txtSorTitle.Text = "Título";
+            btnSor.Text = "Gerar Sortimentos";
         }
 
         private void button3_Click_2(object sender, EventArgs e)
         {
-            horizonte = double.Parse(textBox11.Text);
-            arquivo_saida = textBox12.Text;
+            horizonte = double.Parse(txtSorHorizonte.Text);
+            arquivo_saida = txtSorTitle.Text;
             print_Sortimentos(ref final_talhao);
         }
 
         private void bináriaToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Botao_Arvore.Visible = false; //arvores ( geral )
-            Botao_cenarios.Visible = false; //cenarios ( geral )
-            Botao_Coeficientes.Visible = false; //coeficientes ( geral ) 
-            botao_produto.Visible = false;  //sortimentos ( geral )
-            Botao_custos.Visible = false; //custos ( geral )
-            button4.Visible = false;
-            textBox2.Visible = false;
-            comboBox1.Visible = false;
-            comboBox2.Visible = false;
-            textBox3.Visible = false;
-            button5.Visible = false;
-            textBox9.Visible = false;
-            textBox10.Visible = false;
-            textBox8.Visible = false;
-            button1.Visible = false;
-            textBox11.Visible = false;
-            textBox12.Visible = false;
-            button3.Visible = false;
-            textBox15.Visible = false;
-            textBox16.Visible = false;
-            textBox17.Visible = false;
-            button7.Visible = false;
-
-
-            textBox13.Visible = true;
-            textBox14.Visible = true;
-            button6.Visible = true;
-            textBox13.Text = "Horizonte";
-            textBox14.Text = "Titulo";
-            button6.Text = "Gerarar binária";
+            tabNavibar.SelectedTab = tpBin;
+            txtBinHorizonte.Text = "Horizonte";
+            txtBinTitle.Text = "Titulo";
+            btnBin.Text = "Gerarar binária";
         }
 
         private void button6_Click(object sender, EventArgs e)
         {
-            horizonte = double.Parse(textBox13.Text);
-            arquivo_saida = textBox14.Text;
+            horizonte = double.Parse(txtBinHorizonte.Text);
+            arquivo_saida = txtBinTitle.Text;
             print_Binary(ref final_talhao);
         }
 
         private void regulaçãoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Botao_Arvore.Visible = false; //arvores ( geral )
-            Botao_cenarios.Visible = false; //cenarios ( geral )
-            Botao_Coeficientes.Visible = false; //coeficientes ( geral ) 
-            botao_produto.Visible = false;  //sortimentos ( geral )
-            Botao_custos.Visible = false; //custos ( geral )
-            button4.Visible = false;
-            textBox2.Visible = false;
-            comboBox1.Visible = false;
-            comboBox2.Visible = false;
-            textBox3.Visible = false;
-            button5.Visible = false;
-            textBox9.Visible = false;
-            textBox10.Visible = false;
-            textBox8.Visible = false;
-            button1.Visible = false;
-            textBox11.Visible = false;
-            textBox12.Visible = false;
-            button3.Visible = false;
-            textBox13.Visible = false;
-            textBox14.Visible = false;
-            button6.Visible = false;
-
-            textBox15.Visible = true;
-            textBox16.Visible = true;
-            textBox17.Visible = true;
-            button7.Visible = true;
+            tabNavibar.SelectedTab = tpReg;
 
 
-            textBox15.Text = "Horizonte";
-            textBox16.Text = "Idade Regulação";
-            textBox17.Text = "Titulo";
-            button7.Text = "Gerar Regulação";
+            txtRegHorizonte.Text = "Horizonte";
+            txtRegIdadeRegulacao.Text = "Idade Regulação";
+            txtRegTitle.Text = "Titulo";
+            btnReg.Text = "Gerar Regulação";
         }
 
         private void textBox15_TextChanged(object sender, EventArgs e)
@@ -2455,40 +2350,52 @@ cenario.VAE.Add(regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].vae);
 
         private void button7_Click(object sender, EventArgs e)
         {
-            horizonte = double.Parse(textBox15.Text);
-            N_regulacao = int.Parse(textBox16.Text);
-            arquivo_saida = textBox17.Text;
+            horizonte = double.Parse(txtRegHorizonte.Text);
+            N_regulacao = int.Parse(txtRegIdadeRegulacao.Text);
+            arquivo_saida = txtRegTitle.Text;
             print_Regulação(ref final_talhao);
         }
 
         private void simularToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Botao_Arvore.Visible = true; //arvores ( geral )
-            Botao_cenarios.Visible = true; //cenarios ( geral )
-            Botao_Coeficientes.Visible = true; //coeficientes ( geral ) 
-            botao_produto.Visible = true;  //sortimentos ( geral )
-            Botao_custos.Visible = true; //custos ( geral )
-            button4.Visible = true;
-            textBox2.Visible = true;
-            comboBox1.Visible = true;
-            comboBox2.Visible = true;
-            textBox3.Visible = true;
-            button5.Visible = true;
-            textBox9.Visible = false;
-            textBox10.Visible = false;
-            textBox8.Visible = false;
-            button1.Visible = false;
-            textBox11.Visible = false;
-            textBox12.Visible = false;
-            button3.Visible = false;
-            textBox13.Visible = false;
-            textBox14.Visible = false;
-            button6.Visible = false;
+            tabNavibar.SelectedTab = tpSim;
+        }
 
-            textBox15.Visible = false;
-            textBox16.Visible = false;
-            textBox17.Visible = false;
-            button7.Visible = false;
+        private void Botao_Arvore_Click(object sender, EventArgs e)
+        {
+            Spreedsheet spreedsheet = new Spreedsheet("Dados de Inventário");
+            if (spreedsheet.OpenFile())
+            {
+                MessageBox.Show(spreedsheet.FileName);
+            }
+            else
+            {
+                MessageBox.Show("Falha a o carregar");
+            }
+            /*
+            OpenFileDialog excel = new OpenFileDialog();
+            excel.Title = "Dados de inventário";
+            if (excel.ShowDialog() == DialogResult.OK)
+                arquivo_arvores = excel.FileName;
+            if (arquivo_arvores != null)
+            {
+                CarregaDadosExcel(arquivo_arvores);
+                this.Text = btnSimDadosInventario.Text;
+            }
+            */
+        }
+
+        private void Botao_Coeficientes_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog excel = new OpenFileDialog();
+            excel.Title = "Coeficientes - MAI";
+            if (excel.ShowDialog() == DialogResult.OK)
+                arquivo_coeficientes = excel.FileName;
+            if (arquivo_coeficientes != null)
+            {
+                CarregaDadosExcel(arquivo_coeficientes);
+                this.Text = btnSimCoeficientesMAI.Text;
+            }
         }
     }
 }
