@@ -50,11 +50,11 @@
             this.btnSimPalhanilhaCustos = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.button4 = new System.Windows.Forms.Button();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.txtSimTaxaDesconto = new System.Windows.Forms.TextBox();
             this.cmbSimTipoDesbaste = new System.Windows.Forms.ComboBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.cmbSimControleDesbaste = new System.Windows.Forms.ComboBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtSimIntervaloSistematico = new System.Windows.Forms.TextBox();
             this.btnSimCenarios = new System.Windows.Forms.Button();
             this.txtSimTitle = new System.Windows.Forms.TextBox();
             this.btnSim = new System.Windows.Forms.Button();
@@ -256,7 +256,6 @@
             this.btnSimDadosInventario.TabIndex = 2;
             this.btnSimDadosInventario.Text = "Dados de inventário";
             this.btnSimDadosInventario.UseVisualStyleBackColor = false;
-            this.btnSimDadosInventario.Click += new System.EventHandler(this.Botao_Arvore_Click);
             // 
             // btnSimCoeficientesMAI
             // 
@@ -272,7 +271,6 @@
             this.btnSimCoeficientesMAI.TabIndex = 12;
             this.btnSimCoeficientesMAI.Text = "Coeficientes - MAI";
             this.btnSimCoeficientesMAI.UseVisualStyleBackColor = false;
-            this.btnSimCoeficientesMAI.Click += new System.EventHandler(this.Botao_Coeficientes_Click);
             // 
             // btnSimSortimentos
             // 
@@ -288,7 +286,6 @@
             this.btnSimSortimentos.TabIndex = 8;
             this.btnSimSortimentos.Text = "Sortimentos";
             this.btnSimSortimentos.UseVisualStyleBackColor = false;
-            this.btnSimSortimentos.Click += new System.EventHandler(this.button3_Click);
             // 
             // btnSimPalhanilhaCustos
             // 
@@ -305,12 +302,11 @@
             this.btnSimPalhanilhaCustos.TabIndex = 12;
             this.btnSimPalhanilhaCustos.Text = "Planilha de custos";
             this.btnSimPalhanilhaCustos.UseVisualStyleBackColor = false;
-            this.btnSimPalhanilhaCustos.Click += new System.EventHandler(this.button1_Click_2);
             // 
             // panel1
             // 
             this.panel1.Controls.Add(this.button4);
-            this.panel1.Controls.Add(this.textBox2);
+            this.panel1.Controls.Add(this.txtSimTaxaDesconto);
             this.panel1.Location = new System.Drawing.Point(8, 195);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(181, 36);
@@ -336,16 +332,16 @@
             this.button4.UseVisualStyleBackColor = false;
             this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
-            // textBox2
+            // txtSimTaxaDesconto
             // 
-            this.textBox2.Dock = System.Windows.Forms.DockStyle.Right;
-            this.textBox2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
-            this.textBox2.Location = new System.Drawing.Point(150, 0);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(31, 20);
-            this.textBox2.TabIndex = 18;
-            this.textBox2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.textBox2.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
+            this.txtSimTaxaDesconto.Dock = System.Windows.Forms.DockStyle.Right;
+            this.txtSimTaxaDesconto.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.txtSimTaxaDesconto.Location = new System.Drawing.Point(150, 0);
+            this.txtSimTaxaDesconto.Name = "txtSimTaxaDesconto";
+            this.txtSimTaxaDesconto.Size = new System.Drawing.Size(31, 20);
+            this.txtSimTaxaDesconto.TabIndex = 18;
+            this.txtSimTaxaDesconto.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtSimTaxaDesconto.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
             // 
             // cmbSimTipoDesbaste
             // 
@@ -365,7 +361,7 @@
             // panel2
             // 
             this.panel2.Controls.Add(this.cmbSimControleDesbaste);
-            this.panel2.Controls.Add(this.textBox1);
+            this.panel2.Controls.Add(this.txtSimIntervaloSistematico);
             this.panel2.Location = new System.Drawing.Point(8, 271);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(181, 41);
@@ -387,18 +383,18 @@
             this.cmbSimControleDesbaste.Text = "Controle de desbaste";
             this.cmbSimControleDesbaste.SelectedIndexChanged += new System.EventHandler(this.comboBox2_SelectedIndexChanged);
             // 
-            // textBox1
+            // txtSimIntervaloSistematico
             // 
-            this.textBox1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.textBox1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
-            this.textBox1.Location = new System.Drawing.Point(150, 0);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(31, 20);
-            this.textBox1.TabIndex = 15;
-            this.textBox1.Text = "5";
-            this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.textBox1.Visible = false;
-            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            this.txtSimIntervaloSistematico.Dock = System.Windows.Forms.DockStyle.Right;
+            this.txtSimIntervaloSistematico.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.txtSimIntervaloSistematico.Location = new System.Drawing.Point(150, 0);
+            this.txtSimIntervaloSistematico.Name = "txtSimIntervaloSistematico";
+            this.txtSimIntervaloSistematico.Size = new System.Drawing.Size(31, 20);
+            this.txtSimIntervaloSistematico.TabIndex = 15;
+            this.txtSimIntervaloSistematico.Text = "5";
+            this.txtSimIntervaloSistematico.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtSimIntervaloSistematico.Visible = false;
+            this.txtSimIntervaloSistematico.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // btnSimCenarios
             // 
@@ -414,7 +410,6 @@
             this.btnSimCenarios.TabIndex = 16;
             this.btnSimCenarios.Text = "Cenários";
             this.btnSimCenarios.UseVisualStyleBackColor = false;
-            this.btnSimCenarios.Click += new System.EventHandler(this.button3_Click_1);
             // 
             // txtSimTitle
             // 
@@ -442,7 +437,7 @@
             this.btnSim.TabIndex = 24;
             this.btnSim.Text = "Simular";
             this.btnSim.UseVisualStyleBackColor = false;
-            this.btnSim.Click += new System.EventHandler(this.button5_Click);
+            this.btnSim.Click += new System.EventHandler(this.btnSim_Click);
             // 
             // tpMax
             // 
@@ -475,7 +470,6 @@
             this.txtMaxHorizonte.Name = "txtMaxHorizonte";
             this.txtMaxHorizonte.Size = new System.Drawing.Size(179, 26);
             this.txtMaxHorizonte.TabIndex = 33;
-            this.txtMaxHorizonte.Visible = false;
             // 
             // txtMaxNumPlanejamento
             // 
@@ -484,7 +478,6 @@
             this.txtMaxNumPlanejamento.Name = "txtMaxNumPlanejamento";
             this.txtMaxNumPlanejamento.Size = new System.Drawing.Size(179, 26);
             this.txtMaxNumPlanejamento.TabIndex = 34;
-            this.txtMaxNumPlanejamento.Visible = false;
             // 
             // txtMaxTitle
             // 
@@ -495,7 +488,6 @@
             this.txtMaxTitle.Size = new System.Drawing.Size(179, 26);
             this.txtMaxTitle.TabIndex = 32;
             this.txtMaxTitle.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.txtMaxTitle.Visible = false;
             // 
             // btnMax
             // 
@@ -512,8 +504,7 @@
             this.btnMax.TabIndex = 35;
             this.btnMax.Text = "Simular";
             this.btnMax.UseVisualStyleBackColor = false;
-            this.btnMax.Visible = false;
-            this.btnMax.Click += new System.EventHandler(this.button1_Click_3);
+            this.btnMax.Click += new System.EventHandler(this.btnMax_Click);
             // 
             // tpReg
             // 
@@ -545,7 +536,6 @@
             this.txtRegHorizonte.Name = "txtRegHorizonte";
             this.txtRegHorizonte.Size = new System.Drawing.Size(179, 26);
             this.txtRegHorizonte.TabIndex = 43;
-            this.txtRegHorizonte.Visible = false;
             // 
             // txtRegIdadeRegulacao
             // 
@@ -554,7 +544,6 @@
             this.txtRegIdadeRegulacao.Name = "txtRegIdadeRegulacao";
             this.txtRegIdadeRegulacao.Size = new System.Drawing.Size(179, 26);
             this.txtRegIdadeRegulacao.TabIndex = 44;
-            this.txtRegIdadeRegulacao.Visible = false;
             // 
             // txtRegTitle
             // 
@@ -565,7 +554,6 @@
             this.txtRegTitle.Size = new System.Drawing.Size(179, 26);
             this.txtRegTitle.TabIndex = 45;
             this.txtRegTitle.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.txtRegTitle.Visible = false;
             // 
             // btnReg
             // 
@@ -582,8 +570,7 @@
             this.btnReg.TabIndex = 46;
             this.btnReg.Text = "Simular";
             this.btnReg.UseVisualStyleBackColor = false;
-            this.btnReg.Visible = false;
-            this.btnReg.Click += new System.EventHandler(this.button7_Click);
+            this.btnReg.Click += new System.EventHandler(this.btnReg_Click);
             // 
             // tpSor
             // 
@@ -614,7 +601,6 @@
             this.txtSorHorizonte.Name = "txtSorHorizonte";
             this.txtSorHorizonte.Size = new System.Drawing.Size(179, 26);
             this.txtSorHorizonte.TabIndex = 36;
-            this.txtSorHorizonte.Visible = false;
             // 
             // txtSorTitle
             // 
@@ -625,7 +611,6 @@
             this.txtSorTitle.Size = new System.Drawing.Size(179, 26);
             this.txtSorTitle.TabIndex = 37;
             this.txtSorTitle.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.txtSorTitle.Visible = false;
             // 
             // btnSor
             // 
@@ -642,8 +627,7 @@
             this.btnSor.TabIndex = 38;
             this.btnSor.Text = "Simular";
             this.btnSor.UseVisualStyleBackColor = false;
-            this.btnSor.Visible = false;
-            this.btnSor.Click += new System.EventHandler(this.button3_Click_2);
+            this.btnSor.Click += new System.EventHandler(this.btnSor_Click);
             // 
             // tpBin
             // 
@@ -674,7 +658,6 @@
             this.txtBinHorizonte.Name = "txtBinHorizonte";
             this.txtBinHorizonte.Size = new System.Drawing.Size(181, 26);
             this.txtBinHorizonte.TabIndex = 39;
-            this.txtBinHorizonte.Visible = false;
             // 
             // txtBinTitle
             // 
@@ -685,7 +668,6 @@
             this.txtBinTitle.Size = new System.Drawing.Size(181, 26);
             this.txtBinTitle.TabIndex = 42;
             this.txtBinTitle.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.txtBinTitle.Visible = false;
             // 
             // btnBin
             // 
@@ -702,8 +684,7 @@
             this.btnBin.TabIndex = 41;
             this.btnBin.Text = "Simular";
             this.btnBin.UseVisualStyleBackColor = false;
-            this.btnBin.Visible = false;
-            this.btnBin.Click += new System.EventHandler(this.button6_Click);
+            this.btnBin.Click += new System.EventHandler(this.btnBin_Click);
             // 
             // Form1
             // 
@@ -754,10 +735,10 @@
         private System.Windows.Forms.Button btnSimPalhanilhaCustos;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.ComboBox cmbSimTipoDesbaste;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtSimIntervaloSistematico;
         private System.Windows.Forms.Button btnSimCenarios;
         private System.Windows.Forms.ComboBox cmbSimControleDesbaste;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox txtSimTaxaDesconto;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.TextBox txtSimTitle;

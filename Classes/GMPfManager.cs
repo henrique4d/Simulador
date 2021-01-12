@@ -1,34 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ClosedXML.Excel;
-using System.Data.OleDb;
-using System.IO;
-using System.Security.AccessControl;
-using System.Management;
-using System.Management.Instrumentation;
-using System.Security.Principal;
-using Simulador.Classes;
 using Simulador.Models;
+using static System.IO.Directory;
 
-namespace Simulador
+namespace Simulador.Classes
 {
-    public partial class Form1 : Form
+    class Gmpfanager
     {
-        string arquivo_arvores; // arquivo com os dados das árvores
-        string arquivo_coeficientes; // arquivo com os coeficientes
-        string arquivo_produtos; // arquivo com os produtos
-        string arquivo_economico; // arquivo com os dados economicos
-        string arquivo_simulacoes;
-        string arquivo_saida;
-        string error;
+        // Planilhas
+        public Spreedsheet SprdSimDadosInventario { get; set; }
+        public Spreedsheet SprdSimCoeficienteMai { get; set; }
+        public Spreedsheet SprdSimSortimentos { get; set; }
+        public Spreedsheet SprdSimPlanilhaCustos { get; set; }
+        public Spreedsheet SprdSimCenarios { get; set; }
+        public Spreedsheet SprdSim { get; set; }
 
+        // Dados
         List<Regiao> regioes_original; // armazena as arvores em estado original
         Coeficientes coeficientes; //armazena os coeficientes
         List<Produto> produtos; // armazena dados dos produtos
@@ -45,264 +39,33 @@ namespace Simulador
         List<Cenario_Parcela> Final_parcela = new List<Cenario_Parcela>();
         List<Cenario_Talhao> final_talhao = new List<Cenario_Talhao>();
 
-        public BorderStyle BorderStyle { get; private set; }
+        // Outros
+        string arquivo_saida;
+        string error;
 
-        // Resultados
-        private Spreedsheet _sprdSimulacao;
-
-        // 
-        private Gmpfanager GmpfManager { get; set; }
-
-        public Form1()
+        public Gmpfanager()
         {
-            InitializeComponent();
-
-            GmpfManager = new Gmpfanager();
-
-            InitilizeTpSim();
+            // Atribuindo o Título das panilhas
+            SprdSimDadosInventario = new Spreedsheet("Dados de Inventário");
+            SprdSimCoeficienteMai = new Spreedsheet("Coeficiente MAI");
+            SprdSimSortimentos = new Spreedsheet("Sortimentos");
+            SprdSimPlanilhaCustos = new Spreedsheet("Planilhas de Custos");
+            SprdSimCenarios = new Spreedsheet("Cenários");
         }
-
-        private void InitilizeTpSim()
-        {
-            // Quando clicar nos botões, carregar os arquivos do Excel
-            btnSimDadosInventario.Click += (sender, e) => { LoadExcelData(GmpfManager.SprdSimDadosInventario); };
-            btnSimCoeficientesMAI.Click += (sender, e) => { LoadExcelData(GmpfManager.SprdSimCoeficienteMai); };
-            btnSimSortimentos.Click += (sender, e) => { LoadExcelData(GmpfManager.SprdSimSortimentos); };
-            btnSimPalhanilhaCustos.Click += (sender, e) => { LoadExcelData(GmpfManager.SprdSimPlanilhaCustos); };
-            btnSimCenarios.Click += (sender, e) => { LoadExcelData(GmpfManager.SprdSimCenarios); };
-
-            // Textos
-            txtSimTitle.Text = "Título";
-
-            // Já caregando para ser mais rápido
-            GmpfManager.SprdSimDadosInventario.FileName =
-                "F:\\places\\viçosa\\estagios\\docs\\Dados_de_inventario.xlsx";
-            GmpfManager.SprdSimCoeficienteMai.FileName = "F:\\places\\viçosa\\estagios\\docs\\Coeficientes - MAI.xlsx";
-            GmpfManager.SprdSimSortimentos.FileName = "F:\\places\\viçosa\\estagios\\docs\\Sortimentos.xlsx";
-            GmpfManager.SprdSimPlanilhaCustos.FileName = "F:\\places\\viçosa\\estagios\\docs\\Planilha_de_custos.xlsx";
-            GmpfManager.SprdSimCenarios.FileName = "F:\\places\\viçosa\\estagios\\docs\\Cenários.xlsx";
-        }
-
-
-        // Todo, passar função de validação
-        private void LoadExcelData(Spreedsheet sprd)
-        {
-            try
-            {
-                if (sprd.OpenFile())
-                {
-                    dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-                    dataGridView1.DataSource = sprd.DataTable;
-
-                    //lblRegistros.Text = (dgvDados.Rows.Count - 1).ToString();
-                    string[] listaNomeColunas =
-                        sprd.DataTable.Columns.OfType<DataColumn>().Select(x => x.ColumnName).ToArray();
-                    sprd.DataTable.Dispose();
-                    textBox4.Visible = false;
-                }
-                else
-                {
-                    throw new Exception("Erro a carregar o arquivo");
-                }
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.Message);
-            }
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog excel = new OpenFileDialog();
-            excel.Title = "Dados de inventário";
-            if (excel.ShowDialog() == DialogResult.OK)
-                arquivo_arvores = excel.FileName;
-            if (arquivo_arvores != null)
-            {
-                CarregaDadosExcel(arquivo_arvores);
-                this.Text = btnSimDadosInventario.Text;
-            }
-        }
-
-        private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
-        {
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            /*try
-            {*/
-            processamento();
-            /*}
-            catch
-            {
-                const string message =
-                "ERRO";
-                const string caption = "ERRO";
-
-                MessageBox.Show(message, caption, MessageBoxButtons.OK);
-            }*/
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog excel = new OpenFileDialog();
-            excel.Title = "Sortimentos";
-            if (excel.ShowDialog() == DialogResult.OK)
-                arquivo_produtos = excel.FileName;
-
-            if (arquivo_produtos != null)
-            {
-                CarregaDadosExcel(arquivo_produtos);
-                this.Text = btnSimSortimentos.Text;
-            }
-        }
-
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-        }
-
-        private void button1_Click_1(object sender, EventArgs e)
-        {
-            OpenFileDialog excel = new OpenFileDialog();
-            excel.Title = "Coeficientes - MAI";
-            if (excel.ShowDialog() == DialogResult.OK)
-                arquivo_coeficientes = excel.FileName;
-            if (arquivo_coeficientes != null)
-            {
-                CarregaDadosExcel(arquivo_coeficientes);
-                this.Text = btnSimCoeficientesMAI.Text;
-            }
-        }
-
-        private void button1_Click_2(object sender, EventArgs e)
-        {
-            OpenFileDialog excel = new OpenFileDialog();
-            excel.Title = "Planiha de custos";
-            if (excel.ShowDialog() == DialogResult.OK)
-                arquivo_economico = excel.FileName;
-            if (arquivo_economico != null)
-            {
-                CarregaDadosExcel(arquivo_economico);
-                this.Text = btnSimPalhanilhaCustos.Text;
-            }
-        }
-
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            tipo_desbaste = cmbSimTipoDesbaste.Text;
-            if (cmbSimTipoDesbaste.Text == "Seletivo")
-            {
-                txtSimIntervaloSistematico.Visible = false;
-            }
-
-            if (cmbSimTipoDesbaste.Text == "Misto")
-            {
-                txtSimIntervaloSistematico.Visible = true;
-            }
-        }
-
-        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            desbaste_por = cmbSimControleDesbaste.Text;
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-        }
-
-        private void textBox2_TextChanged(object sender, EventArgs e)
-        {
-        }
-
-        private void button3_Click_1(object sender, EventArgs e)
-        {
-            OpenFileDialog excel = new OpenFileDialog();
-            excel.Title = "Cenários";
-            if (excel.ShowDialog() == DialogResult.OK)
-                arquivo_simulacoes = excel.FileName;
-            if (arquivo_simulacoes != null)
-            {
-                CarregaDadosExcel(arquivo_simulacoes);
-                this.Text = btnSimCenarios.Text;
-            }
-        }
-
-        private DataTable getTabelaExcel(string arquivo)
-        {
-            DataTable dt = new DataTable();
-            try
-            {
-                string Ext = Path.GetExtension(arquivo);
-                string connectionString = "";
-                if (Ext == ".xls")
-                {
-                    connectionString = "Provider=Microsoft.Jet.OLEDB.4.0; Data Source =" + arquivo +
-                                       "; Extended Properties = 'Excel 8.0;HDR=YES'";
-                }
-                else if (Ext == ".xlsx")
-                {
-                    connectionString = "Provider=Microsoft.ACE.OLEDB.12.0; Data Source =" + arquivo +
-                                       "; Extended Properties = 'Excel 8.0;HDR=YES'";
-                }
-
-                OleDbConnection conn = new OleDbConnection(connectionString);
-                OleDbCommand cmd = new OleDbCommand();
-                OleDbDataAdapter dataAdapter = new OleDbDataAdapter();
-                cmd.Connection = conn;
-                conn.Open();
-                DataTable dtSchema;
-                dtSchema = conn.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
-                string nomePlanilha = dtSchema.Rows[0]["TABLE_NAME"].ToString();
-                conn.Close();
-                conn.Open();
-                cmd.CommandText = "SELECT * from [" + nomePlanilha + "]";
-                dataAdapter.SelectCommand = cmd;
-                dataAdapter.Fill(dt);
-                conn.Close();
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-
-            return dt;
-        }
-
-        private void CarregaDadosExcel(string arquivo)
-        {
-            textBox4.Visible = false;
-            try
-            {
-                DataTable dt = getTabelaExcel(arquivo);
-
-                dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-                dataGridView1.DataSource = dt;
-
-                //lblRegistros.Text = (dgvDados.Rows.Count - 1).ToString();
-                string[] listaNomeColunas = dt.Columns.OfType<DataColumn>().Select(x => x.ColumnName).ToArray();
-                dt.Dispose();
-            }
-
-            catch (Exception ex)
-            {
-                MessageBox.Show("erro :" + ex.Message);
-            }
-        }
-
 
         private void importar_produtos()
         {
             produtos = new List<Produto>();
             XLWorkbook excel;
+            string error;
             try
             {
-                excel = new XLWorkbook(arquivo_produtos);
+                excel = new XLWorkbook(SprdSimSortimentos.FileName);
             }
             catch
             {
                 error = "Nao foi possivel acessar a planilha de sortimentos";
-                throw new CustomException("");
+                throw new Exception(error);
             }
 
             var planilha = excel.Worksheet(1);
@@ -334,7 +97,7 @@ namespace Simulador
             catch
             {
                 error = "Erro na planilha de sortimentos, Coluna: " + coluna + " linha: " + linha.ToString();
-                throw new CustomException("");
+                throw new Exception(error);
             }
 
             produtos = produtos.OrderBy(x => -x.max).ToList();
@@ -350,18 +113,18 @@ namespace Simulador
         {
             regioes_original = new List<Regiao>(); //lista que ira armazenar as arvores
             XLWorkbook excel;
+            string error;
             try
             {
-                excel = new XLWorkbook(arquivo_arvores); //acessa o xls
+                excel = new XLWorkbook(SprdSimDadosInventario.FileName); //acessa o xls
             }
             catch
             {
                 error = "Não foi possivel acessar os dados de inventário";
-                throw new CustomException("");
+                throw new Exception(error);
             }
 
             var planilha = excel.Worksheet(1);
-            dataGridView1.DataSource = planilha;
 
             int linha = 0;
             char coluna = 'A';
@@ -420,7 +183,7 @@ namespace Simulador
             catch
             {
                 error = "Erro na planilha de dados de inventário, Coluna: " + coluna + " linha: " + linha.ToString();
-                throw new CustomException("");
+                throw new Exception(error);
             }
 
             excel.Dispose();
@@ -432,53 +195,17 @@ namespace Simulador
 
         private void importar_coeficientes()
         {
-            if (cmbSimTipoDesbaste.Text == "Misto")
-            {
-                if (txtSimIntervaloSistematico.Text == "")
-                {
-                    intervalo_sistematico = 5;
-                }
-                else
-                {
-                    try
-                    {
-                        intervalo_sistematico = int.Parse(txtSimIntervaloSistematico.Text);
-                    }
-                    catch
-                    {
-                        error = "número de fila para o desbaste misto inválido";
-                        throw new CustomException("");
-                    }
-                }
-            }
-
-            if (txtSimTaxaDesconto.Text == "")
-            {
-                taxa_juros = 0.10;
-            }
-            else
-            {
-                try
-                {
-                    taxa_juros = double.Parse(txtSimTaxaDesconto.Text) / 100;
-                }
-                catch
-                {
-                    error = "taxa de juros inválida";
-                    throw new CustomException("");
-                }
-            }
-
+            string error;
             coeficientes = new Coeficientes();
             XLWorkbook excel;
             try
             {
-                excel = new XLWorkbook(arquivo_coeficientes);
+                excel = new XLWorkbook(SprdSimCoeficienteMai.FileName);
             }
             catch
             {
                 error = "Não foi possivel acessar a planilha de coeficientes - MAI";
-                throw new CustomException("");
+                throw new Exception(error);
             }
 
             var planilha = excel.Worksheet(1);
@@ -606,7 +333,7 @@ namespace Simulador
             catch
             {
                 error = "Erro na planilha de coeficientes - MAI, Coluna: " + coluna + " linha: " + linha.ToString();
-                throw new CustomException("");
+                throw new Exception(error);
             }
 
             excel.Dispose();
@@ -616,14 +343,15 @@ namespace Simulador
         {
             custos = new List<Custos>();
             XLWorkbook excel;
+            string error;
             try
             {
-                excel = new XLWorkbook(arquivo_economico);
+                excel = new XLWorkbook(SprdSimPlanilhaCustos.FileName);
             }
             catch
             {
                 error = "Não foi possível acessar a planilha de custos";
-                throw new CustomException("");
+                throw new Exception(error);
             }
 
             var planilha = excel.Worksheet(1);
@@ -659,7 +387,7 @@ namespace Simulador
             catch
             {
                 error = "Erro na planilha de custos, Coluna: " + coluna + " linha: " + linha.ToString();
-                throw new CustomException("");
+                throw new Exception(error);
             }
 
             excel.Dispose();
@@ -668,14 +396,15 @@ namespace Simulador
         private void importar_simulacoes()
         {
             XLWorkbook excel;
+            string error;
             try
             {
-                excel = new XLWorkbook(arquivo_simulacoes);
+                excel = new XLWorkbook(SprdSimCenarios.FileName);
             }
             catch
             {
                 error = "Não foi possível acessar a planilha de cenários";
-                throw new CustomException("");
+                throw new Exception(error);
             }
 
             var planilha = excel.Worksheet(1);
@@ -727,7 +456,7 @@ namespace Simulador
             catch
             {
                 error = "Erro na planilha de cenários, coluna: " + coluna + " linha: " + linha.ToString();
-                throw new CustomException("");
+                throw new Exception(error);
             }
 
             excel.Dispose();
@@ -1419,7 +1148,7 @@ namespace Simulador
                 {
                     foreach (Parcela parc in tal.parcelas)
                     {
-                        //Console.WriteLine(parc.idade_original + " " + parc.idade);
+                        //MessageBox.Show(parc.idade_original + " " + parc.idade);
 
                         for (int i = 1; i < parc.lucro.Count(); i++)
                         {
@@ -1764,6 +1493,7 @@ namespace Simulador
         {
             List<Regiao> regioes = new List<Regiao>();
             clonar(ref regioes_original, ref regioes);
+            string error;
             try
             {
                 projetar_idade(ref regioes, idade_desbaste);
@@ -1771,7 +1501,7 @@ namespace Simulador
             catch
             {
                 error = "erro ao projetar para a idade de desbaste";
-                throw new CustomException("");
+                throw new Exception(error);
             }
 
             List<Regiao> desbastadas = null;
@@ -1782,7 +1512,7 @@ namespace Simulador
             catch
             {
                 error = "erro ao realizar o desbaste";
-                throw new CustomException("");
+                throw new Exception(error);
             }
 
             try
@@ -1792,7 +1522,7 @@ namespace Simulador
             catch
             {
                 error = "erro ao gerar volumes de desbaste";
-                throw new CustomException("");
+                throw new Exception(error);
             }
 
             try
@@ -1802,7 +1532,7 @@ namespace Simulador
             catch
             {
                 error = "erro ao gerar receita no desbaste";
-                throw new CustomException("");
+                throw new Exception(error);
             }
 
             try
@@ -1812,7 +1542,7 @@ namespace Simulador
             catch
             {
                 error = "erro ao projetar para a idade de corte raso";
-                throw new CustomException("");
+                throw new Exception(error);
             }
 
             try
@@ -1822,7 +1552,7 @@ namespace Simulador
             catch
             {
                 error = "erro ao gerar volumes no corte raso";
-                throw new CustomException("");
+                throw new Exception(error);
             }
 
             try
@@ -1832,7 +1562,7 @@ namespace Simulador
             catch
             {
                 error = "erro ao gerar receita no corte raso";
-                throw new CustomException("");
+                throw new Exception(error);
             }
 
             try
@@ -1842,7 +1572,7 @@ namespace Simulador
             catch
             {
                 error = "erro ao gerar IMA";
-                throw new CustomException("");
+                throw new Exception(error);
             }
 
             try
@@ -1852,7 +1582,7 @@ namespace Simulador
             catch
             {
                 error = "erro ao gerar VPL";
-                throw new CustomException("");
+                throw new Exception(error);
             }
 
             try
@@ -1862,7 +1592,7 @@ namespace Simulador
             catch
             {
                 error = "erro ao gerar dados econômicos";
-                throw new CustomException("");
+                throw new Exception(error);
             }
 
             parcela_final.Add(gerar_cenario(ref desbastadas, ref regioes, porcentagem));
@@ -2032,8 +1762,10 @@ namespace Simulador
             }
         }
 
-        private void print_Sortimentos(ref List<Cenario_Talhao> final_talhao)
+        public void print_Sortimentos(string horizonte, string arquivo_saida)
         {
+            this.horizonte = double.Parse(horizonte);
+            
             var Excel_Sortimentos = new Microsoft.Office.Interop.Excel.Application();
             Excel_Sortimentos.Workbooks.Add();
             Excel_Sortimentos.Workbooks[1].Worksheets[1].Name = "Sortimentos";
@@ -2046,7 +1778,7 @@ namespace Simulador
                 Console.WriteLine(final_talhao[0].volumes[0][i]);
             }
 
-            for (int i = 0; i <= horizonte; i++)
+            for (int i = 0; i <= this.horizonte; i++)
             {
                 for (int j = 1; j < num_sortimentos; j++)
                 {
@@ -2084,7 +1816,7 @@ namespace Simulador
                     if (cenario.VPL[i] == -1 && cenario.VAE[i] == -1 && cenario.VPL_infinito[i] == -1 &&
                         cenario.VET[i] == -1)
                     {
-                        for (int idade_atual = 0; idade_atual <= horizonte; idade_atual++)
+                        for (int idade_atual = 0; idade_atual <= this.horizonte; idade_atual++)
                         {
                             if ((idade_atual + cenario.Idade_Original[i]) % cenario.idade[i + 1] == 0)
                             {
@@ -2118,7 +1850,7 @@ namespace Simulador
                     }
                     else
                     {
-                        for (int idade_atual = 0; idade_atual <= horizonte; idade_atual++)
+                        for (int idade_atual = 0; idade_atual <= this.horizonte; idade_atual++)
                         {
                             if ((idade_atual + cenario.Idade_Original[i]) % cenario.idade[i] == 0)
                             {
@@ -2141,16 +1873,17 @@ namespace Simulador
                 }
             }
 
-            string path = Directory.GetCurrentDirectory();
+            string path = GetCurrentDirectory();
             string pathString_Sortimentos = System.IO.Path.Combine(path, "Sortimentos");
-            System.IO.Directory.CreateDirectory(pathString_Sortimentos);
+            CreateDirectory(pathString_Sortimentos);
             Excel_Sortimentos.Workbooks[1].SaveAs(pathString_Sortimentos + "/" + arquivo_saida);
             Excel_Sortimentos.Workbooks[1].Save();
             Excel_Sortimentos.Quit();
         }
 
-        private void print_Binary(ref List<Cenario_Talhao> final_talhao)
+        public void print_Binary(string horizonte, string arquivo_saida)
         {
+            this.horizonte = double.Parse(horizonte);
             var Excel_Binary = new Microsoft.Office.Interop.Excel.Application();
             Excel_Binary.Workbooks.Add();
             Excel_Binary.Workbooks[1].Worksheets[1].Name = "Binária";
@@ -2159,7 +1892,7 @@ namespace Simulador
 
             Excel_Binary.Worksheets[1].cells[1][1] = "X";
 
-            for (int i = 0; i <= horizonte; i++)
+            for (int i = 0; i <= this.horizonte; i++)
             {
                 Excel_Binary.Worksheets[1].cells[i + 2][1] = i;
             }
@@ -2195,7 +1928,7 @@ namespace Simulador
                     if (cenario.VPL[i] == -1 && cenario.VAE[i] == -1 && cenario.VPL_infinito[i] == -1 &&
                         cenario.VET[i] == -1)
                     {
-                        for (int idade_atual = 0; idade_atual <= horizonte; idade_atual++)
+                        for (int idade_atual = 0; idade_atual <= this.horizonte; idade_atual++)
                         {
                             if ((idade_atual + cenario.Idade_Original[i]) % cenario.idade[i + 1] == 0)
                             {
@@ -2217,7 +1950,7 @@ namespace Simulador
                     }
                     else
                     {
-                        for (int idade_atual = 0; idade_atual <= horizonte; idade_atual++)
+                        for (int idade_atual = 0; idade_atual <= this.horizonte; idade_atual++)
                         {
                             if ((idade_atual + cenario.Idade_Original[i]) % cenario.idade[i] == 0)
                             {
@@ -2232,15 +1965,16 @@ namespace Simulador
                 }
             }
 
-            string path = Directory.GetCurrentDirectory();
+            string path = GetCurrentDirectory();
             string pathString_Binary = System.IO.Path.Combine(path, "Tabela Binária");
-            System.IO.Directory.CreateDirectory(pathString_Binary);
+            CreateDirectory(pathString_Binary);
             Excel_Binary.Workbooks[1].SaveAs(pathString_Binary + "/" + arquivo_saida);
             Excel_Binary.Workbooks[1].Save();
             Excel_Binary.Quit();
         }
 
-        private void print_Regulação(ref List<Cenario_Talhao> final_talhao)
+        public void print_Regulação(double horizonte,
+            int N_regulacao, string arquivo_saida)
         {
             var Excel_Regulacao = new Microsoft.Office.Interop.Excel.Application();
             Excel_Regulacao.Workbooks.Add();
@@ -2320,9 +2054,9 @@ namespace Simulador
                 }
             }
 
-            string path = Directory.GetCurrentDirectory();
+            string path = GetCurrentDirectory();
             string pathString_Regulacao = System.IO.Path.Combine(path, "Regulação");
-            System.IO.Directory.CreateDirectory(pathString_Regulacao);
+            CreateDirectory(pathString_Regulacao);
             Excel_Regulacao.Workbooks[1].SaveAs(pathString_Regulacao + "/" + arquivo_saida);
             Excel_Regulacao.Workbooks[1].Save();
             Excel_Regulacao.Quit();
@@ -2343,12 +2077,11 @@ namespace Simulador
             public bool tem_desbaste;
         }
 
-        private void print_maximizaçao(ref List<Cenario_Talhao> final_talhao)
+        public void print_maximizaçao(string horizonte, string N_planejamento, string arquivo_saida)
         {
-            horizonte = double.Parse(txtMaxHorizonte.Text);
-            N_planejamento = int.Parse(txtMaxNumPlanejamento.Text);
-            arquivo_saida = txtMaxTitle.Text;
-
+            this.horizonte = int.Parse(horizonte);
+            this.N_planejamento = int.Parse(N_planejamento);
+            
             List<aux_maximizacao> casos = new List<aux_maximizacao>();
             aux_maximizacao aux = new aux_maximizacao();
             foreach (Cenario_Talhao cenario in final_talhao)
@@ -2376,21 +2109,21 @@ namespace Simulador
                 }
             }
 
-            string path = Directory.GetCurrentDirectory();
+            string path = GetCurrentDirectory();
             string pathString = System.IO.Path.Combine(path, "Função_de_maximização");
-            System.IO.Directory.CreateDirectory(pathString);
+            CreateDirectory(pathString);
 
             string pathVPL = System.IO.Path.Combine(path, "Função_de_maximização/VPL");
-            System.IO.Directory.CreateDirectory(pathVPL);
+            CreateDirectory(pathVPL);
 
             string pathVAE = System.IO.Path.Combine(path, "Função_de_maximização/VAE");
-            System.IO.Directory.CreateDirectory(pathVAE);
+            CreateDirectory(pathVAE);
 
             string pathVPL_infinito = System.IO.Path.Combine(path, "Função_de_maximização/VPL∞");
-            System.IO.Directory.CreateDirectory(pathVPL_infinito);
+            CreateDirectory(pathVPL_infinito);
 
             string pathVET = System.IO.Path.Combine(path, "Função_de_maximização/VET");
-            System.IO.Directory.CreateDirectory(pathVET);
+            CreateDirectory(pathVET);
 
             StreamWriter txt = new StreamWriter(pathVPL + "/" + arquivo_saida + "_VPL.txt");
 
@@ -2478,7 +2211,7 @@ namespace Simulador
                         txt.Write("_CR" + cenario.idade);
                         is_first = false;
                         cont++;
-                        if (cont == N_planejamento) break;
+                        if (cont == this.N_planejamento) break;
                     }
 
                     if (i == casos.Count()) break;
@@ -2488,21 +2221,78 @@ namespace Simulador
             txt.Close();
         }
 
-        private void processamento()
+        public void processamento(string taxa_juros, string tipo_desbaste, string desbaste_por,
+            string intervalo_sistematico, string arquivoSaida)
         {
+            // this.taxa_juros = taxa_juros;
+            // this.tipo_desbaste = tipo_desbaste;
+            // this.desbaste_por = desbaste_por;
+            // this.intervalo_sistematico = intervalo_sistematico;
+            // MessageBox.Show(taxa_juros);
+            // MessageBox.Show(tipo_desbaste);
+            // MessageBox.Show(desbaste_por);
+            // MessageBox.Show(intervalo_sistematico);
+            // MessageBox.Show(arquivoSaida);
+
+            this.tipo_desbaste = tipo_desbaste;
+            this.desbaste_por = desbaste_por;
+            this.arquivo_saida = arquivoSaida;
+            if (tipo_desbaste == "Misto")
+            {
+                if (intervalo_sistematico == "")
+                {
+                    this.intervalo_sistematico = 5;
+                }
+                else
+                {
+                    try
+                    {
+                        this.intervalo_sistematico = int.Parse(intervalo_sistematico);
+                    }
+                    catch
+                    {
+                        error = "número de fila para o desbaste misto inválido";
+                        throw new Exception(error);
+                    }
+                }
+            }
+
+            if (taxa_juros == "")
+            {
+                this.taxa_juros = 0.10;
+            }
+            else
+            {
+                try
+                {
+                    this.taxa_juros = double.Parse(taxa_juros) / 100;
+                }
+                catch
+                {
+                    error = "taxa de juros inválida";
+                    throw new Exception(error);
+                }
+            }
+
+            // Taxa de Desconto
+            // Tipo de desbaste
+            // Controle de desbaste
+            // Intervalos de repetição
             importar_produtos(); //exporta os dados de cada produto do xls
             importar_arvores(); //exporta as arvores do xls
             importar_coeficientes(); //exporta os coeficientes do xls
             importar_economica(); //exporta os dados relacionado à simulação economica
             importar_simulacoes(); //exporta todos os dados que devem ser simulados
-            textBox4.Visible = true;
 
             foreach (double desbaste in simulacoes.idade_desbaste)
             {
+                // MessageBox.Show("Desbaste: "+desbaste);
                 foreach (double final in simulacoes.idade_corte_final)
                 {
+                    // MessageBox.Show("Final: "+final);
                     foreach (double porcentagem in simulacoes.porcentagem)
                     {
+                        // MessageBox.Show("Porcentagem: "+porcentagem);
                         simular(desbaste, final, porcentagem, ref Final_parcela, ref final_talhao);
                         //break;
                     }
@@ -2523,8 +2313,9 @@ namespace Simulador
             catch
             {
                 error = "erro ao simular corte raso";
-                throw new CustomException("");
+                throw new Exception(error);
             }
+
 
             var Excel = new Microsoft.Office.Interop.Excel.Application();
 
@@ -2538,17 +2329,18 @@ namespace Simulador
 
                 var aux = Excel.Workbooks.Item[1];
 
-                string path = Directory.GetCurrentDirectory();
+                string path = GetCurrentDirectory();
 
                 string pathString = System.IO.Path.Combine(path, "Simulações");
-                System.IO.Directory.CreateDirectory(pathString);
+                CreateDirectory(pathString);
 
                 Excel.Workbooks[1].SaveAs(pathString + "/" + arquivo_saida);
+                Process.Start(pathString);
             }
             catch
             {
                 error = "nao foi possivel gerar o excel";
-                throw new CustomException("");
+                throw new Exception(error);
             }
 
             try
@@ -2559,172 +2351,13 @@ namespace Simulador
             catch
             {
                 error = "erro ao gerar simulações";
-                throw new CustomException("");
+                throw new Exception(error);
             }
+
 
             //print_maximizaçao(ref final_talhao);
             Excel.Workbooks[1].Save();
             Excel.Quit();
-        }
-
-
-        private void button4_Click(object sender, EventArgs e)
-        {
-        }
-
-        private void textBox3_TextChanged(object sender, EventArgs e)
-        {
-            arquivo_saida = txtSimTitle.Text;
-        }
-
-        private void textBox5_TextChanged(object sender, EventArgs e)
-        {
-        }
-
-        private void textBox6_TextChanged(object sender, EventArgs e)
-        {
-        }
-
-        private void textBox7_TextChanged(object sender, EventArgs e)
-        {
-        }
-
-        private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
-        {
-        }
-
-        private void maximizaçãoToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            tabNavibar.SelectedTab = tpMax;
-
-            txtMaxHorizonte.Text = "Horizonte";
-            txtMaxNumPlanejamento.Text = "N_Planejamento";
-            txtMaxTitle.Text = "Título";
-            btnMax.Text = "Gerar Maximização";
-        }
-
-        private void button1_Click_3(object sender, EventArgs e)
-        {
-            print_maximizaçao(ref final_talhao);
-
-        }
-
-        private void sortimentosToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            tabNavibar.SelectedTab = tpSor;
-
-            txtSorHorizonte.Text = "Horizonte";
-            txtSorTitle.Text = "Título";
-            btnSor.Text = "Gerar Sortimentos";
-        }
-
-        private void button3_Click_2(object sender, EventArgs e)
-        {
-            
-        }
-
-        private void bináriaToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            tabNavibar.SelectedTab = tpBin;
-            txtBinHorizonte.Text = "Horizonte";
-            txtBinTitle.Text = "Titulo";
-            btnBin.Text = "Gerarar binária";
-        }
-
-        private void button6_Click(object sender, EventArgs e)
-        {
-            
-        }
-
-        private void regulaçãoToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            tabNavibar.SelectedTab = tpReg;
-
-
-            txtRegHorizonte.Text = "Horizonte";
-            txtRegIdadeRegulacao.Text = "Idade Regulação";
-            txtRegTitle.Text = "Titulo";
-            btnReg.Text = "Gerar Regulação";
-        }
-
-        private void textBox15_TextChanged(object sender, EventArgs e)
-        {
-        }
-
-
-        private void simularToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            tabNavibar.SelectedTab = tpSim;
-        }
-
-        private void btnSim_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                GmpfManager.processamento(
-                    txtSimTaxaDesconto.Text,
-                    cmbSimTipoDesbaste.Text,
-                    cmbSimControleDesbaste.Text,
-                    txtSimIntervaloSistematico.Text, txtSimTitle.Text);
-            }
-            catch (Exception exception)
-            {
-                MessageBox.Show(exception.Message, "Erro ao simular os dados", MessageBoxButtons.OK);
-            }
-            this.Text = "Entradas e premissas";
-        }
-
-        private void btnMax_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                GmpfManager.print_maximizaçao(txtMaxHorizonte.Text, txtMaxNumPlanejamento.Text, txtSimTitle.Text);
-            }
-            catch (Exception exception)
-            {
-                MessageBox.Show(exception.Message, "Erro ao gerar maximização", MessageBoxButtons.OK);
-            }
-            this.Text = "Entradas e premissas";
-        }
-
-        private void btnReg_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                GmpfManager.print_maximizaçao(txtRegHorizonte.Text,txtRegIdadeRegulacao.Text,txtRegTitle.Text);
-            }
-            catch (Exception exception)
-            {
-                MessageBox.Show(exception.Message, "Erro ao gerar maximização", MessageBoxButtons.OK);
-            }
-            this.Text = "Entradas e premissas";
-            // horizonte = double.Parse(txtRegHorizonte.Text);
-            // N_regulacao = int.Parse(txtRegIdadeRegulacao.Text);
-            // arquivo_saida = txtRegTitle.Text;
-            print_Regulação(ref final_talhao);
-        }
-
-        private void btnSor_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                GmpfManager.print_Sortimentos(txtSorHorizonte.Text,txtSorTitle.Text);
-            }
-            catch (Exception exception)
-            {
-                MessageBox.Show(exception.Message, "Erro ao gerar maximização", MessageBoxButtons.OK);
-            }
-            this.Text = "Entradas e premissas";
-            // horizonte = double.Parse(txtSorHorizonte.Text);
-            // arquivo_saida = txtSorTitle.Text;
-            // print_Sortimentos(ref final_talhao);
-        }
-
-        private void btnBin_Click(object sender, EventArgs e)
-        {
-            horizonte = double.Parse(txtBinHorizonte.Text);
-            arquivo_saida = txtBinTitle.Text;
-            print_Binary(ref final_talhao);
         }
     }
 }
