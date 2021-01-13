@@ -23,17 +23,15 @@
         #region Código gerado pelo Windows Form Designer
 
         /// <summary>
-        /// Método necessário para suporte ao Designer - não modifique 
-        /// o conteúdo deste método com o editor de código.
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.button2 = new System.Windows.Forms.Button();
-            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.txtLogo = new System.Windows.Forms.TextBox();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.tsmiSim = new System.Windows.Forms.ToolStripMenuItem();
@@ -80,7 +78,7 @@
             this.txtBinHorizonte = new System.Windows.Forms.TextBox();
             this.txtBinTitle = new System.Windows.Forms.TextBox();
             this.btnBin = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize) (this.dataGridView1)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.tabNavibar.SuspendLayout();
             this.tpSim.SuspendLayout();
@@ -97,44 +95,26 @@
             this.flowLayoutPanel4.SuspendLayout();
             this.SuspendLayout();
             // 
-            // button2
-            // 
-            this.button2.BackColor = System.Drawing.Color.White;
-            this.button2.FlatAppearance.BorderColor = System.Drawing.Color.Blue;
-            this.button2.Location = new System.Drawing.Point(328, 397);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(99, 41);
-            this.button2.TabIndex = 3;
-            this.button2.Text = "SIMULAR";
-            this.button2.UseVisualStyleBackColor = false;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
-            // 
-            // openFileDialog1
-            // 
-            this.openFileDialog1.FileName = "openFileDialog1";
-            this.openFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog1_FileOk);
-            // 
             // dataGridView1
             // 
-            this.dataGridView1.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.dataGridView1.BackgroundColor = System.Drawing.Color.FromArgb(((int) (((byte) (192)))), ((int) (((byte) (255)))), ((int) (((byte) (192)))));
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView1.Location = new System.Drawing.Point(0, 0);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(808, 567);
             this.dataGridView1.TabIndex = 10;
-            this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
-            // textBox4
+            // txtLogo
             // 
-            this.textBox4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.textBox4.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox4.Font = new System.Drawing.Font("Microsoft Sans Serif", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox4.Location = new System.Drawing.Point(208, 212);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(195, 73);
-            this.textBox4.TabIndex = 26;
-            this.textBox4.Text = "GPMf";
+            this.txtLogo.BackColor = System.Drawing.Color.FromArgb(((int) (((byte) (192)))), ((int) (((byte) (255)))), ((int) (((byte) (192)))));
+            this.txtLogo.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtLogo.Font = new System.Drawing.Font("Microsoft Sans Serif", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.txtLogo.Location = new System.Drawing.Point(208, 212);
+            this.txtLogo.Name = "txtLogo";
+            this.txtLogo.Size = new System.Drawing.Size(195, 73);
+            this.txtLogo.TabIndex = 26;
+            this.txtLogo.Text = "GPMf";
             // 
             // contextMenuStrip1
             // 
@@ -143,18 +123,12 @@
             // 
             // menuStrip1
             // 
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmiSim,
-            this.tsmiMax,
-            this.tsmiSor,
-            this.tsmiBin,
-            this.tsmiReg});
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {this.tsmiSim, this.tsmiMax, this.tsmiSor, this.tsmiBin, this.tsmiReg});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(808, 24);
             this.menuStrip1.TabIndex = 31;
             this.menuStrip1.Text = "menuStrip1";
-            this.menuStrip1.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.menuStrip1_ItemClicked);
             // 
             // tsmiSim
             // 
@@ -208,7 +182,7 @@
             // 
             // tpSim
             // 
-            this.tpSim.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.tpSim.BackColor = System.Drawing.Color.FromArgb(((int) (((byte) (255)))), ((int) (((byte) (255)))), ((int) (((byte) (128)))));
             this.tpSim.Controls.Add(this.flowLayoutPanel7);
             this.tpSim.ForeColor = System.Drawing.SystemColors.Control;
             this.tpSim.Location = new System.Drawing.Point(4, 40);
@@ -245,11 +219,11 @@
             // btnSimDadosInventario
             // 
             this.btnSimDadosInventario.BackColor = System.Drawing.Color.White;
-            this.btnSimDadosInventario.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.btnSimDadosInventario.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int) (((byte) (0)))), ((int) (((byte) (192)))), ((int) (((byte) (0)))));
             this.btnSimDadosInventario.FlatAppearance.BorderSize = 3;
             this.btnSimDadosInventario.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSimDadosInventario.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSimDadosInventario.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.btnSimDadosInventario.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.btnSimDadosInventario.ForeColor = System.Drawing.Color.FromArgb(((int) (((byte) (0)))), ((int) (((byte) (192)))), ((int) (((byte) (0)))));
             this.btnSimDadosInventario.Location = new System.Drawing.Point(8, 8);
             this.btnSimDadosInventario.Name = "btnSimDadosInventario";
             this.btnSimDadosInventario.Size = new System.Drawing.Size(181, 40);
@@ -260,11 +234,11 @@
             // btnSimCoeficientesMAI
             // 
             this.btnSimCoeficientesMAI.BackColor = System.Drawing.Color.White;
-            this.btnSimCoeficientesMAI.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.btnSimCoeficientesMAI.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int) (((byte) (0)))), ((int) (((byte) (192)))), ((int) (((byte) (0)))));
             this.btnSimCoeficientesMAI.FlatAppearance.BorderSize = 3;
             this.btnSimCoeficientesMAI.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSimCoeficientesMAI.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSimCoeficientesMAI.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.btnSimCoeficientesMAI.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.btnSimCoeficientesMAI.ForeColor = System.Drawing.Color.FromArgb(((int) (((byte) (0)))), ((int) (((byte) (192)))), ((int) (((byte) (0)))));
             this.btnSimCoeficientesMAI.Location = new System.Drawing.Point(8, 54);
             this.btnSimCoeficientesMAI.Name = "btnSimCoeficientesMAI";
             this.btnSimCoeficientesMAI.Size = new System.Drawing.Size(181, 41);
@@ -275,11 +249,11 @@
             // btnSimSortimentos
             // 
             this.btnSimSortimentos.BackColor = System.Drawing.Color.White;
-            this.btnSimSortimentos.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.btnSimSortimentos.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int) (((byte) (0)))), ((int) (((byte) (192)))), ((int) (((byte) (0)))));
             this.btnSimSortimentos.FlatAppearance.BorderSize = 3;
             this.btnSimSortimentos.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSimSortimentos.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSimSortimentos.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.btnSimSortimentos.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.btnSimSortimentos.ForeColor = System.Drawing.Color.FromArgb(((int) (((byte) (0)))), ((int) (((byte) (192)))), ((int) (((byte) (0)))));
             this.btnSimSortimentos.Location = new System.Drawing.Point(8, 101);
             this.btnSimSortimentos.Name = "btnSimSortimentos";
             this.btnSimSortimentos.Size = new System.Drawing.Size(181, 41);
@@ -291,11 +265,11 @@
             // 
             this.btnSimPalhanilhaCustos.BackColor = System.Drawing.Color.White;
             this.btnSimPalhanilhaCustos.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnSimPalhanilhaCustos.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.btnSimPalhanilhaCustos.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int) (((byte) (0)))), ((int) (((byte) (192)))), ((int) (((byte) (0)))));
             this.btnSimPalhanilhaCustos.FlatAppearance.BorderSize = 3;
             this.btnSimPalhanilhaCustos.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSimPalhanilhaCustos.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSimPalhanilhaCustos.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.btnSimPalhanilhaCustos.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.btnSimPalhanilhaCustos.ForeColor = System.Drawing.Color.FromArgb(((int) (((byte) (0)))), ((int) (((byte) (192)))), ((int) (((byte) (0)))));
             this.btnSimPalhanilhaCustos.Location = new System.Drawing.Point(8, 148);
             this.btnSimPalhanilhaCustos.Name = "btnSimPalhanilhaCustos";
             this.btnSimPalhanilhaCustos.Size = new System.Drawing.Size(181, 41);
@@ -317,11 +291,11 @@
             this.button4.BackColor = System.Drawing.Color.White;
             this.button4.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.button4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button4.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.button4.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int) (((byte) (0)))), ((int) (((byte) (192)))), ((int) (((byte) (0)))));
             this.button4.FlatAppearance.BorderSize = 3;
             this.button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.button4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.button4.ForeColor = System.Drawing.Color.FromArgb(((int) (((byte) (0)))), ((int) (((byte) (192)))), ((int) (((byte) (0)))));
             this.button4.Location = new System.Drawing.Point(0, 0);
             this.button4.Margin = new System.Windows.Forms.Padding(0);
             this.button4.Name = "button4";
@@ -330,33 +304,28 @@
             this.button4.Text = "Taxa de descontos";
             this.button4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.button4.UseVisualStyleBackColor = false;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
             // txtSimTaxaDesconto
             // 
             this.txtSimTaxaDesconto.Dock = System.Windows.Forms.DockStyle.Right;
-            this.txtSimTaxaDesconto.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.txtSimTaxaDesconto.ForeColor = System.Drawing.Color.FromArgb(((int) (((byte) (0)))), ((int) (((byte) (192)))), ((int) (((byte) (0)))));
             this.txtSimTaxaDesconto.Location = new System.Drawing.Point(150, 0);
             this.txtSimTaxaDesconto.Name = "txtSimTaxaDesconto";
             this.txtSimTaxaDesconto.Size = new System.Drawing.Size(31, 20);
             this.txtSimTaxaDesconto.TabIndex = 18;
             this.txtSimTaxaDesconto.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.txtSimTaxaDesconto.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
             // 
             // cmbSimTipoDesbaste
             // 
-            this.cmbSimTipoDesbaste.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cmbSimTipoDesbaste.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.cmbSimTipoDesbaste.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.cmbSimTipoDesbaste.ForeColor = System.Drawing.Color.FromArgb(((int) (((byte) (0)))), ((int) (((byte) (192)))), ((int) (((byte) (0)))));
             this.cmbSimTipoDesbaste.FormattingEnabled = true;
-            this.cmbSimTipoDesbaste.Items.AddRange(new object[] {
-            "Seletivo",
-            "Misto"});
+            this.cmbSimTipoDesbaste.Items.AddRange(new object[] {"Seletivo", "Misto"});
             this.cmbSimTipoDesbaste.Location = new System.Drawing.Point(8, 237);
             this.cmbSimTipoDesbaste.Name = "cmbSimTipoDesbaste";
             this.cmbSimTipoDesbaste.Size = new System.Drawing.Size(181, 28);
             this.cmbSimTipoDesbaste.TabIndex = 14;
             this.cmbSimTipoDesbaste.Text = "Tipo de desbaste";
-            this.cmbSimTipoDesbaste.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // panel2
             // 
@@ -370,23 +339,20 @@
             // cmbSimControleDesbaste
             // 
             this.cmbSimControleDesbaste.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cmbSimControleDesbaste.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cmbSimControleDesbaste.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.cmbSimControleDesbaste.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.cmbSimControleDesbaste.ForeColor = System.Drawing.Color.FromArgb(((int) (((byte) (0)))), ((int) (((byte) (192)))), ((int) (((byte) (0)))));
             this.cmbSimControleDesbaste.FormattingEnabled = true;
-            this.cmbSimControleDesbaste.Items.AddRange(new object[] {
-            "Árvore",
-            "Área basal"});
+            this.cmbSimControleDesbaste.Items.AddRange(new object[] {"Árvore", "Área basal"});
             this.cmbSimControleDesbaste.Location = new System.Drawing.Point(0, 0);
             this.cmbSimControleDesbaste.Name = "cmbSimControleDesbaste";
             this.cmbSimControleDesbaste.Size = new System.Drawing.Size(150, 23);
             this.cmbSimControleDesbaste.TabIndex = 17;
             this.cmbSimControleDesbaste.Text = "Controle de desbaste";
-            this.cmbSimControleDesbaste.SelectedIndexChanged += new System.EventHandler(this.comboBox2_SelectedIndexChanged);
             // 
             // txtSimIntervaloSistematico
             // 
             this.txtSimIntervaloSistematico.Dock = System.Windows.Forms.DockStyle.Right;
-            this.txtSimIntervaloSistematico.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.txtSimIntervaloSistematico.ForeColor = System.Drawing.Color.FromArgb(((int) (((byte) (0)))), ((int) (((byte) (192)))), ((int) (((byte) (0)))));
             this.txtSimIntervaloSistematico.Location = new System.Drawing.Point(150, 0);
             this.txtSimIntervaloSistematico.Name = "txtSimIntervaloSistematico";
             this.txtSimIntervaloSistematico.Size = new System.Drawing.Size(31, 20);
@@ -394,16 +360,15 @@
             this.txtSimIntervaloSistematico.Text = "5";
             this.txtSimIntervaloSistematico.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtSimIntervaloSistematico.Visible = false;
-            this.txtSimIntervaloSistematico.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // btnSimCenarios
             // 
             this.btnSimCenarios.BackColor = System.Drawing.Color.White;
-            this.btnSimCenarios.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.btnSimCenarios.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int) (((byte) (0)))), ((int) (((byte) (192)))), ((int) (((byte) (0)))));
             this.btnSimCenarios.FlatAppearance.BorderSize = 3;
             this.btnSimCenarios.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSimCenarios.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSimCenarios.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.btnSimCenarios.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.btnSimCenarios.ForeColor = System.Drawing.Color.FromArgb(((int) (((byte) (0)))), ((int) (((byte) (192)))), ((int) (((byte) (0)))));
             this.btnSimCenarios.Location = new System.Drawing.Point(8, 318);
             this.btnSimCenarios.Name = "btnSimCenarios";
             this.btnSimCenarios.Size = new System.Drawing.Size(181, 41);
@@ -413,24 +378,23 @@
             // 
             // txtSimTitle
             // 
-            this.txtSimTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtSimTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.txtSimTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.txtSimTitle.ForeColor = System.Drawing.Color.FromArgb(((int) (((byte) (0)))), ((int) (((byte) (192)))), ((int) (((byte) (0)))));
             this.txtSimTitle.Location = new System.Drawing.Point(8, 365);
             this.txtSimTitle.Name = "txtSimTitle";
             this.txtSimTitle.Size = new System.Drawing.Size(181, 26);
             this.txtSimTitle.TabIndex = 25;
             this.txtSimTitle.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.txtSimTitle.TextChanged += new System.EventHandler(this.textBox3_TextChanged);
             // 
             // btnSim
             // 
             this.btnSim.BackColor = System.Drawing.Color.White;
             this.btnSim.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnSim.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.btnSim.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int) (((byte) (0)))), ((int) (((byte) (192)))), ((int) (((byte) (0)))));
             this.btnSim.FlatAppearance.BorderSize = 3;
             this.btnSim.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSim.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSim.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.btnSim.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.btnSim.ForeColor = System.Drawing.Color.FromArgb(((int) (((byte) (0)))), ((int) (((byte) (192)))), ((int) (((byte) (0)))));
             this.btnSim.Location = new System.Drawing.Point(8, 397);
             this.btnSim.Name = "btnSim";
             this.btnSim.Size = new System.Drawing.Size(181, 41);
@@ -441,7 +405,7 @@
             // 
             // tpMax
             // 
-            this.tpMax.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.tpMax.BackColor = System.Drawing.Color.FromArgb(((int) (((byte) (255)))), ((int) (((byte) (255)))), ((int) (((byte) (128)))));
             this.tpMax.Controls.Add(this.flowLayoutPanel1);
             this.tpMax.Location = new System.Drawing.Point(4, 40);
             this.tpMax.Name = "tpMax";
@@ -465,7 +429,7 @@
             // 
             // txtMaxHorizonte
             // 
-            this.txtMaxHorizonte.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtMaxHorizonte.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
             this.txtMaxHorizonte.Location = new System.Drawing.Point(3, 3);
             this.txtMaxHorizonte.Name = "txtMaxHorizonte";
             this.txtMaxHorizonte.Size = new System.Drawing.Size(179, 26);
@@ -473,7 +437,7 @@
             // 
             // txtMaxNumPlanejamento
             // 
-            this.txtMaxNumPlanejamento.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtMaxNumPlanejamento.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
             this.txtMaxNumPlanejamento.Location = new System.Drawing.Point(3, 35);
             this.txtMaxNumPlanejamento.Name = "txtMaxNumPlanejamento";
             this.txtMaxNumPlanejamento.Size = new System.Drawing.Size(179, 26);
@@ -481,8 +445,8 @@
             // 
             // txtMaxTitle
             // 
-            this.txtMaxTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtMaxTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.txtMaxTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.txtMaxTitle.ForeColor = System.Drawing.Color.FromArgb(((int) (((byte) (0)))), ((int) (((byte) (192)))), ((int) (((byte) (0)))));
             this.txtMaxTitle.Location = new System.Drawing.Point(3, 67);
             this.txtMaxTitle.Name = "txtMaxTitle";
             this.txtMaxTitle.Size = new System.Drawing.Size(179, 26);
@@ -493,11 +457,11 @@
             // 
             this.btnMax.BackColor = System.Drawing.Color.White;
             this.btnMax.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnMax.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.btnMax.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int) (((byte) (0)))), ((int) (((byte) (192)))), ((int) (((byte) (0)))));
             this.btnMax.FlatAppearance.BorderSize = 3;
             this.btnMax.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnMax.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnMax.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.btnMax.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.btnMax.ForeColor = System.Drawing.Color.FromArgb(((int) (((byte) (0)))), ((int) (((byte) (192)))), ((int) (((byte) (0)))));
             this.btnMax.Location = new System.Drawing.Point(3, 99);
             this.btnMax.Name = "btnMax";
             this.btnMax.Size = new System.Drawing.Size(179, 41);
@@ -508,7 +472,7 @@
             // 
             // tpReg
             // 
-            this.tpReg.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.tpReg.BackColor = System.Drawing.Color.FromArgb(((int) (((byte) (255)))), ((int) (((byte) (255)))), ((int) (((byte) (128)))));
             this.tpReg.Controls.Add(this.flowLayoutPanel5);
             this.tpReg.Location = new System.Drawing.Point(4, 40);
             this.tpReg.Name = "tpReg";
@@ -531,7 +495,7 @@
             // 
             // txtRegHorizonte
             // 
-            this.txtRegHorizonte.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtRegHorizonte.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
             this.txtRegHorizonte.Location = new System.Drawing.Point(3, 3);
             this.txtRegHorizonte.Name = "txtRegHorizonte";
             this.txtRegHorizonte.Size = new System.Drawing.Size(179, 26);
@@ -539,7 +503,7 @@
             // 
             // txtRegIdadeRegulacao
             // 
-            this.txtRegIdadeRegulacao.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtRegIdadeRegulacao.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
             this.txtRegIdadeRegulacao.Location = new System.Drawing.Point(3, 35);
             this.txtRegIdadeRegulacao.Name = "txtRegIdadeRegulacao";
             this.txtRegIdadeRegulacao.Size = new System.Drawing.Size(179, 26);
@@ -547,8 +511,8 @@
             // 
             // txtRegTitle
             // 
-            this.txtRegTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtRegTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.txtRegTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.txtRegTitle.ForeColor = System.Drawing.Color.FromArgb(((int) (((byte) (0)))), ((int) (((byte) (192)))), ((int) (((byte) (0)))));
             this.txtRegTitle.Location = new System.Drawing.Point(3, 67);
             this.txtRegTitle.Name = "txtRegTitle";
             this.txtRegTitle.Size = new System.Drawing.Size(179, 26);
@@ -559,11 +523,11 @@
             // 
             this.btnReg.BackColor = System.Drawing.Color.White;
             this.btnReg.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnReg.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.btnReg.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int) (((byte) (0)))), ((int) (((byte) (192)))), ((int) (((byte) (0)))));
             this.btnReg.FlatAppearance.BorderSize = 3;
             this.btnReg.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnReg.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnReg.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.btnReg.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.btnReg.ForeColor = System.Drawing.Color.FromArgb(((int) (((byte) (0)))), ((int) (((byte) (192)))), ((int) (((byte) (0)))));
             this.btnReg.Location = new System.Drawing.Point(3, 99);
             this.btnReg.Name = "btnReg";
             this.btnReg.Size = new System.Drawing.Size(179, 41);
@@ -574,7 +538,7 @@
             // 
             // tpSor
             // 
-            this.tpSor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.tpSor.BackColor = System.Drawing.Color.FromArgb(((int) (((byte) (255)))), ((int) (((byte) (255)))), ((int) (((byte) (128)))));
             this.tpSor.Controls.Add(this.flowLayoutPanel3);
             this.tpSor.Location = new System.Drawing.Point(4, 40);
             this.tpSor.Name = "tpSor";
@@ -596,7 +560,7 @@
             // 
             // txtSorHorizonte
             // 
-            this.txtSorHorizonte.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtSorHorizonte.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
             this.txtSorHorizonte.Location = new System.Drawing.Point(3, 3);
             this.txtSorHorizonte.Name = "txtSorHorizonte";
             this.txtSorHorizonte.Size = new System.Drawing.Size(179, 26);
@@ -604,8 +568,8 @@
             // 
             // txtSorTitle
             // 
-            this.txtSorTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtSorTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.txtSorTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.txtSorTitle.ForeColor = System.Drawing.Color.FromArgb(((int) (((byte) (0)))), ((int) (((byte) (192)))), ((int) (((byte) (0)))));
             this.txtSorTitle.Location = new System.Drawing.Point(3, 35);
             this.txtSorTitle.Name = "txtSorTitle";
             this.txtSorTitle.Size = new System.Drawing.Size(179, 26);
@@ -616,11 +580,11 @@
             // 
             this.btnSor.BackColor = System.Drawing.Color.White;
             this.btnSor.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnSor.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.btnSor.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int) (((byte) (0)))), ((int) (((byte) (192)))), ((int) (((byte) (0)))));
             this.btnSor.FlatAppearance.BorderSize = 3;
             this.btnSor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSor.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSor.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.btnSor.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.btnSor.ForeColor = System.Drawing.Color.FromArgb(((int) (((byte) (0)))), ((int) (((byte) (192)))), ((int) (((byte) (0)))));
             this.btnSor.Location = new System.Drawing.Point(3, 67);
             this.btnSor.Name = "btnSor";
             this.btnSor.Size = new System.Drawing.Size(179, 41);
@@ -631,7 +595,7 @@
             // 
             // tpBin
             // 
-            this.tpBin.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.tpBin.BackColor = System.Drawing.Color.FromArgb(((int) (((byte) (255)))), ((int) (((byte) (255)))), ((int) (((byte) (128)))));
             this.tpBin.Controls.Add(this.flowLayoutPanel4);
             this.tpBin.Location = new System.Drawing.Point(4, 40);
             this.tpBin.Name = "tpBin";
@@ -653,7 +617,7 @@
             // 
             // txtBinHorizonte
             // 
-            this.txtBinHorizonte.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtBinHorizonte.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
             this.txtBinHorizonte.Location = new System.Drawing.Point(3, 3);
             this.txtBinHorizonte.Name = "txtBinHorizonte";
             this.txtBinHorizonte.Size = new System.Drawing.Size(181, 26);
@@ -661,8 +625,8 @@
             // 
             // txtBinTitle
             // 
-            this.txtBinTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtBinTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.txtBinTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.txtBinTitle.ForeColor = System.Drawing.Color.FromArgb(((int) (((byte) (0)))), ((int) (((byte) (192)))), ((int) (((byte) (0)))));
             this.txtBinTitle.Location = new System.Drawing.Point(3, 35);
             this.txtBinTitle.Name = "txtBinTitle";
             this.txtBinTitle.Size = new System.Drawing.Size(181, 26);
@@ -673,11 +637,11 @@
             // 
             this.btnBin.BackColor = System.Drawing.Color.White;
             this.btnBin.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnBin.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.btnBin.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int) (((byte) (0)))), ((int) (((byte) (192)))), ((int) (((byte) (0)))));
             this.btnBin.FlatAppearance.BorderSize = 3;
             this.btnBin.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnBin.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnBin.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.btnBin.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.btnBin.ForeColor = System.Drawing.Color.FromArgb(((int) (((byte) (0)))), ((int) (((byte) (192)))), ((int) (((byte) (0)))));
             this.btnBin.Location = new System.Drawing.Point(3, 67);
             this.btnBin.Name = "btnBin";
             this.btnBin.Size = new System.Drawing.Size(184, 41);
@@ -690,17 +654,16 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.BackColor = System.Drawing.Color.FromArgb(((int) (((byte) (255)))), ((int) (((byte) (255)))), ((int) (((byte) (128)))));
             this.ClientSize = new System.Drawing.Size(808, 567);
             this.Controls.Add(this.tabNavibar);
             this.Controls.Add(this.menuStrip1);
-            this.Controls.Add(this.textBox4);
+            this.Controls.Add(this.txtLogo);
             this.Controls.Add(this.dataGridView1);
-            this.Controls.Add(this.button2);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
             this.Text = "Entradas e premissas";
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize) (this.dataGridView1)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.tabNavibar.ResumeLayout(false);
@@ -725,13 +688,12 @@
             this.flowLayoutPanel4.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
 
+        private System.Windows.Forms.TextBox txtLogo;
+
         #endregion
-        private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button btnSimSortimentos;
-        private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.Button btnSimPalhanilhaCustos;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.ComboBox cmbSimTipoDesbaste;
@@ -742,7 +704,6 @@
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.TextBox txtSimTitle;
-        private System.Windows.Forms.TextBox textBox4;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem tsmiSim;

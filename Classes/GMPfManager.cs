@@ -1973,9 +1973,12 @@ namespace Simulador.Classes
             Excel_Binary.Quit();
         }
 
-        public void print_Regulação(double horizonte,
-            int N_regulacao, string arquivo_saida)
+        public void print_Regulação(string horizonte,
+            string N_regulacao, string arquivo_saida)
         {
+            this.horizonte = int.Parse(horizonte);
+            this.N_regulacao = int.Parse(N_regulacao);
+            
             var Excel_Regulacao = new Microsoft.Office.Interop.Excel.Application();
             Excel_Regulacao.Workbooks.Add();
             Excel_Regulacao.Workbooks[1].Worksheets[1].Name = "Regulação";
@@ -1983,7 +1986,7 @@ namespace Simulador.Classes
 
             Excel_Regulacao.Worksheets[1].cells[1][1] = "X";
 
-            for (int i = 0; i <= N_regulacao; i++)
+            for (int i = 0; i <= this.N_regulacao; i++)
             {
                 Excel_Regulacao.Worksheets[1].cells[i + 2][1] = i;
             }
@@ -2019,16 +2022,16 @@ namespace Simulador.Classes
                     if (cenario.VPL[i] == -1 && cenario.VAE[i] == -1 && cenario.VPL_infinito[i] == -1 &&
                         cenario.VET[i] == -1)
                     {
-                        for (int idade_atual = 0; idade_atual <= N_regulacao; idade_atual++)
+                        for (int idade_atual = 0; idade_atual <= this.N_regulacao; idade_atual++)
                         {
                             Excel_Regulacao.Worksheets[1].cells[idade_atual + 2][linha] = 0;
                         }
 
-                        int idade_final = (int) (cenario.Idade_Original[i] + horizonte);
+                        int idade_final = (int) (cenario.Idade_Original[i] + this.horizonte);
                         idade_final %= (int) cenario.idade[i + 1];
                         idade_final %= (int) cenario.idade[i];
 
-                        if (idade_final <= N_regulacao)
+                        if (idade_final <= this.N_regulacao)
                         {
                             Excel_Regulacao.Worksheets[1].cells[idade_final + 2][linha] = cenario.area_talhao[i];
                         }
@@ -2037,14 +2040,14 @@ namespace Simulador.Classes
                     }
                     else
                     {
-                        for (int idade_atual = 0; idade_atual <= N_regulacao; idade_atual++)
+                        for (int idade_atual = 0; idade_atual <= this.N_regulacao; idade_atual++)
                         {
                             Excel_Regulacao.Worksheets[1].cells[idade_atual + 2][linha] = 0;
                         }
 
-                        int idade_final = (int) (cenario.Idade_Original[i] + horizonte);
+                        int idade_final = (int) (cenario.Idade_Original[i] + this.horizonte);
                         idade_final %= (int) cenario.idade[i];
-                        if (idade_final <= N_regulacao)
+                        if (idade_final <= this.N_regulacao)
                         {
                             Excel_Regulacao.Worksheets[1].cells[idade_final + 2][linha] = cenario.area_talhao[i];
                         }
@@ -2221,7 +2224,7 @@ namespace Simulador.Classes
             txt.Close();
         }
 
-        public void processamento(string taxa_juros, string tipo_desbaste, string desbaste_por,
+        public void print_simular(string taxa_juros, string tipo_desbaste, string desbaste_por,
             string intervalo_sistematico, string arquivoSaida)
         {
             // this.taxa_juros = taxa_juros;
