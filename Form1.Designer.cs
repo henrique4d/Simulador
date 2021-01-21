@@ -235,6 +235,7 @@
             this.btnSimDadosInventario.TabIndex = 2;
             this.btnSimDadosInventario.Text = "Dados de inventário";
             this.btnSimDadosInventario.UseVisualStyleBackColor = false;
+            this.btnSimDadosInventario.Click += new System.EventHandler(this.btnSimDadosInventario_Click);
             // 
             // btnSimCoeficientesMAI
             // 

@@ -52,6 +52,7 @@ namespace Simulador.Models
             {
                 string ext = Path.GetExtension(FileName);
                 string connectionString = "";
+                Console.WriteLine(FileName);
                 if (ext == ".xls")
                 {
                     connectionString = "Provider=Microsoft.Jet.OLEDB.4.0; Data Source =" + FileName + "; Extended Properties = 'Excel 8.0;HDR=YES'";

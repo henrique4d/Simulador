@@ -33,7 +33,7 @@ namespace Simulador
 
             // Textos
             txtSimTitle.Text = @"Título";
-            DebugLoadFiles();
+            //DebugLoadFiles();
         }
 
         private void DebugLoadFiles()
@@ -199,6 +199,11 @@ namespace Simulador
                 MessageBox.Show(exception.Message, @"Erro ao gerar maximização", MessageBoxButtons.OK);
             }
             Text = @"Entradas e premissas";
+        }
+
+        private void btnSimDadosInventario_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
