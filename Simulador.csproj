@@ -107,72 +107,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\GMPfManager.cs" />
-    <Compile Include="Classes\MyHelper.cs" />
-    <Compile Include="Components2\NavbarItem.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Components2\NavbarItem.Designer.cs">
-      <DependentUpon>NavbarItem.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Components\ButtonAction.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Components\ButtonAction.Designer.cs">
-      <DependentUpon>ButtonAction.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Components\ButtonOpenSpeedsheet.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Components\ButtonOpenSpeedsheet.Designer.cs">
-      <DependentUpon>ButtonOpenSpeedsheet.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Components\NavBarItem.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Components\NavBarItem.Designer.cs">
-      <DependentUpon>NavBarItem.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Components\ComboBox.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Components\ComboBox.Designer.cs">
-      <DependentUpon>ComboBox.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Components\SidebarItem.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Components\SidebarItem.Designer.cs">
-      <DependentUpon>SidebarItem.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Components\SpreadsheetManager.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Components\SpreadsheetManager.Designer.cs">
-      <DependentUpon>SpreadsheetManager.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Components\SpreadsheetViewer.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Components\SpreadsheetViewer.Designer.cs">
-      <DependentUpon>SpreadsheetViewer.cs</DependentUpon>
-    </Compile>
     <Compile Include="Components\TabControlWithoutHeader.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Components\TabControlWithoutHeader.Designer.cs">
       <DependentUpon>TabControlWithoutHeader.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Components\TextBoxNumber.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Components\TextBoxNumber.Designer.cs">
-      <DependentUpon>TextBoxNumber.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Components\TextBoxString.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Components\TextBoxString.Designer.cs">
-      <DependentUpon>TextBoxString.cs</DependentUpon>
     </Compile>
     <Compile Include="customException.cs" />
     <Compile Include="Form1.cs">
@@ -180,42 +119,6 @@
     </Compile>
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Form3.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Form3.Designer.cs">
-      <DependentUpon>Form3.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Layouts\NavBar.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Layouts\NavBar.Designer.cs">
-      <DependentUpon>NavBar.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Layouts\Sidebar.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Layouts\Sidebar.Designer.cs">
-      <DependentUpon>Sidebar.cs</DependentUpon>
-    </Compile>
-    <Compile Include="MainWindown.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MainWindown.Designer.cs">
-      <DependentUpon>MainWindown.cs</DependentUpon>
-    </Compile>
-    <Compile Include="MainWindown2.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MainWindown2.Designer.cs">
-      <DependentUpon>MainWindown2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="MainWindown3.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MainWindown3.Designer.cs">
-      <DependentUpon>MainWindown3.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\Arvore.cs" />
     <Compile Include="Models\Cenario_Parcela.cs" />
@@ -231,63 +134,11 @@
     <Compile Include="Models\Talhao.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Resources\CustomColor.cs" />
-    <Compile Include="TestForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="TestForm.Designer.cs">
-      <DependentUpon>TestForm.cs</DependentUpon>
-    </Compile>
-    <EmbeddedResource Include="Components\ButtonAction.resx">
-      <DependentUpon>ButtonAction.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Components\ButtonOpenSpeedsheet.resx">
-      <DependentUpon>ButtonOpenSpeedsheet.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Components\NavBarItem.resx">
-      <DependentUpon>NavBarItem.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Components\ComboBox.resx">
-      <DependentUpon>ComboBox.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Components\SidebarItem.resx">
-      <DependentUpon>SidebarItem.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Components\SpreadsheetManager.resx">
-      <DependentUpon>SpreadsheetManager.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Components\SpreadsheetViewer.resx">
-      <DependentUpon>SpreadsheetViewer.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Components\TabControlWithoutHeader.resx">
       <DependentUpon>TabControlWithoutHeader.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Components\TextBoxNumber.resx">
-      <DependentUpon>TextBoxNumber.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Components\TextBoxString.resx">
-      <DependentUpon>TextBoxString.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Form3.resx">
-      <DependentUpon>Form3.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Layouts\NavBar.resx">
-      <DependentUpon>NavBar.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Layouts\Sidebar.resx">
-      <DependentUpon>Sidebar.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MainWindown.resx">
-      <DependentUpon>MainWindown.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MainWindown2.resx">
-      <DependentUpon>MainWindown2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MainWindown3.resx">
-      <DependentUpon>MainWindown3.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -299,9 +150,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="TestForm.resx">
-      <DependentUpon>TestForm.cs</DependentUpon>
-    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -347,15 +195,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="asd.ico" />
-    <None Include="Resources\view-16x16.png" />
-    <None Include="Resources\16x16.png" />
-    <None Include="Resources\Icon1.ico" />
-    <None Include="Resources\view.png" />
-    <None Include="Resources\cancel.png" />
-    <None Include="Resources\times-circle-regular.png" />
-    <None Include="Resources\eye-solid.png" />
-    <None Include="Resources\Image1.png" />
-    <None Include="Resources\primaryColor.ico" />
     <None Include="Resources\Icon.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -371,10 +210,6 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Interfaces\" />
-    <Folder Include="Testes\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

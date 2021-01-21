@@ -5,8 +5,6 @@ VisualStudioVersion = 16.0.29424.173
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simulador", "Simulador.csproj", "{B2B1AD0E-0AFD-4DE3-BD83-11F11EA99C7B}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Simulador_florestal", "Instalador\Simulador_florestal\Simulador_florestal.vdproj", "{E1A948A9-EFAF-46A6-968A-4E5D4533D0F8}"
-EndProject
 Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "SetupSimuladorFlorestal", "Instalador\SetupSimuladorFlorestal\SetupSimuladorFlorestal.wixproj", "{98FB6F7C-5E9D-49E5-A858-A880278B0368}"
 EndProject
 Global
