@@ -25,6 +25,7 @@ namespace Simulador
         private void InitilizeTpSim()
         {
             // Quando clicar nos botões, carregar os arquivos do Excel
+           
             btnSimDadosInventario.Click += (sender, e) => { LoadExcelData(GmpfManager.SprdSimDadosInventario); };
             btnSimCoeficientesMAI.Click += (sender, e) => { LoadExcelData(GmpfManager.SprdSimCoeficienteMai); };
             btnSimSortimentos.Click += (sender, e) => { LoadExcelData(GmpfManager.SprdSimSortimentos); };
@@ -54,6 +55,7 @@ namespace Simulador
             {
                 if (sprd.OpenFile())
                 {
+                    sprd.GetTabelaExcel();
                     dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
                     dataGridView1.DataSource = sprd.DataTable;
 
