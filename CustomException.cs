@@ -10,9 +10,6 @@ namespace Simulador
         public CustomException(string mensagem)
             : base(mensagem)
         {
-            //Console.WriteLine(mensagem);
-            //Console.WriteLine("here");
-            //Form1.MessageBox.Show(error, message, MessageBoxButtons.OK);
         }
     }
 }
