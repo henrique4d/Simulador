@@ -166,7 +166,7 @@ namespace Simulador
             Text = @"Gerando Regulação";
             try
             {
-                GmpfManager.print_maximizaçao(txtRegHorizonte.Text,txtRegIdadeRegulacao.Text,txtRegTitle.Text);
+                GmpfManager.print_Regulação(txtRegHorizonte.Text,txtRegIdadeRegulacao.Text,txtRegTitle.Text);
             }
             catch (Exception exception)
             {
@@ -204,6 +204,38 @@ namespace Simulador
         }
 
         private void btnSimDadosInventario_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cmbSimTipoDesbaste_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cmbSimTipoDesbaste.Text == "Seletivo")
+            {
+                txtSimIntervaloSistematico.Visible = false;
+            }
+            if (cmbSimTipoDesbaste.Text == "Misto")
+            {
+                txtSimIntervaloSistematico.Visible = true;
+            }
+        }
+
+        private void txtSimIntervaloSistematico_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
+        }
+
+        private void backgroundWorker1_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
 
         }

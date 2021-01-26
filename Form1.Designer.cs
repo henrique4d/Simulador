@@ -33,12 +33,6 @@
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.txtLogo = new System.Windows.Forms.TextBox();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.tsmiSim = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiMax = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiSor = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiBin = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiReg = new System.Windows.Forms.ToolStripMenuItem();
             this.tabNavibar = new Simulador.Components.TabControlWithoutHeader();
             this.tpSim = new System.Windows.Forms.TabPage();
             this.flowLayoutPanel7 = new System.Windows.Forms.FlowLayoutPanel();
@@ -78,8 +72,13 @@
             this.txtBinHorizonte = new System.Windows.Forms.TextBox();
             this.txtBinTitle = new System.Windows.Forms.TextBox();
             this.btnBin = new System.Windows.Forms.Button();
+            this.tsmiSim = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiMax = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiSor = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiBin = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiReg = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
-            this.menuStrip1.SuspendLayout();
             this.tabNavibar.SuspendLayout();
             this.tpSim.SuspendLayout();
             this.flowLayoutPanel7.SuspendLayout();
@@ -93,7 +92,12 @@
             this.flowLayoutPanel3.SuspendLayout();
             this.tpBin.SuspendLayout();
             this.flowLayoutPanel4.SuspendLayout();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // backgroundWorker1
+            // 
+            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
             // 
             // dataGridView1
             // 
@@ -121,55 +125,6 @@
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
             // 
-            // menuStrip1
-            // 
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmiSim,
-            this.tsmiMax,
-            this.tsmiSor,
-            this.tsmiBin,
-            this.tsmiReg});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(808, 24);
-            this.menuStrip1.TabIndex = 31;
-            this.menuStrip1.Text = "menuStrip1";
-            // 
-            // tsmiSim
-            // 
-            this.tsmiSim.Name = "tsmiSim";
-            this.tsmiSim.Size = new System.Drawing.Size(59, 20);
-            this.tsmiSim.Text = "Simular";
-            this.tsmiSim.Click += new System.EventHandler(this.simularToolStripMenuItem_Click);
-            // 
-            // tsmiMax
-            // 
-            this.tsmiMax.Name = "tsmiMax";
-            this.tsmiMax.Size = new System.Drawing.Size(89, 20);
-            this.tsmiMax.Text = "Maximização";
-            this.tsmiMax.Click += new System.EventHandler(this.maximizaçãoToolStripMenuItem_Click);
-            // 
-            // tsmiSor
-            // 
-            this.tsmiSor.Name = "tsmiSor";
-            this.tsmiSor.Size = new System.Drawing.Size(83, 20);
-            this.tsmiSor.Text = "Sortimentos";
-            this.tsmiSor.Click += new System.EventHandler(this.sortimentosToolStripMenuItem_Click);
-            // 
-            // tsmiBin
-            // 
-            this.tsmiBin.Name = "tsmiBin";
-            this.tsmiBin.Size = new System.Drawing.Size(55, 20);
-            this.tsmiBin.Text = "Binária";
-            this.tsmiBin.Click += new System.EventHandler(this.bináriaToolStripMenuItem_Click);
-            // 
-            // tsmiReg
-            // 
-            this.tsmiReg.Name = "tsmiReg";
-            this.tsmiReg.Size = new System.Drawing.Size(74, 20);
-            this.tsmiReg.Text = "Regulação";
-            this.tsmiReg.Click += new System.EventHandler(this.regulaçãoToolStripMenuItem_Click);
-            // 
             // tabNavibar
             // 
             this.tabNavibar.Controls.Add(this.tpSim);
@@ -178,11 +133,11 @@
             this.tabNavibar.Controls.Add(this.tpSor);
             this.tabNavibar.Controls.Add(this.tpBin);
             this.tabNavibar.Dock = System.Windows.Forms.DockStyle.Right;
-            this.tabNavibar.Location = new System.Drawing.Point(607, 24);
+            this.tabNavibar.Location = new System.Drawing.Point(609, 24);
             this.tabNavibar.Multiline = true;
             this.tabNavibar.Name = "tabNavibar";
             this.tabNavibar.SelectedIndex = 0;
-            this.tabNavibar.Size = new System.Drawing.Size(201, 543);
+            this.tabNavibar.Size = new System.Drawing.Size(199, 543);
             this.tabNavibar.TabIndex = 47;
             // 
             // tpSim
@@ -193,7 +148,7 @@
             this.tpSim.Location = new System.Drawing.Point(4, 40);
             this.tpSim.Margin = new System.Windows.Forms.Padding(0);
             this.tpSim.Name = "tpSim";
-            this.tpSim.Size = new System.Drawing.Size(193, 499);
+            this.tpSim.Size = new System.Drawing.Size(191, 499);
             this.tpSim.TabIndex = 0;
             this.tpSim.Text = "Simular";
             // 
@@ -218,7 +173,7 @@
             this.flowLayoutPanel7.Margin = new System.Windows.Forms.Padding(0);
             this.flowLayoutPanel7.Name = "flowLayoutPanel7";
             this.flowLayoutPanel7.Padding = new System.Windows.Forms.Padding(5);
-            this.flowLayoutPanel7.Size = new System.Drawing.Size(193, 499);
+            this.flowLayoutPanel7.Size = new System.Drawing.Size(191, 499);
             this.flowLayoutPanel7.TabIndex = 1;
             // 
             // btnSimDadosInventario
@@ -660,6 +615,55 @@
             this.btnBin.UseVisualStyleBackColor = false;
             this.btnBin.Click += new System.EventHandler(this.btnBin_Click);
             // 
+            // tsmiSim
+            // 
+            this.tsmiSim.Name = "tsmiSim";
+            this.tsmiSim.Size = new System.Drawing.Size(59, 20);
+            this.tsmiSim.Text = "Simular";
+            this.tsmiSim.Click += new System.EventHandler(this.simularToolStripMenuItem_Click);
+            // 
+            // tsmiMax
+            // 
+            this.tsmiMax.Name = "tsmiMax";
+            this.tsmiMax.Size = new System.Drawing.Size(89, 20);
+            this.tsmiMax.Text = "Maximização";
+            this.tsmiMax.Click += new System.EventHandler(this.maximizaçãoToolStripMenuItem_Click);
+            // 
+            // tsmiSor
+            // 
+            this.tsmiSor.Name = "tsmiSor";
+            this.tsmiSor.Size = new System.Drawing.Size(83, 20);
+            this.tsmiSor.Text = "Sortimentos";
+            this.tsmiSor.Click += new System.EventHandler(this.sortimentosToolStripMenuItem_Click);
+            // 
+            // tsmiBin
+            // 
+            this.tsmiBin.Name = "tsmiBin";
+            this.tsmiBin.Size = new System.Drawing.Size(55, 20);
+            this.tsmiBin.Text = "Binária";
+            this.tsmiBin.Click += new System.EventHandler(this.bináriaToolStripMenuItem_Click);
+            // 
+            // tsmiReg
+            // 
+            this.tsmiReg.Name = "tsmiReg";
+            this.tsmiReg.Size = new System.Drawing.Size(74, 20);
+            this.tsmiReg.Text = "Regulação";
+            this.tsmiReg.Click += new System.EventHandler(this.regulaçãoToolStripMenuItem_Click);
+            // 
+            // menuStrip1
+            // 
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiSim,
+            this.tsmiMax,
+            this.tsmiSor,
+            this.tsmiBin,
+            this.tsmiReg});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(808, 24);
+            this.menuStrip1.TabIndex = 31;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -674,8 +678,6 @@
             this.Name = "Form1";
             this.Text = "Entradas e premissas";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
             this.tabNavibar.ResumeLayout(false);
             this.tpSim.ResumeLayout(false);
             this.flowLayoutPanel7.ResumeLayout(false);
@@ -696,6 +698,8 @@
             this.tpBin.ResumeLayout(false);
             this.flowLayoutPanel4.ResumeLayout(false);
             this.flowLayoutPanel4.PerformLayout();
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -712,26 +716,19 @@
         private System.Windows.Forms.Button btnSimCenarios;
         private System.Windows.Forms.ComboBox cmbSimControleDesbaste;
         private System.Windows.Forms.TextBox txtSimTaxaDesconto;
-        private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.TextBox txtSimTitle;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
-        private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem tsmiSim;
-        private System.Windows.Forms.ToolStripMenuItem tsmiMax;
         private System.Windows.Forms.TextBox txtMaxTitle;
         private System.Windows.Forms.TextBox txtMaxHorizonte;
         private System.Windows.Forms.TextBox txtMaxNumPlanejamento;
         private System.Windows.Forms.Button btnMax;
-        private System.Windows.Forms.ToolStripMenuItem tsmiSor;
         private System.Windows.Forms.TextBox txtSorHorizonte;
         private System.Windows.Forms.TextBox txtSorTitle;
         private System.Windows.Forms.Button btnSor;
-        private System.Windows.Forms.ToolStripMenuItem tsmiBin;
         private System.Windows.Forms.TextBox txtBinHorizonte;
         private System.Windows.Forms.Button btnBin;
         private System.Windows.Forms.TextBox txtBinTitle;
-        private System.Windows.Forms.ToolStripMenuItem tsmiReg;
         private System.Windows.Forms.TextBox txtRegHorizonte;
         private System.Windows.Forms.TextBox txtRegIdadeRegulacao;
         private System.Windows.Forms.TextBox txtRegTitle;
@@ -752,6 +749,13 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Button btnSim;
+        private System.Windows.Forms.ToolStripMenuItem tsmiSim;
+        private System.Windows.Forms.ToolStripMenuItem tsmiMax;
+        private System.Windows.Forms.ToolStripMenuItem tsmiSor;
+        private System.Windows.Forms.ToolStripMenuItem tsmiBin;
+        private System.Windows.Forms.ToolStripMenuItem tsmiReg;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.DataGridView dataGridView1;
     }
 }
 

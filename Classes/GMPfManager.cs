@@ -130,53 +130,55 @@ namespace Simulador.Classes
             char coluna = 'A';
             try
             {
-                for (linha = 2;; linha++) //percorre o xls
-                {
-                    string confere = planilha.Cell("A" + linha.ToString()).Value.ToString();
-                    if (string.IsNullOrEmpty(confere)) break; // testa se o xls acabou
+                for (linha = 2; ; linha++)
+                { //percorre as linhas da planilha
+                    string confere = planilha.Cell(coluna + linha.ToString()).Value.ToString();    //confere se a planilha terminou
+                    if (string.IsNullOrEmpty(confere)) break;   //se tiver terminado
+                    string regiao = planilha.Cell(coluna + linha.ToString()).Value.ToString(); //le a região
+                    coluna++; // vai para a proxima coluna
+                    string talhao = planilha.Cell(coluna + linha.ToString()).Value.ToString(); //le o talhão
+                    coluna++;   // vai para a proxima coluna
+                    double area_talhao = double.Parse(planilha.Cell(coluna + linha.ToString()).Value.ToString());  //le a area do talhão
+                    if (area_talhao < 0) throw new Exception("Erro na planilha de dados de inventário, Coluna: " + coluna + " linha: " + linha + "\nvalor negativo inválido");    //trata area do talhão < 0
+                    coluna++;   // vai para a proxima coluna
+                    string parcela = planilha.Cell(coluna + linha.ToString()).Value.ToString();    //le a parcela
+                    coluna++;   // vai para a proxima coluna
+                    string material_genetico = planilha.Cell(coluna + linha.ToString()).Value.ToString();  //le o material genetico
+                    coluna++;   // vai para a proxima coluna
+                    double idade = double.Parse(planilha.Cell(coluna + linha.ToString()).Value.ToString());    //le a idade
+                    if (idade < 0) throw new Exception("Erro na planilha de dados de inventário, Coluna: " + coluna + " linha: " + linha + "\nvalor negativo inválido");    //trata idade < 0
+                    coluna++;   // vai para a proxima coluna
+                    double area_parcela = double.Parse(planilha.Cell(coluna + linha.ToString()).Value.ToString()); //le a área da parcela
+                    if (area_parcela < 0) throw new Exception("Erro na planilha de dados de inventário, Coluna: " + coluna + " linha: " + linha + "\nvalor negativo inválido");    //trata area da parcela < 0
+                    coluna++;   // vai para a proxima coluna
+                    int fila = int.Parse(planilha.Cell(coluna + linha.ToString()).Value.ToString());   //le a fila
+                    coluna++;   // vai para a proxima coluna
+                    int arv = int.Parse(planilha.Cell(coluna + linha.ToString()).Value.ToString());    //le o numero da arvore
+                    coluna++;   // vai para a proxima coluna
+                    double dap = double.Parse(planilha.Cell(coluna + linha.ToString()).Value.ToString());  //le o dap
+                    if (dap < 0) throw new Exception("Erro na planilha de dados de inventário, Coluna: " + coluna + " linha: " + linha + "\nvalor negativo inválido");    //trata dap < 0
+                    coluna++;   // vai para a proxima coluna
+                    double altura = double.Parse(planilha.Cell(coluna + linha.ToString()).Value.ToString());   //le a altura
+                    if (altura < 0) throw new Exception("Erro na planilha de dados de inventário, Coluna: " + coluna + " linha: " + linha + "\nvalor negativo inválido");    //trata altura < 0
+                    coluna = 'A';   //volta para o inicio da linha
+                    if (dap == 0 && altura == 0) continue;  // ignora arvores morta
+                    Arvore auxiliar = new Arvore(regiao, talhao, area_talhao, parcela, material_genetico, idade, area_parcela, fila, arv, dap, altura);    // cria a arvore
 
-                    string regiao = planilha.Cell("A" + linha.ToString()).Value.ToString();
-                    coluna++;
-                    string talhao = planilha.Cell("B" + linha.ToString()).Value.ToString();
-                    coluna++;
-                    string parcela = planilha.Cell("C" + linha.ToString()).Value.ToString();
-                    coluna++;
-                    string material_genetico = planilha.Cell("D" + linha.ToString()).Value.ToString();
-                    coluna++;
-                    double idade = double.Parse(planilha.Cell("E" + linha.ToString()).Value.ToString());
-                    coluna++;
-                    double area_parcela = double.Parse(planilha.Cell("F" + linha.ToString()).Value.ToString());
-                    coluna++;
-                    int fila = int.Parse(planilha.Cell("G" + linha.ToString()).Value.ToString());
-                    coluna++;
-                    int arv = int.Parse(planilha.Cell("H" + linha.ToString()).Value.ToString());
-                    coluna++;
-                    double dap = double.Parse(planilha.Cell("I" + linha.ToString()).Value.ToString());
-                    coluna++;
-                    double altura = double.Parse(planilha.Cell("J" + linha.ToString()).Value.ToString());
-                    coluna = 'A';
-                    if (dap == 0 && altura == 0) // ignora arvores mortas
-                        continue;
-                    // cria a arvore
-                    Arvore auxiliar = new Arvore(regiao, talhao, idade, dap, altura, parcela, area_parcela, fila, arv,
-                        material_genetico);
-
-                    bool aux = false; // verifica se ja foi criada a regiao daquela arvore
+                    bool aux = false;   // verifica se ja foi criada a regiao daquela arvore
                     foreach (Regiao reg in regioes_original)
                     {
-                        if (reg.numero == auxiliar.regiao) // regiao ja foi criada
-                        {
-                            reg.adiciona_arvore(auxiliar); // adiciona a arvore a regiao
+                        if (reg.numero == auxiliar.regiao)
+                        {  // regiao ja foi criada
+                            reg.adiciona_arvore(auxiliar);  // adiciona a arvore a regiao
                             aux = true;
                             break;
                         }
                     }
-
-                    if (!aux) // regiao nao foi criada
-                    {
-                        Regiao nova_regiao = new Regiao(auxiliar.regiao, produtos.Count()); // cria a nova regiao
-                        nova_regiao.adiciona_arvore(auxiliar); // adiciona a arvore a regiao
-                        regioes_original.Add(nova_regiao);
+                    if (!aux)
+                    {   // regiao nao foi criada
+                        Regiao nova_regiao = new Regiao(auxiliar.regiao, produtos.Count());   // cria a nova regiao
+                        nova_regiao.adiciona_arvore(auxiliar);  // adiciona a arvore a regiao
+                        regioes_original.Add(nova_regiao); // adiciona a nova região a lista de regiões original
                     }
                 }
             }
@@ -473,8 +475,7 @@ namespace Simulador.Classes
                     {
                         foreach (Arvore arv in parc.arvores)
                         {
-                            Arvore projetada = new Arvore(arv.regiao, arv.talhao, arv.idade, arv.dap, arv.altura,
-                                arv.parcela, arv.area_parcela, arv.fila, arv.numero, arv.material_genetico);
+                            Arvore projetada = new Arvore(arv.regiao, arv.talhao, arv.area_talhao, arv.parcela, arv.material_genetico, arv.idade, arv.area_parcela, arv.fila, arv.numero, arv.dap, arv.altura);
 
                             bool aux = false; // verifica se ja foi criada a regiao daquela arvore
                             foreach (Regiao regi in nova)
@@ -607,8 +608,7 @@ namespace Simulador.Classes
                             parc.arvores.Remove(arv);
                             if (parc.arvores.Count() == 0)
                             {
-                                Arvore lixo = new Arvore(parc.regiao, parc.talhao, parc.idade, 0, 0, parc.numero,
-                                    arv.area_parcela, arv.fila, arv.numero, arv.material_genetico);
+                                Arvore lixo = new Arvore(parc.regiao, parc.talhao, parc.area_talhao, parc.numero, parc.material_genetico, 0, parc.area_parcela, 0, 0, 0, 0);
                                 parc.arvores.Add(lixo);
                             }
 
@@ -617,9 +617,7 @@ namespace Simulador.Classes
 
                         if (!tem_uma)
                         {
-                            Arvore lixo = new Arvore(parc.regiao, parc.talhao, parc.idade, 0, 0, parc.numero,
-                                parc.arvores[0].area_parcela, parc.arvores[0].fila, parc.arvores[0].numero,
-                                parc.arvores[0].material_genetico);
+                            Arvore lixo = new Arvore(parc.regiao, parc.talhao, parc.area_talhao, parc.numero, parc.material_genetico, 0, parc.area_parcela, 0, 0, 0, 0);
                             auxiliar.adiciona_arvore(lixo);
                         }
                     }
@@ -656,8 +654,7 @@ namespace Simulador.Classes
                             parc.arvores.Remove(arv);
                             if (parc.arvores.Count() == 0)
                             {
-                                Arvore lixo = new Arvore(parc.regiao, parc.talhao, parc.idade, 0, 0, parc.numero,
-                                    arv.area_parcela, arv.fila, arv.numero, arv.material_genetico);
+                                Arvore lixo = new Arvore(parc.regiao, parc.talhao, parc.area_talhao, parc.numero, parc.material_genetico, 0, parc.area_parcela, 0, 0, 0, 0);
                                 parc.arvores.Add(lixo);
                             }
 
@@ -666,9 +663,7 @@ namespace Simulador.Classes
 
                         if (!tem_uma)
                         {
-                            Arvore lixo = new Arvore(parc.regiao, parc.talhao, parc.idade, 0, 0, parc.numero,
-                                parc.arvores[0].area_parcela, parc.arvores[0].fila, parc.arvores[0].numero,
-                                parc.arvores[0].material_genetico);
+                            Arvore lixo = new Arvore(parc.regiao, parc.talhao, parc.area_talhao, parc.numero, parc.material_genetico, 0, parc.area_parcela, 0, 0, 0, 0);
                             auxiliar.adiciona_arvore(lixo);
                         }
                     }
@@ -704,8 +699,7 @@ namespace Simulador.Classes
                                 parc.arvores.Remove(arv);
                                 if (parc.arvores.Count() == 0)
                                 {
-                                    Arvore lixo = new Arvore(parc.regiao, parc.talhao, parc.idade, 0, 0, parc.numero,
-                                        arv.area_parcela, arv.fila, arv.numero, arv.material_genetico);
+                                    Arvore lixo = new Arvore(parc.regiao, parc.talhao, parc.area_talhao, parc.numero, parc.material_genetico, 0, parc.area_parcela, 0, 0, 0, 0);
                                     parc.arvores.Add(lixo);
                                 }
 
@@ -722,8 +716,7 @@ namespace Simulador.Classes
                             parc.arvores.Remove(arv);
                             if (parc.arvores.Count() == 0)
                             {
-                                Arvore lixo = new Arvore(parc.regiao, parc.talhao, parc.idade, 0, 0, parc.numero,
-                                    arv.area_parcela, arv.fila, arv.numero, arv.material_genetico);
+                                Arvore lixo = new Arvore(parc.regiao, parc.talhao, parc.area_talhao, parc.numero, parc.material_genetico, 0, parc.area_parcela, 0, 0, 0, 0);
                                 parc.arvores.Add(lixo);
                             }
 
@@ -732,9 +725,7 @@ namespace Simulador.Classes
 
                         if (!tem_uma)
                         {
-                            Arvore lixo = new Arvore(parc.regiao, parc.talhao, parc.idade, 0, 0, parc.numero,
-                                parc.arvores[0].area_parcela, parc.arvores[0].fila, parc.arvores[0].numero,
-                                parc.arvores[0].material_genetico);
+                            Arvore lixo = new Arvore(parc.regiao, parc.talhao, parc.area_talhao, parc.numero, parc.material_genetico, 0, parc.area_parcela, 0, 0, 0, 0);
                             auxiliar.adiciona_arvore(lixo);
                         }
                     }
@@ -770,8 +761,7 @@ namespace Simulador.Classes
                                 parc.arvores.Remove(arv);
                                 if (parc.arvores.Count() == 0)
                                 {
-                                    Arvore lixo = new Arvore(parc.regiao, parc.talhao, parc.idade, 0, 0, parc.numero,
-                                        arv.area_parcela, arv.fila, arv.numero, arv.material_genetico);
+                                    Arvore lixo = new Arvore(parc.regiao, parc.talhao, parc.area_talhao, parc.numero, parc.material_genetico, 0, parc.area_parcela, 0, 0, 0, 0);
                                     parc.arvores.Add(lixo);
                                 }
 
@@ -788,8 +778,7 @@ namespace Simulador.Classes
                             parc.arvores.Remove(arv);
                             if (parc.arvores.Count() == 0)
                             {
-                                Arvore lixo = new Arvore(parc.regiao, parc.talhao, parc.idade, 0, 0, parc.numero,
-                                    arv.area_parcela, arv.fila, arv.numero, arv.material_genetico);
+                                Arvore lixo = new Arvore(parc.regiao, parc.talhao, parc.area_talhao, parc.numero, parc.material_genetico, 0, parc.area_parcela, 0, 0, 0, 0);
                                 parc.arvores.Add(lixo);
                             }
 
@@ -798,9 +787,7 @@ namespace Simulador.Classes
 
                         if (!tem_uma)
                         {
-                            Arvore lixo = new Arvore(parc.regiao, parc.talhao, parc.idade, 0, 0, parc.numero,
-                                parc.arvores[0].area_parcela, parc.arvores[0].fila, parc.arvores[0].numero,
-                                parc.arvores[0].material_genetico);
+                            Arvore lixo = new Arvore(parc.regiao, parc.talhao, parc.area_talhao, parc.numero, parc.material_genetico, 0, parc.area_parcela, 0, 0, 0, 0);
                             auxiliar.adiciona_arvore(lixo);
                         }
                     }
@@ -1011,130 +998,26 @@ namespace Simulador.Classes
         {
             for (int indice_Regiao = 0; indice_Regiao < regioes_desbaste.Count(); indice_Regiao++)
             {
-                for (int indice_Talhao = 0;
-                    indice_Talhao < regioes_desbaste[indice_Regiao].talhoes.Count();
-                    indice_Talhao++)
+                for (int indice_Talhao = 0; indice_Talhao < regioes_desbaste[indice_Regiao].talhoes.Count(); indice_Talhao++)
                 {
-                    for (int Indice_Parcela = 0;
-                        Indice_Parcela < regioes_desbaste[indice_Regiao].talhoes[indice_Talhao].parcelas.Count();
-                        Indice_Parcela++)
+                    for (int Indice_Parcela = 0; Indice_Parcela < regioes_desbaste[indice_Regiao].talhoes[indice_Talhao].parcelas.Count(); Indice_Parcela++)
                     {
-                        double idade_original = regioes_desbaste[indice_Regiao].talhoes[indice_Talhao]
-                            .parcelas[Indice_Parcela].idade_original;
+                        double idade_original = regioes_desbaste[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].idade_original;
 
-                        for (int i = 1;
-                            i < regioes_desbaste[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].lucro
-                                .Count();
-                            i++)
+                        for (int i = 1; i < regioes_desbaste[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].lucro.Count(); i++)
                         {
-                            double receita = regioes_desbaste[indice_Regiao].talhoes[indice_Talhao]
-                                .parcelas[Indice_Parcela].lucro[i];
-
-                            regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].vpl +=
-                                calcular_VPL(receita, taxa_juros, regioes_desbaste[indice_Regiao].idade);
-                            regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].vpl2 +=
-                                calcular_VPL(receita, taxa_juros,
-                                    regioes_desbaste[indice_Regiao].idade - idade_original);
-
-                            receita = regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela]
-                                .lucro[i];
-
-                            regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].vpl +=
-                                calcular_VPL(receita, taxa_juros, regioes_corte_final[indice_Regiao].idade);
-                            regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].vpl2 +=
-                                calcular_VPL(receita, taxa_juros,
-                                    regioes_corte_final[indice_Regiao].idade - idade_original);
+                            double receita = regioes_desbaste[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].lucro[i];
+                            regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].vpl += calcular_VPL(receita, taxa_juros, regioes_desbaste[indice_Regiao].idade);
+                            receita = regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].lucro[i];
+                            regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].vpl += calcular_VPL(receita, taxa_juros, regioes_corte_final[indice_Regiao].idade);
                         }
 
-                        //regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].vpl -= custos[0].implantacao;
-
-                        for (int idade = 0;
-                            idade < regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].idade;
-                            idade++)
+                        for (int idade = 0; idade < regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].idade; idade++)
                         {
-                            regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].vpl -=
-                                calcular_VPL(custos[idade].manutencao, taxa_juros, idade);
-                            regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].vpl2 -=
-                                calcular_VPL(custos[idade].manutencao, taxa_juros, idade - idade_original);
-
-                            regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].vpl -=
-                                calcular_VPL(custos[idade].implantacao, taxa_juros, idade);
-                            regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].vpl2 -=
-                                calcular_VPL(custos[idade].implantacao, taxa_juros, idade - idade_original);
+                            regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].vpl -= calcular_VPL(custos[idade].manutencao, taxa_juros, idade);
+                            regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].vpl -= calcular_VPL(custos[idade].implantacao, taxa_juros, idade);
                         }
 
-                        regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].vpl2 = 0;
-                        regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].vpl2 -=
-                            calcular_VPL(custos[0].implantacao, taxa_juros, -idade_original);
-                        int idade_desbaste = (int) regioes_desbaste[indice_Regiao].idade;
-                        int idade_corte_final = (int) regioes_corte_final[indice_Regiao].idade;
-                        double receita1 = 0;
-                        double receita2 = 0;
-                        for (int i = 1;
-                            i < regioes_desbaste[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].lucro
-                                .Count();
-                            i++)
-                        {
-                            receita1 += regioes_desbaste[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela]
-                                .lucro[i];
-                            receita2 += regioes_corte_final[indice_Regiao].talhoes[indice_Talhao]
-                                .parcelas[Indice_Parcela].lucro[i];
-                        }
-
-                        int idade_aux = 1;
-                        for (int idade_atual = 1; idade_atual <= horizonte + idade_original; idade_atual++)
-                        {
-                            if (idade_aux % idade_corte_final == 0)
-                            {
-                                regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].vpl2
-                                    += calcular_VPL(receita2, taxa_juros, idade_atual - idade_original);
-                                if (idade_atual + idade_desbaste > horizonte + idade_original)
-                                {
-                                    regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela]
-                                        .vae2 = calcular_VAE(
-                                        regioes_corte_final[indice_Regiao].talhoes[indice_Talhao]
-                                            .parcelas[Indice_Parcela].vpl2, taxa_juros, idade_atual - idade_original);
-                                    regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela]
-                                        .vpl_infinito2 = calcular_VPL_infinito(
-                                        regioes_corte_final[indice_Regiao].talhoes[indice_Talhao]
-                                            .parcelas[Indice_Parcela].vae2, taxa_juros);
-                                    regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela]
-                                        .vet2 = calcular_VET(
-                                        regioes_corte_final[indice_Regiao].talhoes[indice_Talhao]
-                                            .parcelas[Indice_Parcela].vpl2, taxa_juros, idade_atual - idade_original);
-                                    break;
-                                }
-
-                                idade_aux = 1;
-                                continue;
-                            }
-
-                            regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].vpl2 -=
-                                calcular_VPL(custos[idade_aux].manutencao, taxa_juros, idade_atual - idade_original);
-                            if (idade_aux % idade_desbaste == 0)
-                            {
-                                regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela].vpl2
-                                    += calcular_VPL(receita1, taxa_juros, idade_atual - idade_original);
-                                if (idade_atual + idade_corte_final - idade_desbaste > horizonte + idade_original)
-                                {
-                                    regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela]
-                                        .vae2 = calcular_VAE(
-                                        regioes_corte_final[indice_Regiao].talhoes[indice_Talhao]
-                                            .parcelas[Indice_Parcela].vpl2, taxa_juros, idade_atual - idade_original);
-                                    regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela]
-                                        .vpl_infinito2 = calcular_VPL_infinito(
-                                        regioes_corte_final[indice_Regiao].talhoes[indice_Talhao]
-                                            .parcelas[Indice_Parcela].vae2, taxa_juros);
-                                    regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[Indice_Parcela]
-                                        .vet2 = calcular_VET(
-                                        regioes_corte_final[indice_Regiao].talhoes[indice_Talhao]
-                                            .parcelas[Indice_Parcela].vpl2, taxa_juros, idade_atual - idade_original);
-                                    break;
-                                }
-                            }
-
-                            idade_aux++;
-                        }
                     }
                 }
             }
@@ -1148,58 +1031,22 @@ namespace Simulador.Classes
                 {
                     foreach (Parcela parc in tal.parcelas)
                     {
-                        //MessageBox.Show(parc.idade_original + " " + parc.idade);
 
                         for (int i = 1; i < parc.lucro.Count(); i++)
                         {
                             parc.vpl += calcular_VPL(parc.lucro[i], taxa_juros, parc.idade);
-                            //parc.vpl2 += calcular_VPL(parc.lucro[i], taxa_juros, parc.idade - parc.idade_original);
                         }
 
-                        //parc.vpl -= custos[0].implantacao;
                         for (int idade = 0; idade < parc.idade; idade++)
                         {
                             parc.vpl -= calcular_VPL(custos[idade].manutencao, taxa_juros, idade);
                             parc.vpl -= calcular_VPL(custos[idade].implantacao, taxa_juros, idade);
                         }
-
-                        parc.vpl2 = 0;
-                        parc.vpl2 -= calcular_VPL(custos[0].implantacao, taxa_juros, -parc.idade_original);
-
-                        int idade_corte_final = (int) parc.idade;
-                        double receita = 0;
-
-                        for (int i = 1; i < parc.lucro.Count(); i++)
-                        {
-                            receita += parc.lucro[i];
-                        }
-
-                        int idade_aux = 1;
-                        for (int idade_atual = 1; idade_atual <= horizonte + parc.idade_original; idade_atual++)
-                        {
-                            if (idade_aux % idade_corte_final == 0)
-                            {
-                                parc.vpl2 += calcular_VPL(receita, taxa_juros, idade_atual - parc.idade_original);
-                                if (idade_atual + idade_corte_final > horizonte + parc.idade_original)
-                                {
-                                    parc.vae2 = calcular_VAE(parc.vpl2, taxa_juros, idade_atual - parc.idade_original);
-                                    parc.vpl_infinito2 = calcular_VPL_infinito(parc.vae2, taxa_juros);
-                                    parc.vet2 = calcular_VET(parc.vpl2, taxa_juros, idade_atual - parc.idade_original);
-                                    break;
-                                }
-
-                                idade_aux = 1;
-                                continue;
-                            }
-
-                            parc.vpl2 -= calcular_VPL(custos[idade_aux].manutencao, taxa_juros,
-                                idade_atual - parc.idade_original);
-                            idade_aux++;
-                        }
                     }
                 }
             }
         }
+
 
 
         private double calcular_VPL(double receita, double i, double intervalo)
@@ -1430,11 +1277,14 @@ namespace Simulador.Classes
                     cenario.VET.Add(regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].vet);
                     cenario.VET2.Add(regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].vet2);
 
-                    cenario.Idade_Original.Add(regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[0]
+                    cenario.idade_original.Add(regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[0]
                         .idade_original);
-                    cenario.Idade_Original.Add(regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[0]
+                    cenario.idade_original.Add(regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[0]
                         .idade_original);
 
+                    cenario.idade_original.Add(regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[0].idade_original);
+                    cenario.idade_original.Add(regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].parcelas[0].idade_original);
+                    
                     cenario.vpl_sort += regioes_corte_final[indice_Regiao].talhoes[indice_Talhao].vpl_infinito;
                 }
             }
@@ -1479,7 +1329,9 @@ namespace Simulador.Classes
 
                     cenario.VET.Add(tal.vet);
                     cenario.VET2.Add(tal.vet2);
-                    cenario.Idade_Original.Add(tal.parcelas[0].idade_original);
+                    cenario.idade_original.Add(tal.parcelas[0].idade_original);
+                    cenario.idade_original.Add(tal.parcelas[0].idade_original);
+
                     cenario.vpl_sort += tal.vpl_infinito;
                 }
             }
@@ -1773,11 +1625,7 @@ namespace Simulador.Classes
 
             Excel_Sortimentos.Worksheets[1].cells[1][1] = "X";
             int num_sortimentos = final_talhao[0].volumes[0].Count();
-            for (int i = 0; i < final_talhao[0].volumes[0].Count(); i++)
-            {
-                Console.WriteLine(final_talhao[0].volumes[0][i]);
-            }
-
+            
             for (int i = 0; i <= this.horizonte; i++)
             {
                 for (int j = 1; j < num_sortimentos; j++)
@@ -1797,7 +1645,7 @@ namespace Simulador.Classes
                     if (cenario.VPL[i] == -1 && cenario.VAE[i] == -1 && cenario.VPL_infinito[i] == -1 &&
                         cenario.VET[i] == -1)
                     {
-                        registro += "_D" + cenario.idade[i] + "-" + cenario.idade[i + 1];
+                        registro += "_D" + cenario.idade[i] + "-" + cenario.porcentagem[i];
                         if (desbaste_por == "Árvore")
                         {
                             registro += "N";
@@ -1818,7 +1666,7 @@ namespace Simulador.Classes
                     {
                         for (int idade_atual = 0; idade_atual <= this.horizonte; idade_atual++)
                         {
-                            if ((idade_atual + cenario.Idade_Original[i]) % cenario.idade[i + 1] == 0)
+                            if ((idade_atual + cenario.idade_original[i]) % cenario.idade[i + 1] == 0)
                             {
                                 for (int j = 1; j < num_sortimentos; j++)
                                 {
@@ -1826,7 +1674,7 @@ namespace Simulador.Classes
                                         [linha] = cenario.volumes[i + 1][j];
                                 }
                             }
-                            else if ((idade_atual + cenario.Idade_Original[i]) % cenario.idade[i + 1] ==
+                            else if ((idade_atual + cenario.idade_original[i]) % cenario.idade[i + 1] ==
                                      cenario.idade[i])
                             {
                                 for (int j = 1; j < num_sortimentos; j++)
@@ -1852,7 +1700,7 @@ namespace Simulador.Classes
                     {
                         for (int idade_atual = 0; idade_atual <= this.horizonte; idade_atual++)
                         {
-                            if ((idade_atual + cenario.Idade_Original[i]) % cenario.idade[i] == 0)
+                            if ((idade_atual + cenario.idade_original[i]) % cenario.idade[i] == 0)
                             {
                                 for (int j = 1; j < num_sortimentos; j++)
                                 {
@@ -1908,7 +1756,7 @@ namespace Simulador.Classes
                     if (cenario.VPL[i] == -1 && cenario.VAE[i] == -1 && cenario.VPL_infinito[i] == -1 &&
                         cenario.VET[i] == -1)
                     {
-                        registro += "_D" + cenario.idade[i] + "-" + cenario.idade[i + 1];
+                        registro += "_D" + cenario.idade[i] + "-" + cenario.porcentagem[i];
                         if (desbaste_por == "Árvore")
                         {
                             registro += "N";
@@ -1930,11 +1778,11 @@ namespace Simulador.Classes
                     {
                         for (int idade_atual = 0; idade_atual <= this.horizonte; idade_atual++)
                         {
-                            if ((idade_atual + cenario.Idade_Original[i]) % cenario.idade[i + 1] == 0)
+                            if ((idade_atual + cenario.idade_original[i]) % cenario.idade[i + 1] == 0)
                             {
                                 Excel_Binary.Worksheets[1].cells[idade_atual + 2][linha] = 1;
                             }
-                            else if ((idade_atual + cenario.Idade_Original[i]) % cenario.idade[i + 1] ==
+                            else if ((idade_atual + cenario.idade_original[i]) % cenario.idade[i + 1] ==
                                      cenario.idade[i])
                             {
                                 Excel_Binary.Worksheets[1].cells[idade_atual + 2][linha] = 1;
@@ -1952,7 +1800,7 @@ namespace Simulador.Classes
                     {
                         for (int idade_atual = 0; idade_atual <= this.horizonte; idade_atual++)
                         {
-                            if ((idade_atual + cenario.Idade_Original[i]) % cenario.idade[i] == 0)
+                            if ((idade_atual + cenario.idade_original[i]) % cenario.idade[i] == 0)
                             {
                                 Excel_Binary.Worksheets[1].cells[idade_atual + 2][linha] = 1;
                             }
@@ -1978,31 +1826,25 @@ namespace Simulador.Classes
         {
             this.horizonte = int.Parse(horizonte);
             this.N_regulacao = int.Parse(N_regulacao);
-            
             var Excel_Regulacao = new Microsoft.Office.Interop.Excel.Application();
             Excel_Regulacao.Workbooks.Add();
             Excel_Regulacao.Workbooks[1].Worksheets[1].Name = "Regulação";
             var aux_regulacao = Excel_Regulacao.Workbooks.Item[1];
-
             Excel_Regulacao.Worksheets[1].cells[1][1] = "X";
-
-            for (int i = 0; i <= this.N_regulacao; i++)
+            for (int i = 1; i <= this.N_regulacao; i++)
             {
-                Excel_Regulacao.Worksheets[1].cells[i + 2][1] = i;
+                Excel_Regulacao.Worksheets[1].cells[i + 1][1] = i;
             }
-
             int linha = 2;
-
             foreach (Cenario_Talhao cenario in final_talhao)
             {
                 for (int i = 0; i < cenario.regiao.Count(); i++)
                 {
                     string registro;
                     registro = "R" + cenario.regiao[i] + "_T" + cenario.talhao[i];
-                    if (cenario.VPL[i] == -1 && cenario.VAE[i] == -1 && cenario.VPL_infinito[i] == -1 &&
-                        cenario.VET[i] == -1)
+                    if (cenario.VPL[i] == -1 && cenario.VAE[i] == -1 && cenario.VPL_infinito[i] == -1 && cenario.VET[i] == -1)
                     {
-                        registro += "_D" + cenario.idade[i] + "-" + cenario.idade[i + 1];
+                        registro += "_D" + cenario.idade[i] + "-" + cenario.porcentagem[i];
                         if (desbaste_por == "Árvore")
                         {
                             registro += "N";
@@ -2012,51 +1854,44 @@ namespace Simulador.Classes
                         {
                             registro += "B";
                         }
-
                         registro += "_CR" + cenario.idade[i + 1];
                     }
                     else registro += "_CR" + cenario.idade[i];
-
                     Excel_Regulacao.Worksheets[1].cells[1][linha] = registro;
 
-                    if (cenario.VPL[i] == -1 && cenario.VAE[i] == -1 && cenario.VPL_infinito[i] == -1 &&
-                        cenario.VET[i] == -1)
+                    if (cenario.VPL[i] == -1 && cenario.VAE[i] == -1 && cenario.VPL_infinito[i] == -1 && cenario.VET[i] == -1)
                     {
-                        for (int idade_atual = 0; idade_atual <= this.N_regulacao; idade_atual++)
+                        for (int idade_atual = 1; idade_atual <= this.N_regulacao; idade_atual++)
                         {
-                            Excel_Regulacao.Worksheets[1].cells[idade_atual + 2][linha] = 0;
+                            Excel_Regulacao.Worksheets[1].cells[idade_atual + 1][linha] = 0;
                         }
+                        int idade_final = (int)(cenario.idade_original[i] + this.horizonte + 1);
+                        idade_final %= (int)cenario.idade[i + 1];
+                        if (idade_final >= (int)cenario.idade[i])
+                            idade_final -= (int)cenario.idade[i];
 
-                        int idade_final = (int) (cenario.Idade_Original[i] + this.horizonte);
-                        idade_final %= (int) cenario.idade[i + 1];
-                        idade_final %= (int) cenario.idade[i];
-
-                        if (idade_final <= this.N_regulacao)
+                        if (idade_final <= this.N_regulacao && idade_final > 0)
                         {
-                            Excel_Regulacao.Worksheets[1].cells[idade_final + 2][linha] = cenario.area_talhao[i];
+                            Excel_Regulacao.Worksheets[1].cells[idade_final + 1][linha] = cenario.area_talhao[i];
                         }
-
                         i++;
                     }
                     else
                     {
-                        for (int idade_atual = 0; idade_atual <= this.N_regulacao; idade_atual++)
+                        for (int idade_atual = 1; idade_atual <= this.N_regulacao; idade_atual++)
                         {
-                            Excel_Regulacao.Worksheets[1].cells[idade_atual + 2][linha] = 0;
+                            Excel_Regulacao.Worksheets[1].cells[idade_atual + 1][linha] = 0;
                         }
-
-                        int idade_final = (int) (cenario.Idade_Original[i] + this.horizonte);
-                        idade_final %= (int) cenario.idade[i];
-                        if (idade_final <= this.N_regulacao)
+                        int idade_final = (int)(cenario.idade_original[i] + this.horizonte + 1);
+                        idade_final %= (int)cenario.idade[i];
+                        if (idade_final <= this.N_regulacao && idade_final > 0)
                         {
-                            Excel_Regulacao.Worksheets[1].cells[idade_final + 2][linha] = cenario.area_talhao[i];
+                            Excel_Regulacao.Worksheets[1].cells[idade_final + 1][linha] = cenario.area_talhao[i];
                         }
                     }
-
                     linha++;
                 }
             }
-
             string path = GetCurrentDirectory();
             string pathString_Regulacao = System.IO.Path.Combine(path, "Regulação");
             CreateDirectory(pathString_Regulacao);
@@ -2084,9 +1919,10 @@ namespace Simulador.Classes
         {
             this.horizonte = int.Parse(horizonte);
             this.N_planejamento = int.Parse(N_planejamento);
-            
             List<aux_maximizacao> casos = new List<aux_maximizacao>();
             aux_maximizacao aux = new aux_maximizacao();
+            gerar_economicos2(ref final_talhao);
+                
             foreach (Cenario_Talhao cenario in final_talhao)
             {
                 for (int i = 0; i < cenario.regiao.Count(); i++)
@@ -2111,7 +1947,6 @@ namespace Simulador.Classes
                     casos.Add(aux);
                 }
             }
-
             string path = GetCurrentDirectory();
             string pathString = System.IO.Path.Combine(path, "Função_de_maximização");
             CreateDirectory(pathString);
@@ -2124,12 +1959,10 @@ namespace Simulador.Classes
 
             string pathVPL_infinito = System.IO.Path.Combine(path, "Função_de_maximização/VPL∞");
             CreateDirectory(pathVPL_infinito);
-
             string pathVET = System.IO.Path.Combine(path, "Função_de_maximização/VET");
             CreateDirectory(pathVET);
 
             StreamWriter txt = new StreamWriter(pathVPL + "/" + arquivo_saida + "_VPL.txt");
-
             for (int j = 0; j < 4; j++)
             {
                 if (j == 0)
@@ -2157,7 +1990,6 @@ namespace Simulador.Classes
                     txt.Close();
                     txt = new StreamWriter(pathVET + "/" + arquivo_saida + "_VET.txt");
                 }
-
                 bool is_first = true;
                 txt.Write("MAX = ");
 
@@ -2222,6 +2054,93 @@ namespace Simulador.Classes
             }
 
             txt.Close();
+        }
+
+        private void gerar_economicos2(ref List<Cenario_Talhao> final_talhao)
+        {
+            foreach (Cenario_Talhao cenario in final_talhao)
+            {
+                for (int i = 0; i < cenario.regiao.Count(); i++)
+                {
+                    double receita1 = -1;
+                    double receita2 = -1;
+                    if (cenario.VPL[i] == -1 && cenario.VAE[i] == -1 && cenario.VPL_infinito[i] == -1 && cenario.VET[i] == -1)
+                    {
+                        receita1 = 0;
+                        receita2 = 0;
+                        cenario.VPL2[i + 1] = 0;
+                        cenario.VAE2[i + 1] = 0;
+                        cenario.VPL_infinito2[i + 1] = 0;
+                        cenario.VET2[i + 1] = 0;
+                        foreach (Produto prod in produtos)
+                        {
+                            receita1 += cenario.volumes[i][prod.numero] * (prod.preco - custos[(int)cenario.idade[i]].desbaste);
+                            receita2 += cenario.volumes[i][prod.numero] * (prod.preco - custos[(int)cenario.idade[i + 1]].cortefinal);
+                        }
+                        int idade_aux = 1;
+                        for (int idade_atual = 1; idade_atual <= horizonte + cenario.idade_original[i]; idade_atual++)
+                        {
+                            if (idade_aux % cenario.idade[i + 1] == 0)
+                            {
+                                cenario.VPL2[i + 1] += calcular_VPL(receita2, taxa_juros, idade_atual - cenario.idade_original[i]);
+                                if (idade_atual + cenario.idade[i] > horizonte + cenario.idade_original[i])
+                                {
+                                    cenario.VAE2[i + 1] = calcular_VAE(cenario.VPL2[i + 1], taxa_juros, idade_atual - cenario.idade_original[i]);
+                                    cenario.VPL_infinito2[i + 1] = calcular_VPL_infinito(cenario.VAE2[i + 1], taxa_juros);
+                                    cenario.VET2[i + 1] = calcular_VET(cenario.VPL2[i + 1], taxa_juros, idade_atual - cenario.idade_original[i]);
+                                    break;
+                                }
+                                idade_aux = 1;
+                                continue;
+                            }
+                            cenario.VPL2[i + 1] -= calcular_VPL(custos[idade_aux].manutencao, taxa_juros, idade_atual - cenario.idade_original[i]);
+                            if (idade_aux % cenario.idade[i + 1] == cenario.idade[i]) ;
+                            {
+                                cenario.VPL2[i + 1] += calcular_VPL(receita1, taxa_juros, idade_atual - cenario.idade_original[i]);
+                                if (idade_atual + cenario.idade[i + 1] - cenario.idade[i] > horizonte + cenario.idade_original[i])
+                                {
+                                    cenario.VAE2[i + 1] = calcular_VAE(cenario.VPL2[i + 1], taxa_juros, idade_atual - cenario.idade_original[i]);
+                                    cenario.VPL_infinito2[i + 1] = calcular_VPL_infinito(cenario.VAE2[i + 1], taxa_juros);
+                                    cenario.VET2[i + 1] = calcular_VET(cenario.VPL2[i + 1], taxa_juros, idade_atual - cenario.idade_original[i]);
+                                    break;
+                                }
+                            }
+                            idade_aux++;
+                        }
+                        i++;
+                    }
+                    else
+                    {
+                        cenario.VPL2[i] = 0;
+                        cenario.VAE2[i] = 0;
+                        cenario.VPL_infinito2[i] = 0;
+                        cenario.VET2[i] = 0;
+                        receita1 = 0;
+                        foreach (Produto prod in produtos)
+                        {
+                            receita1 += cenario.volumes[i][prod.numero] * (prod.preco - custos[(int)cenario.idade[i]].cortefinal);
+                        }
+                        int idade_aux = 1;
+                        for (int idade_atual = 1; idade_atual <= horizonte + cenario.idade_original[i]; idade_atual++)
+                        {
+                            if (idade_aux % cenario.idade[i] == 0)
+                            {
+                                cenario.VPL2[i] += calcular_VPL(receita1, taxa_juros, idade_atual - cenario.idade_original[i]);
+                                if (idade_atual + cenario.idade[i] > horizonte + cenario.idade_original[i])
+                                {
+                                    cenario.VAE2[i] = calcular_VAE(cenario.VPL2[i], taxa_juros, idade_atual - cenario.idade_original[i]);
+                                    cenario.VPL_infinito2[i] = calcular_VPL_infinito(cenario.VAE2[i], taxa_juros);
+                                    cenario.VET2[i] = calcular_VET(cenario.VPL2[i], taxa_juros, idade_atual - cenario.idade_original[i]);
+                                    break;
+                                }
+                                idade_aux = 1;
+                                continue;
+                            }
+                            idade_aux++;
+                        }
+                    }
+                }
+            }
         }
 
         public void print_simular(string taxa_juros, string tipo_desbaste, string desbaste_por,

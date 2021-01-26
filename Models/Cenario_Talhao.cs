@@ -26,7 +26,7 @@ namespace Simulador
             VPL_infinito2 = new List<double>();
             VET = new List<double>();
             VET2 = new List<double>();
-            Idade_Original = new List<double>();
+            idade_original = new List<double>();
             vpl_sort = 0;
             area_talhao = new List<double>();
         }
@@ -47,9 +47,9 @@ namespace Simulador
         public List<double> VPL_infinito2;
         public List<double> VET;
         public List<double> VET2;
-        public List<double> Idade_Original;
+        public List<double> idade_original;
         public List<double> area_talhao;
-  
+
         public double vpl_sort;
     }
 }

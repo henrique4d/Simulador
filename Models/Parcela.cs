@@ -13,7 +13,7 @@ namespace Simulador
             volume = new List<double>();
             lucro = new List<double>();
 
-            for (int i=0; i< quant_produtos; i++)
+            for (int i = 0; i < quant_produtos; i++)
             {
                 volume.Add(0);
                 lucro.Add(0);
@@ -39,6 +39,7 @@ namespace Simulador
             idade = arvores[0].idade;
             idade_original = arvores[0].idade_original;
             material_genetico = arvores[0].material_genetico;
+            area_talhao = arvores[0].area_talhao;
             dap_medio = 0;
             foreach (Arvore x in arvores)
             {
@@ -59,7 +60,7 @@ namespace Simulador
                 area_basal_total += x.area_basal;
             }
         }
-        
+
         public List<Arvore> arvores;
         public string numero;
         public string talhao;
@@ -71,6 +72,7 @@ namespace Simulador
         public double altura_media;
         public double area_basal_total;
         public double area_parcela;
+        public double area_talhao;
         public double ima;
         public double vpl;
         public double vpl2;
@@ -80,10 +82,8 @@ namespace Simulador
         public double vpl_infinito2;
         public double vet;
         public double vet2;
-      
-
         public string material_genetico;
-        public List<double> volume;//[volume_produto1 = 33, volume_produto2, volume_produto3]
+        public List<double> volume;
         public List<double> lucro;
     }
 }

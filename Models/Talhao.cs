@@ -69,20 +69,20 @@ namespace Simulador
 
         public void set_dados()
         {
-            foreach(Parcela parc in parcelas)
+            foreach (Parcela parc in parcelas)
             {
                 parc.set_dados();
             }
             regiao = parcelas[0].regiao;
             material_genetico = parcelas[0].material_genetico;
             num_parcelas = parcelas.Count();
-            
+
             idade = parcelas[0].idade;
 
             altura_media = 0;
             dap_medio = 0;
 
-            for (int i=0; i< volume.Count(); i++)
+            for (int i = 0; i < volume.Count(); i++)
             {
                 volume[i] = 0;
             }
@@ -106,7 +106,7 @@ namespace Simulador
                 altura_media += parc.altura_media;
                 dap_medio += parc.dap_medio;
                 ima += parc.ima;
-                
+
                 vpl += parc.vpl;
                 vpl2 += parc.vpl2;
                 vae += parc.vae;
@@ -116,12 +116,8 @@ namespace Simulador
                 vet += parc.vet;
                 vet2 += parc.vet2;
             }
-            area_talhao = 0;
-            foreach (Parcela parc in parcelas)
-            {
-                area_talhao += parc.area_parcela;
-            }
-            
+            area_talhao = parcelas[0].area_talhao;
+
             dap_medio /= parcelas.Count(); ;
             altura_media /= parcelas.Count(); ;
             for (int i = 0; i < volume.Count(); i++)
@@ -142,6 +138,6 @@ namespace Simulador
             vet2 /= parcelas.Count();
         }
 
-        
+
     }
 }
