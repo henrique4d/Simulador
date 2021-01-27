@@ -289,6 +289,7 @@
             this.cmbSimTipoDesbaste.Size = new System.Drawing.Size(181, 28);
             this.cmbSimTipoDesbaste.TabIndex = 14;
             this.cmbSimTipoDesbaste.Text = "Tipo de desbaste";
+            this.cmbSimTipoDesbaste.SelectedIndexChanged += new System.EventHandler(this.cmbSimTipoDesbaste_SelectedIndexChanged_1);
             // 
             // panel2
             // 
@@ -313,6 +314,7 @@
             this.cmbSimControleDesbaste.Size = new System.Drawing.Size(150, 23);
             this.cmbSimControleDesbaste.TabIndex = 17;
             this.cmbSimControleDesbaste.Text = "Controle de desbaste";
+            this.cmbSimControleDesbaste.SelectedIndexChanged += new System.EventHandler(this.cmbSimControleDesbaste_SelectedIndexChanged);
             // 
             // txtSimIntervaloSistematico
             // 
@@ -325,6 +327,7 @@
             this.txtSimIntervaloSistematico.Text = "5";
             this.txtSimIntervaloSistematico.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtSimIntervaloSistematico.Visible = false;
+            this.txtSimIntervaloSistematico.TextChanged += new System.EventHandler(this.txtSimIntervaloSistematico_TextChanged);
             // 
             // btnSimCenarios
             // 
@@ -375,7 +378,7 @@
             this.tpMax.Location = new System.Drawing.Point(4, 40);
             this.tpMax.Name = "tpMax";
             this.tpMax.Padding = new System.Windows.Forms.Padding(3);
-            this.tpMax.Size = new System.Drawing.Size(193, 499);
+            this.tpMax.Size = new System.Drawing.Size(191, 499);
             this.tpMax.TabIndex = 1;
             this.tpMax.Text = "Maximização";
             // 
@@ -389,7 +392,7 @@
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 3);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(187, 493);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(185, 493);
             this.flowLayoutPanel1.TabIndex = 1;
             // 
             // txtMaxHorizonte
@@ -442,7 +445,7 @@
             this.tpReg.Location = new System.Drawing.Point(4, 40);
             this.tpReg.Name = "tpReg";
             this.tpReg.Padding = new System.Windows.Forms.Padding(3);
-            this.tpReg.Size = new System.Drawing.Size(193, 499);
+            this.tpReg.Size = new System.Drawing.Size(191, 499);
             this.tpReg.TabIndex = 4;
             this.tpReg.Text = "Regulação";
             // 
@@ -455,7 +458,7 @@
             this.flowLayoutPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel5.Location = new System.Drawing.Point(3, 3);
             this.flowLayoutPanel5.Name = "flowLayoutPanel5";
-            this.flowLayoutPanel5.Size = new System.Drawing.Size(187, 493);
+            this.flowLayoutPanel5.Size = new System.Drawing.Size(185, 493);
             this.flowLayoutPanel5.TabIndex = 1;
             // 
             // txtRegHorizonte
@@ -508,7 +511,7 @@
             this.tpSor.Location = new System.Drawing.Point(4, 40);
             this.tpSor.Name = "tpSor";
             this.tpSor.Padding = new System.Windows.Forms.Padding(3);
-            this.tpSor.Size = new System.Drawing.Size(193, 499);
+            this.tpSor.Size = new System.Drawing.Size(191, 499);
             this.tpSor.TabIndex = 2;
             this.tpSor.Text = "Sortimentos";
             // 
@@ -520,7 +523,7 @@
             this.flowLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel3.Location = new System.Drawing.Point(3, 3);
             this.flowLayoutPanel3.Name = "flowLayoutPanel3";
-            this.flowLayoutPanel3.Size = new System.Drawing.Size(187, 493);
+            this.flowLayoutPanel3.Size = new System.Drawing.Size(185, 493);
             this.flowLayoutPanel3.TabIndex = 1;
             // 
             // txtSorHorizonte
@@ -565,7 +568,7 @@
             this.tpBin.Location = new System.Drawing.Point(4, 40);
             this.tpBin.Name = "tpBin";
             this.tpBin.Padding = new System.Windows.Forms.Padding(3);
-            this.tpBin.Size = new System.Drawing.Size(193, 499);
+            this.tpBin.Size = new System.Drawing.Size(191, 499);
             this.tpBin.TabIndex = 3;
             this.tpBin.Text = "Binária";
             // 
@@ -577,7 +580,7 @@
             this.flowLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel4.Location = new System.Drawing.Point(3, 3);
             this.flowLayoutPanel4.Name = "flowLayoutPanel4";
-            this.flowLayoutPanel4.Size = new System.Drawing.Size(187, 493);
+            this.flowLayoutPanel4.Size = new System.Drawing.Size(185, 493);
             this.flowLayoutPanel4.TabIndex = 1;
             // 
             // txtBinHorizonte

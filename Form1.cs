@@ -220,24 +220,32 @@ namespace Simulador
             }
         }
 
+        private void backgroundWorker1_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
+        {
+
+        }
+
+        private void cmbSimControleDesbaste_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            
+
+        }
+
         private void txtSimIntervaloSistematico_TextChanged(object sender, EventArgs e)
         {
 
         }
 
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void cmbSimTipoDesbaste_SelectedIndexChanged_1(object sender, EventArgs e)
         {
-
-        }
-
-        private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
-        {
-
-        }
-
-        private void backgroundWorker1_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
-        {
-
+            if (cmbSimTipoDesbaste.Text == "Seletivo")
+            {
+                txtSimIntervaloSistematico.Visible = false;
+            }
+            else if (cmbSimTipoDesbaste.Text == "Misto")
+            {
+                txtSimIntervaloSistematico.Visible = true;
+            }
         }
     }
 }
