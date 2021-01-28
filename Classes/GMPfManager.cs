@@ -1727,6 +1727,7 @@ namespace Simulador.Classes
             Excel_Sortimentos.Workbooks[1].SaveAs(pathString_Sortimentos + "/" + arquivo_saida);
             Excel_Sortimentos.Workbooks[1].Save();
             Excel_Sortimentos.Quit();
+            if (pathString_Sortimentos != null) Process.Start(pathString_Sortimentos);
         }
 
         public void print_Binary(string horizonte, string arquivo_saida)
@@ -1819,6 +1820,7 @@ namespace Simulador.Classes
             Excel_Binary.Workbooks[1].SaveAs(pathString_Binary + "/" + arquivo_saida);
             Excel_Binary.Workbooks[1].Save();
             Excel_Binary.Quit();
+            if (pathString_Binary != null) Process.Start(pathString_Binary);
         }
 
         public void print_Regulação(string horizonte,
@@ -1898,6 +1900,7 @@ namespace Simulador.Classes
             Excel_Regulacao.Workbooks[1].SaveAs(pathString_Regulacao + "/" + arquivo_saida);
             Excel_Regulacao.Workbooks[1].Save();
             Excel_Regulacao.Quit();
+            if (pathString_Regulacao != null) Process.Start(pathString_Regulacao);
         }
 
 
@@ -2052,8 +2055,9 @@ namespace Simulador.Classes
                     if (i == casos.Count()) break;
                 }
             }
-
+            
             txt.Close();
+            if (pathString != null) Process.Start(pathString);
         }
 
         private void gerar_economicos2(ref List<Cenario_Talhao> final_talhao)
@@ -2240,7 +2244,7 @@ namespace Simulador.Classes
 
 
             var Excel = new Microsoft.Office.Interop.Excel.Application();
-
+            string pathString;
             try
             {
                 Excel.Workbooks.Add();
@@ -2253,11 +2257,10 @@ namespace Simulador.Classes
 
                 string path = GetCurrentDirectory();
 
-                string pathString = System.IO.Path.Combine(path, "Simulações");
+                pathString = System.IO.Path.Combine(path, "Simulações");
                 CreateDirectory(pathString);
 
                 Excel.Workbooks[1].SaveAs(pathString + "/" + arquivo_saida);
-                Process.Start(pathString);
             }
             catch
             {
@@ -2280,6 +2283,7 @@ namespace Simulador.Classes
             //print_maximizaçao(ref final_talhao);
             Excel.Workbooks[1].Save();
             Excel.Quit();
+            if(pathString!=null) Process.Start(pathString);
         }
     }
 }
