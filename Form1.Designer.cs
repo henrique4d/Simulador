@@ -29,9 +29,8 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.txtLogo = new System.Windows.Forms.TextBox();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tabNavibar = new Simulador.Components.TabControlWithoutHeader();
             this.tpSim = new System.Windows.Forms.TabPage();
@@ -78,7 +77,9 @@
             this.tsmiBin = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiReg = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.txtLogo = new System.Windows.Forms.TextBox();
             this.tabNavibar.SuspendLayout();
             this.tpSim.SuspendLayout();
             this.flowLayoutPanel7.SuspendLayout();
@@ -93,32 +94,13 @@
             this.tpBin.SuspendLayout();
             this.flowLayoutPanel4.SuspendLayout();
             this.menuStrip1.SuspendLayout();
+            this.panel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // backgroundWorker1
             // 
             this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
-            // 
-            // dataGridView1
-            // 
-            this.dataGridView1.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView1.Location = new System.Drawing.Point(0, 0);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(808, 567);
-            this.dataGridView1.TabIndex = 10;
-            // 
-            // txtLogo
-            // 
-            this.txtLogo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.txtLogo.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtLogo.Font = new System.Drawing.Font("Microsoft Sans Serif", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtLogo.Location = new System.Drawing.Point(208, 212);
-            this.txtLogo.Name = "txtLogo";
-            this.txtLogo.Size = new System.Drawing.Size(195, 73);
-            this.txtLogo.TabIndex = 26;
-            this.txtLogo.Text = "GPMf";
             // 
             // contextMenuStrip1
             // 
@@ -667,20 +649,50 @@
             this.menuStrip1.TabIndex = 31;
             this.menuStrip1.Text = "menuStrip1";
             // 
+            // panel3
+            // 
+            this.panel3.Controls.Add(this.txtLogo);
+            this.panel3.Controls.Add(this.dataGridView1);
+            this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel3.Location = new System.Drawing.Point(0, 24);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(609, 543);
+            this.panel3.TabIndex = 48;
+            // 
+            // dataGridView1
+            // 
+            this.dataGridView1.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridView1.Location = new System.Drawing.Point(0, 0);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.Size = new System.Drawing.Size(609, 543);
+            this.dataGridView1.TabIndex = 11;
+            // 
+            // txtLogo
+            // 
+            this.txtLogo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.txtLogo.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtLogo.Font = new System.Drawing.Font("Microsoft Sans Serif", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtLogo.Location = new System.Drawing.Point(206, 200);
+            this.txtLogo.Name = "txtLogo";
+            this.txtLogo.Size = new System.Drawing.Size(195, 73);
+            this.txtLogo.TabIndex = 27;
+            this.txtLogo.Text = "GPMf";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.ClientSize = new System.Drawing.Size(808, 567);
+            this.Controls.Add(this.panel3);
             this.Controls.Add(this.tabNavibar);
             this.Controls.Add(this.menuStrip1);
-            this.Controls.Add(this.txtLogo);
-            this.Controls.Add(this.dataGridView1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
             this.Text = "Entradas e premissas";
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.tabNavibar.ResumeLayout(false);
             this.tpSim.ResumeLayout(false);
             this.flowLayoutPanel7.ResumeLayout(false);
@@ -703,12 +715,13 @@
             this.flowLayoutPanel4.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            this.panel3.ResumeLayout(false);
+            this.panel3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
-
-        private System.Windows.Forms.TextBox txtLogo;
 
         #endregion
         private System.Windows.Forms.Button btnSimSortimentos;
@@ -758,6 +771,8 @@
         private System.Windows.Forms.ToolStripMenuItem tsmiBin;
         private System.Windows.Forms.ToolStripMenuItem tsmiReg;
         private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.TextBox txtLogo;
         private System.Windows.Forms.DataGridView dataGridView1;
     }
 }
