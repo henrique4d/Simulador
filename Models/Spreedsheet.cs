@@ -12,19 +12,20 @@ namespace Simulador.Models
 {
     public class Spreedsheet
     {
+        private String _title;
         public Spreedsheet(String title)
         {
-            Title = title;
+            _title = title;
             Dialog = new OpenFileDialog();
         }
 
         public string Title
         {
-            get => Dialog.Title;
+            get => _title;
             set
             {
-                if (value != null && Dialog!=null)
-                    Dialog.Title = value;
+                if (value != null)
+                    _title = value;
             }
         }
 
@@ -90,6 +91,7 @@ namespace Simulador.Models
 
         public bool OpenFile()
         {
+            Dialog.Title = _title;
             if (Dialog.ShowDialog() != DialogResult.OK) return false;
             return true;
         }

@@ -22,6 +22,8 @@ namespace Simulador.Classes
         public Spreedsheet SprdSimCenarios { get; set; }
         public Spreedsheet SprdSim { get; set; }
 
+
+
         // Dados
         List<Regiao> regioes_original; // armazena as arvores em estado original
         Coeficientes coeficientes; //armazena os coeficientes

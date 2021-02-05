@@ -107,6 +107,24 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\GMPfManager.cs" />
+    <Compile Include="Components\NavbarItem.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Components\NavbarItem.Designer.cs">
+      <DependentUpon>NavbarItem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Components\SidebarButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Components\SidebarButton.Designer.cs">
+      <DependentUpon>SidebarButton.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Components\SidebarItem.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Components\SidebarItem.Designer.cs">
+      <DependentUpon>SidebarItem.cs</DependentUpon>
+    </Compile>
     <Compile Include="Components\TabControlWithoutHeader.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -119,6 +137,12 @@
     </Compile>
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainWindown.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainWindown.Designer.cs">
+      <DependentUpon>MainWindown.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\Arvore.cs" />
     <Compile Include="Models\Cenario_Parcela.cs" />
@@ -134,11 +158,17 @@
     <Compile Include="Models\Talhao.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Components\NavbarItem.resx">
+      <DependentUpon>NavbarItem.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Components\TabControlWithoutHeader.resx">
       <DependentUpon>TabControlWithoutHeader.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainWindown.resx">
+      <DependentUpon>MainWindown.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
