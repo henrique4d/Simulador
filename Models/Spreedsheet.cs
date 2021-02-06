@@ -32,11 +32,7 @@ namespace Simulador.Models
         public string FileName
         {
             get => Dialog.FileName;
-            set
-            {
-                Dialog.FileName = value;
-                GetTabelaExcel();
-            }
+            set => Dialog.FileName = value;
         }
 
         public OpenFileDialog Dialog;
@@ -94,6 +90,17 @@ namespace Simulador.Models
             Dialog.Title = _title;
             if (Dialog.ShowDialog() != DialogResult.OK) return false;
             return true;
+        }
+
+        public delegate void SpreedsheetEventHandler(Object sender, SpreedsheetEventArgs e);
+        public class SpreedsheetEventArgs : EventArgs
+        {
+            public Spreedsheet Spreedsheet;
+
+            public SpreedsheetEventArgs(Spreedsheet spreedsheet)
+            {
+                Spreedsheet = spreedsheet;
+            }
         }
     }
 }

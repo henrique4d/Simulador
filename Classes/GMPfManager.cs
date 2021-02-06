@@ -20,8 +20,46 @@ namespace Simulador.Classes
         public Spreedsheet SprdSimSortimentos { get; set; }
         public Spreedsheet SprdSimPlanilhaCustos { get; set; }
         public Spreedsheet SprdSimCenarios { get; set; }
+        
         public Spreedsheet SprdSim { get; set; }
+        public Spreedsheet SprdMax { get; set; }
+        public Spreedsheet SprdSor { get; set; }
+        public Spreedsheet SprdBin { get; set; }
+        public Spreedsheet SprdReg { get; set; }
 
+
+        // Eventos
+        public event ErrorEventHandler Error;
+        public delegate void ErrorEventHandler(Object sender, ErrorEventArgs e);
+        public class ErrorEventArgs : EventArgs
+        {
+            public ErrorEventArgs(string name, Exception exception)
+            {
+                Name = name;
+                this.exception = exception;
+            }
+
+            public String Name;
+            public Exception exception;
+        }
+
+        public event UpdateEventHandler Update;
+        public delegate void UpdateEventHandler(Object sender, UpdateEventArgs e);
+        public class UpdateEventArgs : EventArgs
+        {
+            public UpdateEventArgs(string name, Spreedsheet spreedsheet, double progress, string message)
+            {
+                Name = name;
+                Spreedsheet = spreedsheet;
+                Progress = progress;
+                Message = message;
+            }
+
+            public String Name;
+            public Spreedsheet Spreedsheet;
+            public double Progress = 0;
+            public String Message;
+        }
 
 
         // Dados
@@ -53,6 +91,11 @@ namespace Simulador.Classes
             SprdSimSortimentos = new Spreedsheet("Sortimentos");
             SprdSimPlanilhaCustos = new Spreedsheet("Planilhas de Custos");
             SprdSimCenarios = new Spreedsheet("Cenários");
+            SprdSim = new Spreedsheet("Simulação");
+            SprdMax = new Spreedsheet("Maximização");
+            SprdSor = new Spreedsheet("Sortimento");
+            SprdBin = new Spreedsheet("Binária");
+            SprdReg = new Spreedsheet("Regulação");
         }
 
         private void importar_produtos()
@@ -1616,10 +1659,11 @@ namespace Simulador.Classes
             }
         }
 
-        public void print_Sortimentos(string horizonte, string arquivo_saida)
+        public void print_Sortimentos(string horizonte, string arquivo_saida, string acao = "")
         {
             this.horizonte = double.Parse(horizonte);
-            
+            // SprdSor.Title = arquivo_saida;
+            OnUpdate(new UpdateEventArgs(acao,SprdSor,  0, "Iniciando Processamento"));
             var Excel_Sortimentos = new Microsoft.Office.Interop.Excel.Application();
             Excel_Sortimentos.Workbooks.Add();
             Excel_Sortimentos.Workbooks[1].Worksheets[1].Name = "Sortimentos";
@@ -1728,13 +1772,17 @@ namespace Simulador.Classes
             CreateDirectory(pathString_Sortimentos);
             Excel_Sortimentos.Workbooks[1].SaveAs(pathString_Sortimentos + "/" + arquivo_saida);
             Excel_Sortimentos.Workbooks[1].Save();
+            SprdSor.FileName = Excel_Sortimentos.Workbooks[1].FullName;
             Excel_Sortimentos.Quit();
-            if (pathString_Sortimentos != null) Process.Start(pathString_Sortimentos);
+            OnUpdate(new UpdateEventArgs(acao,SprdSor,  100, "Processamento Concluido"));
+            // if (pathString_Sortimentos != null) Process.Start(pathString_Sortimentos);
         }
 
-        public void print_Binary(string horizonte, string arquivo_saida)
+        public void print_Binary(string horizonte, string arquivo_saida, string acao = "")
         {
             this.horizonte = double.Parse(horizonte);
+            // SprdBin.Title = arquivo_saida;
+            OnUpdate(new UpdateEventArgs(acao,SprdBin,  0, "Iniciando Processamento"));
             var Excel_Binary = new Microsoft.Office.Interop.Excel.Application();
             Excel_Binary.Workbooks.Add();
             Excel_Binary.Workbooks[1].Worksheets[1].Name = "Binária";
@@ -1821,15 +1869,19 @@ namespace Simulador.Classes
             CreateDirectory(pathString_Binary);
             Excel_Binary.Workbooks[1].SaveAs(pathString_Binary + "/" + arquivo_saida);
             Excel_Binary.Workbooks[1].Save();
+            SprdBin.FileName = Excel_Binary.Workbooks[1].FullName;
             Excel_Binary.Quit();
-            if (pathString_Binary != null) Process.Start(pathString_Binary);
+            OnUpdate(new UpdateEventArgs(acao,SprdBin,  100, "Processamento Concluido"));
+            // if (pathString_Binary != null) Process.Start(pathString_Binary);
         }
 
         public void print_Regulação(string horizonte,
-            string N_regulacao, string arquivo_saida)
+            string N_regulacao, string arquivo_saida, string acao = "")
         {
             this.horizonte = int.Parse(horizonte);
             this.N_regulacao = int.Parse(N_regulacao);
+            // SprdReg.Title = arquivo_saida;
+            OnUpdate(new UpdateEventArgs(acao,SprdReg,  0, "Iniciando Processamento"));
             var Excel_Regulacao = new Microsoft.Office.Interop.Excel.Application();
             Excel_Regulacao.Workbooks.Add();
             Excel_Regulacao.Workbooks[1].Worksheets[1].Name = "Regulação";
@@ -1901,8 +1953,10 @@ namespace Simulador.Classes
             CreateDirectory(pathString_Regulacao);
             Excel_Regulacao.Workbooks[1].SaveAs(pathString_Regulacao + "/" + arquivo_saida);
             Excel_Regulacao.Workbooks[1].Save();
+            SprdReg.FileName = Excel_Regulacao.Workbooks[1].FullName;
             Excel_Regulacao.Quit();
-            if (pathString_Regulacao != null) Process.Start(pathString_Regulacao);
+            OnUpdate(new UpdateEventArgs(acao,SprdReg,  100, "Processamento Concluido"));
+            // if (pathString_Regulacao != null) Process.Start(pathString_Regulacao);
         }
 
 
@@ -1920,12 +1974,14 @@ namespace Simulador.Classes
             public bool tem_desbaste;
         }
 
-        public void print_maximizaçao(string horizonte, string N_planejamento, string arquivo_saida)
+        public void print_maximizaçao(string horizonte, string N_planejamento, string arquivo_saida, string acao = "")
         {
             this.horizonte = int.Parse(horizonte);
             this.N_planejamento = int.Parse(N_planejamento);
+            // SprdMax.Title = arquivo_saida;
             List<aux_maximizacao> casos = new List<aux_maximizacao>();
             aux_maximizacao aux = new aux_maximizacao();
+            OnUpdate(new UpdateEventArgs(acao,SprdMax,  0, "Iniciando Processamento"));
             gerar_economicos2(ref final_talhao);
                 
             foreach (Cenario_Talhao cenario in final_talhao)
@@ -2059,7 +2115,9 @@ namespace Simulador.Classes
             }
             
             txt.Close();
-            if (pathString != null) Process.Start(pathString);
+            SprdMax.FileName = pathString;
+            OnUpdate(new UpdateEventArgs(acao,SprdMax,  100, "Processamento Concluido"));
+            // if (pathString != null) Process.Start(pathString);
         }
 
         private void gerar_economicos2(ref List<Cenario_Talhao> final_talhao)
@@ -2150,17 +2208,10 @@ namespace Simulador.Classes
         }
 
         public void print_simular(string taxa_juros, string tipo_desbaste, string desbaste_por,
-            string intervalo_sistematico, string arquivoSaida)
+            string intervalo_sistematico, string arquivoSaida, string acao="Simular Dados")
         {
-            // this.taxa_juros = taxa_juros;
-            // this.tipo_desbaste = tipo_desbaste;
-            // this.desbaste_por = desbaste_por;
-            // this.intervalo_sistematico = intervalo_sistematico;
-            // MessageBox.Show(taxa_juros);
-            // MessageBox.Show(tipo_desbaste);
-            // MessageBox.Show(desbaste_por);
-            // MessageBox.Show(intervalo_sistematico);
-            // MessageBox.Show(arquivoSaida);
+            // SprdSim.Title = arquivoSaida;
+            OnUpdate(new UpdateEventArgs(acao,SprdSim,  0, "Iniciando Processamento"));
 
             this.tipo_desbaste = tipo_desbaste;
             this.desbaste_por = desbaste_por;
@@ -2284,8 +2335,19 @@ namespace Simulador.Classes
 
             //print_maximizaçao(ref final_talhao);
             Excel.Workbooks[1].Save();
+            SprdSim.FileName = Excel.Workbooks[1].FullName;
             Excel.Quit();
-            if(pathString!=null) Process.Start(pathString);
+            OnUpdate(new UpdateEventArgs(acao,SprdSim,  100, "Processamento Concluido"));
+        }
+
+        protected virtual void OnUpdate(UpdateEventArgs e)
+        {
+            Update?.Invoke(this, e);
+        }
+
+        protected virtual void OnError(ErrorEventArgs e)
+        {
+            Error?.Invoke(this, e);
         }
     }
 }
