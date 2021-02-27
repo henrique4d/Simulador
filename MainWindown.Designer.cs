@@ -48,8 +48,10 @@ namespace Simulador
             this.slblTpMainEnderecoArquivo = new System.Windows.Forms.ToolStripStatusLabel();
             this.pnlPlanilhaHeader = new System.Windows.Forms.Panel();
             this.pnlPlanilhaHeaderActions = new System.Windows.Forms.Panel();
-            this.btnPlanilhaOpen = new System.Windows.Forms.Button();
+            this.pnlBtnPlanilhaUpdate = new System.Windows.Forms.Panel();
             this.btnPlanilhaUpdate = new System.Windows.Forms.Button();
+            this.pnlBtnPlanilhaOpen = new System.Windows.Forms.Panel();
+            this.btnPlanilhaOpen = new System.Windows.Forms.Button();
             this.lblPlanilhaNomeArquivo = new System.Windows.Forms.Label();
             this.tpLogo = new System.Windows.Forms.TabPage();
             this.pnlMainInfos = new System.Windows.Forms.Panel();
@@ -162,8 +164,6 @@ namespace Simulador
             this.sbiPenReg = new Simulador.Components.SidebarItem(this.components);
             this.btnOpenPenReg = new System.Windows.Forms.Button();
             this.tbOther = new System.Windows.Forms.TabPage();
-            this.pnlBtnPlanilhaUpdate = new System.Windows.Forms.Panel();
-            this.pnlBtnPlanilhaOpen = new System.Windows.Forms.Panel();
             this.pnlHeader.SuspendLayout();
             this.pnlHeaderRight.SuspendLayout();
             this.pnlHeaderActionsLeft.SuspendLayout();
@@ -174,6 +174,8 @@ namespace Simulador
             this.ssMainNomeArquivo.SuspendLayout();
             this.pnlPlanilhaHeader.SuspendLayout();
             this.pnlPlanilhaHeaderActions.SuspendLayout();
+            this.pnlBtnPlanilhaUpdate.SuspendLayout();
+            this.pnlBtnPlanilhaOpen.SuspendLayout();
             this.tpLogo.SuspendLayout();
             this.pnlMainInfos.SuspendLayout();
             this.tabSidebar.SuspendLayout();
@@ -228,8 +230,6 @@ namespace Simulador
             this.panel18.SuspendLayout();
             this.panel35.SuspendLayout();
             this.panel36.SuspendLayout();
-            this.pnlBtnPlanilhaUpdate.SuspendLayout();
-            this.pnlBtnPlanilhaOpen.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnlHeader
@@ -317,9 +317,9 @@ namespace Simulador
             this.lblMiniLogo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(14)))), ((int)(((byte)(92)))), ((int)(((byte)(47)))));
             this.lblMiniLogo.Location = new System.Drawing.Point(18, 11);
             this.lblMiniLogo.Name = "lblMiniLogo";
-            this.lblMiniLogo.Size = new System.Drawing.Size(66, 25);
+            this.lblMiniLogo.Size = new System.Drawing.Size(73, 25);
             this.lblMiniLogo.TabIndex = 0;
-            this.lblMiniLogo.Text = "GMPf";
+            this.lblMiniLogo.Text = "GPMF";
             // 
             // tabMain
             // 
@@ -394,18 +394,13 @@ namespace Simulador
             this.pnlPlanilhaHeaderActions.Size = new System.Drawing.Size(76, 30);
             this.pnlPlanilhaHeaderActions.TabIndex = 3;
             // 
-            // btnPlanilhaOpen
+            // pnlBtnPlanilhaUpdate
             // 
-            this.btnPlanilhaOpen.BackColor = System.Drawing.Color.White;
-            this.btnPlanilhaOpen.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnPlanilhaOpen.Dock = System.Windows.Forms.DockStyle.Left;
-            this.btnPlanilhaOpen.Image = global::Simulador.Properties.Resources.open_16x16;
-            this.btnPlanilhaOpen.Location = new System.Drawing.Point(0, 0);
-            this.btnPlanilhaOpen.Margin = new System.Windows.Forms.Padding(0);
-            this.btnPlanilhaOpen.Name = "btnPlanilhaOpen";
-            this.btnPlanilhaOpen.Size = new System.Drawing.Size(37, 30);
-            this.btnPlanilhaOpen.TabIndex = 8;
-            this.btnPlanilhaOpen.UseVisualStyleBackColor = false;
+            this.pnlBtnPlanilhaUpdate.Controls.Add(this.btnPlanilhaUpdate);
+            this.pnlBtnPlanilhaUpdate.Location = new System.Drawing.Point(0, 0);
+            this.pnlBtnPlanilhaUpdate.Name = "pnlBtnPlanilhaUpdate";
+            this.pnlBtnPlanilhaUpdate.Size = new System.Drawing.Size(37, 30);
+            this.pnlBtnPlanilhaUpdate.TabIndex = 10;
             // 
             // btnPlanilhaUpdate
             // 
@@ -419,6 +414,27 @@ namespace Simulador
             this.btnPlanilhaUpdate.Size = new System.Drawing.Size(37, 30);
             this.btnPlanilhaUpdate.TabIndex = 9;
             this.btnPlanilhaUpdate.UseVisualStyleBackColor = false;
+            // 
+            // pnlBtnPlanilhaOpen
+            // 
+            this.pnlBtnPlanilhaOpen.Controls.Add(this.btnPlanilhaOpen);
+            this.pnlBtnPlanilhaOpen.Location = new System.Drawing.Point(39, 0);
+            this.pnlBtnPlanilhaOpen.Name = "pnlBtnPlanilhaOpen";
+            this.pnlBtnPlanilhaOpen.Size = new System.Drawing.Size(37, 30);
+            this.pnlBtnPlanilhaOpen.TabIndex = 11;
+            // 
+            // btnPlanilhaOpen
+            // 
+            this.btnPlanilhaOpen.BackColor = System.Drawing.Color.White;
+            this.btnPlanilhaOpen.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnPlanilhaOpen.Dock = System.Windows.Forms.DockStyle.Left;
+            this.btnPlanilhaOpen.Image = global::Simulador.Properties.Resources.open_16x16;
+            this.btnPlanilhaOpen.Location = new System.Drawing.Point(0, 0);
+            this.btnPlanilhaOpen.Margin = new System.Windows.Forms.Padding(0);
+            this.btnPlanilhaOpen.Name = "btnPlanilhaOpen";
+            this.btnPlanilhaOpen.Size = new System.Drawing.Size(37, 30);
+            this.btnPlanilhaOpen.TabIndex = 8;
+            this.btnPlanilhaOpen.UseVisualStyleBackColor = false;
             // 
             // lblPlanilhaNomeArquivo
             // 
@@ -440,7 +456,7 @@ namespace Simulador
             this.tpLogo.Location = new System.Drawing.Point(4, 22);
             this.tpLogo.Name = "tpLogo";
             this.tpLogo.Padding = new System.Windows.Forms.Padding(3);
-            this.tpLogo.Size = new System.Drawing.Size(546, 509);
+            this.tpLogo.Size = new System.Drawing.Size(534, 509);
             this.tpLogo.TabIndex = 1;
             this.tpLogo.Text = "Logo";
             // 
@@ -452,7 +468,7 @@ namespace Simulador
             this.pnlMainInfos.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlMainInfos.Location = new System.Drawing.Point(3, 3);
             this.pnlMainInfos.Name = "pnlMainInfos";
-            this.pnlMainInfos.Size = new System.Drawing.Size(540, 123);
+            this.pnlMainInfos.Size = new System.Drawing.Size(528, 123);
             this.pnlMainInfos.TabIndex = 3;
             this.pnlMainInfos.Visible = false;
             // 
@@ -463,7 +479,7 @@ namespace Simulador
             this.lblMainInfo.ForeColor = System.Drawing.Color.White;
             this.lblMainInfo.Location = new System.Drawing.Point(0, 33);
             this.lblMainInfo.Name = "lblMainInfo";
-            this.lblMainInfo.Size = new System.Drawing.Size(540, 67);
+            this.lblMainInfo.Size = new System.Drawing.Size(528, 67);
             this.lblMainInfo.TabIndex = 3;
             this.lblMainInfo.Text = "Gerando Preescrições";
             // 
@@ -472,7 +488,7 @@ namespace Simulador
             this.progressBar1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.progressBar1.Location = new System.Drawing.Point(0, 100);
             this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(540, 23);
+            this.progressBar1.Size = new System.Drawing.Size(528, 23);
             this.progressBar1.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
             this.progressBar1.TabIndex = 2;
             // 
@@ -483,7 +499,7 @@ namespace Simulador
             this.lblMainAcao.ForeColor = System.Drawing.Color.White;
             this.lblMainAcao.Location = new System.Drawing.Point(0, 0);
             this.lblMainAcao.Name = "lblMainAcao";
-            this.lblMainAcao.Size = new System.Drawing.Size(540, 33);
+            this.lblMainAcao.Size = new System.Drawing.Size(528, 33);
             this.lblMainAcao.TabIndex = 1;
             this.lblMainAcao.Text = "Gerando Preescrições";
             this.lblMainAcao.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -497,7 +513,7 @@ namespace Simulador
             this.lblMainLogo.Name = "lblMainLogo";
             this.lblMainLogo.Size = new System.Drawing.Size(358, 120);
             this.lblMainLogo.TabIndex = 0;
-            this.lblMainLogo.Text = "GMPF";
+            this.lblMainLogo.Text = "GPMF";
             // 
             // tabSidebar
             // 
@@ -1787,26 +1803,10 @@ namespace Simulador
             this.tbOther.Location = new System.Drawing.Point(4, 22);
             this.tbOther.Name = "tbOther";
             this.tbOther.Padding = new System.Windows.Forms.Padding(3);
-            this.tbOther.Size = new System.Drawing.Size(222, 509);
+            this.tbOther.Size = new System.Drawing.Size(234, 509);
             this.tbOther.TabIndex = 2;
             this.tbOther.Text = "Other";
             this.tbOther.UseVisualStyleBackColor = true;
-            // 
-            // pnlBtnPlanilhaUpdate
-            // 
-            this.pnlBtnPlanilhaUpdate.Controls.Add(this.btnPlanilhaUpdate);
-            this.pnlBtnPlanilhaUpdate.Location = new System.Drawing.Point(0, 0);
-            this.pnlBtnPlanilhaUpdate.Name = "pnlBtnPlanilhaUpdate";
-            this.pnlBtnPlanilhaUpdate.Size = new System.Drawing.Size(37, 30);
-            this.pnlBtnPlanilhaUpdate.TabIndex = 10;
-            // 
-            // pnlBtnPlanilhaOpen
-            // 
-            this.pnlBtnPlanilhaOpen.Controls.Add(this.btnPlanilhaOpen);
-            this.pnlBtnPlanilhaOpen.Location = new System.Drawing.Point(39, 0);
-            this.pnlBtnPlanilhaOpen.Name = "pnlBtnPlanilhaOpen";
-            this.pnlBtnPlanilhaOpen.Size = new System.Drawing.Size(37, 30);
-            this.pnlBtnPlanilhaOpen.TabIndex = 11;
             // 
             // MainWindown
             // 
@@ -1833,6 +1833,8 @@ namespace Simulador
             this.ssMainNomeArquivo.PerformLayout();
             this.pnlPlanilhaHeader.ResumeLayout(false);
             this.pnlPlanilhaHeaderActions.ResumeLayout(false);
+            this.pnlBtnPlanilhaUpdate.ResumeLayout(false);
+            this.pnlBtnPlanilhaOpen.ResumeLayout(false);
             this.tpLogo.ResumeLayout(false);
             this.tpLogo.PerformLayout();
             this.pnlMainInfos.ResumeLayout(false);
@@ -1902,8 +1904,6 @@ namespace Simulador
             this.panel18.PerformLayout();
             this.panel35.ResumeLayout(false);
             this.panel36.ResumeLayout(false);
-            this.pnlBtnPlanilhaUpdate.ResumeLayout(false);
-            this.pnlBtnPlanilhaOpen.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
