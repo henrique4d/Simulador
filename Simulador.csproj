@@ -225,6 +225,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="asd.ico" />
+    <None Include="Resources\arrow_up_16x16.png" />
+    <None Include="Resources\arrow_down_16x16.png" />
     <None Include="Resources\update-16x16.png" />
     <None Include="Resources\open-16x16.png" />
     <None Include="Resources\view-16x16.png" />

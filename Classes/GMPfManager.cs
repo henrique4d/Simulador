@@ -12,8 +12,9 @@ using static System.IO.Directory;
 
 namespace Simulador.Classes
 {
-    class Gmpfanager
+    class GmpfManager
     {
+        public bool isSimulated = false;
         // Planilhas
         public Spreedsheet SprdSimDadosInventario { get; set; }
         public Spreedsheet SprdSimCoeficienteMai { get; set; }
@@ -85,7 +86,7 @@ namespace Simulador.Classes
         string arquivo_saida;
         string error;
 
-        public Gmpfanager()
+        public GmpfManager()
         {
             // Atribuindo o Título das panilhas
             SprdSimDadosInventario = new Spreedsheet("Dados de Inventário");
@@ -2343,6 +2344,7 @@ namespace Simulador.Classes
             SprdSim.FileName = Excel.Workbooks[1].FullName;
             Excel.Quit();
             OnUpdate(new UpdateEventArgs(acao,SprdSim,  100, "Processamento Concluido"));
+            this.isSimulated = true;
         }
 
         protected virtual void OnUpdate(UpdateEventArgs e)

@@ -17,7 +17,7 @@ namespace Simulador
             InitializeComponent();
 
             // Inicializando classe responsável pelo GMPF
-            GmpfManager = new Gmpfanager();
+            GmpfManager = new GmpfManager();
 
             // Inicializa Logo
             InitializeLogo();
@@ -66,7 +66,7 @@ namespace Simulador
             btnPlanilhaUpdate.Click += (s, e) => { LoadExcelData(Spreedsheet); };
         }
 
-        private Gmpfanager GmpfManager { get; }
+        private GmpfManager GmpfManager { get; }
         private Spreedsheet Spreedsheet { get; set; }
         private NavbarItem SelectedNavbarItem { get; set; }
 
@@ -145,6 +145,14 @@ namespace Simulador
 
         private void navPenalidades_Click(object sender, EventArgs e)
         {
+            /*
+            if (!GmpfManager.isSimulated)
+            {
+                MessageBox.Show("Simule antes de prosseguir.");
+                return;
+            }
+            */
+
             SelectedNavbarItem.Active = false;
             SelectedNavbarItem = nviPenalidades;
             SelectedNavbarItem.Active = true;
@@ -155,52 +163,59 @@ namespace Simulador
         // Expandir e Maximizar FlowLayouts
         private void lblPreImportarTabelas_Click(object sender, EventArgs e)
         {
-            flpPreImportarTabelas.Visible = !flpPreImportarTabelas.Visible;
+            SetOpenAndCloseAccordion(flpPreImportarTabelas, lblPreImportarTabelas);
         }
 
         private void lblPreDadosPreescricao_Click(object sender, EventArgs e)
         {
-            flpPreDadosPreescricao.Visible = !flpPreDadosPreescricao.Visible;
+            SetOpenAndCloseAccordion(flpPreDadosPreescricao, lblPreDadosPreescricao);
         }
 
         private void lblPreGerarPreescricoes_Click(object sender, EventArgs e)
         {
-            flpPreGerarPreescricoes.Visible = !flpPreGerarPreescricoes.Visible;
+            SetOpenAndCloseAccordion(flpPreGerarPreescricoes, lblPreGerarPreescricoes);
         }
 
         private void lblPenDadosCompartilhados_Click(object sender, EventArgs e)
         {
-            flpPenDadosCompartilhados.Visible = !flpPenDadosCompartilhados.Visible;
+            SetOpenAndCloseAccordion(flpPenDadosCompartilhados, lblPenDadosCompartilhados);
         }
 
         private void lblPenMaximizacoes_Click(object sender, EventArgs e)
         {
-            flpPenMaximizacoes.Visible = !flpPenMaximizacoes.Visible;
+            SetOpenAndCloseAccordion(flpPenMaximizacoes, lblPenMaximizacoes);
         }
 
         private void lblPenSortimentos_Click(object sender, EventArgs e)
         {
-            flpPenSortimentos.Visible = !flpPenSortimentos.Visible;
+            SetOpenAndCloseAccordion(flpPenSortimentos, lblPenSortimentos);
         }
 
         private void lblPenBinaria_Click(object sender, EventArgs e)
         {
-            flpPenBinaria.Visible = !flpPenBinaria.Visible;
+            SetOpenAndCloseAccordion(flpPenBinaria, lblPenBinaria);
         }
 
         private void lblPenRegulacao_Click(object sender, EventArgs e)
         {
-            flpPenRegulacao.Visible = !flpPenRegulacao.Visible;
+            SetOpenAndCloseAccordion(flpPenRegulacao, lblPenRegulacao);
         }
 
         private void lblPenImportarTabelas_Click(object sender, EventArgs e)
         {
-            flpPenImportarTabelas.Visible = !flpPenImportarTabelas.Visible;
+            SetOpenAndCloseAccordion(flpPenImportarTabelas, lblPenImportarTabelas);
         }
 
         private void lblPenTabelaHeuristica_Click(object sender, EventArgs e)
         {
-            flpPenTabelaHeuristica.Visible = !flpPenTabelaHeuristica.Visible;
+            SetOpenAndCloseAccordion(flpPenTabelaHeuristica, lblPenTabelaHeuristica);
+        }
+
+        private void SetOpenAndCloseAccordion(FlowLayoutPanel flp, Label lbl)
+        {
+            flp.Visible = !flp.Visible;
+            if (flp.Visible) lbl.Image = Properties.Resources.arrow_up_16x16;
+            else lbl.Image = Properties.Resources.arrow_down_16x16;
         }
 
         private void SetClickOpenSpreedsheet(Spreedsheet sprd, Control ctl1, Control ctl2)
@@ -255,6 +270,7 @@ namespace Simulador
                     cmbPreControleDesbaste.Text,
                     txtPreIntervaloSistematico.Text,
                     txtPrePreTitulo.Text);
+                nviPenalidades.Enabled = true;
             });
 
             btnOpenPenMax.Click += (sender, eventArgs) =>
@@ -344,7 +360,5 @@ namespace Simulador
                 Ctl2 = ctl2;
             }
         }
-
-        
     }
 }

@@ -126,11 +126,11 @@ namespace Simulador
             this.panel1 = new System.Windows.Forms.Panel();
             this.txtPenHorizonte = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
-            this.lblPenMaximizacoes = new System.Windows.Forms.Label();
-            this.flpPenMaximizacoes = new System.Windows.Forms.FlowLayoutPanel();
             this.panel5 = new System.Windows.Forms.Panel();
             this.txtPenMaxNumPlanejamento = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
+            this.lblPenMaximizacoes = new System.Windows.Forms.Label();
+            this.flpPenMaximizacoes = new System.Windows.Forms.FlowLayoutPanel();
             this.panel6 = new System.Windows.Forms.Panel();
             this.panel11 = new System.Windows.Forms.Panel();
             this.txtPenMaxTitulo = new System.Windows.Forms.TextBox();
@@ -226,8 +226,8 @@ namespace Simulador
             this.flpPen.SuspendLayout();
             this.flpPenDadosCompartilhados.SuspendLayout();
             this.panel1.SuspendLayout();
-            this.flpPenMaximizacoes.SuspendLayout();
             this.panel5.SuspendLayout();
+            this.flpPenMaximizacoes.SuspendLayout();
             this.panel6.SuspendLayout();
             this.panel11.SuspendLayout();
             this.panel29.SuspendLayout();
@@ -319,6 +319,7 @@ namespace Simulador
             this.nviPenalidades.Active = false;
             this.nviPenalidades.AutoSize = true;
             this.nviPenalidades.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.nviPenalidades.Enabled = false;
             this.nviPenalidades.Location = new System.Drawing.Point(116, 6);
             this.nviPenalidades.Name = "nviPenalidades";
             this.nviPenalidades.Size = new System.Drawing.Size(75, 32);
@@ -787,9 +788,12 @@ namespace Simulador
             this.lblPreImportarTabelas.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lblPreImportarTabelas.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblPreImportarTabelas.ForeColor = System.Drawing.Color.White;
+            this.lblPreImportarTabelas.Image = global::Simulador.Properties.Resources.arrow_up_16x16;
+            this.lblPreImportarTabelas.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.lblPreImportarTabelas.Location = new System.Drawing.Point(0, 0);
             this.lblPreImportarTabelas.Margin = new System.Windows.Forms.Padding(0, 0, 0, 7);
             this.lblPreImportarTabelas.Name = "lblPreImportarTabelas";
+            this.lblPreImportarTabelas.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
             this.lblPreImportarTabelas.Size = new System.Drawing.Size(213, 22);
             this.lblPreImportarTabelas.TabIndex = 0;
             this.lblPreImportarTabelas.Text = "Importar Tabelas";
@@ -1006,9 +1010,12 @@ namespace Simulador
             this.lblPreDadosPreescricao.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lblPreDadosPreescricao.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblPreDadosPreescricao.ForeColor = System.Drawing.Color.White;
+            this.lblPreDadosPreescricao.Image = global::Simulador.Properties.Resources.arrow_up_16x16;
+            this.lblPreDadosPreescricao.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.lblPreDadosPreescricao.Location = new System.Drawing.Point(0, 186);
             this.lblPreDadosPreescricao.Margin = new System.Windows.Forms.Padding(0, 7, 0, 7);
             this.lblPreDadosPreescricao.Name = "lblPreDadosPreescricao";
+            this.lblPreDadosPreescricao.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
             this.lblPreDadosPreescricao.Size = new System.Drawing.Size(213, 22);
             this.lblPreDadosPreescricao.TabIndex = 1;
             this.lblPreDadosPreescricao.Text = "Dados da Prescrição";
@@ -1195,9 +1202,12 @@ namespace Simulador
             this.lblPreGerarPreescricoes.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lblPreGerarPreescricoes.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblPreGerarPreescricoes.ForeColor = System.Drawing.Color.White;
+            this.lblPreGerarPreescricoes.Image = global::Simulador.Properties.Resources.arrow_up_16x16;
+            this.lblPreGerarPreescricoes.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.lblPreGerarPreescricoes.Location = new System.Drawing.Point(0, 402);
             this.lblPreGerarPreescricoes.Margin = new System.Windows.Forms.Padding(0, 7, 0, 7);
             this.lblPreGerarPreescricoes.Name = "lblPreGerarPreescricoes";
+            this.lblPreGerarPreescricoes.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
             this.lblPreGerarPreescricoes.Size = new System.Drawing.Size(213, 22);
             this.lblPreGerarPreescricoes.TabIndex = 10;
             this.lblPreGerarPreescricoes.Text = "Simulação";
@@ -1308,8 +1318,6 @@ namespace Simulador
             // flpPen
             // 
             this.flpPen.AutoScroll = true;
-            this.flpPen.AutoSize = true;
-            this.flpPen.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.flpPen.Controls.Add(this.lblPenDadosCompartilhados);
             this.flpPen.Controls.Add(this.flpPenDadosCompartilhados);
             this.flpPen.Controls.Add(this.lblPenMaximizacoes);
@@ -1336,24 +1344,28 @@ namespace Simulador
             this.lblPenDadosCompartilhados.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lblPenDadosCompartilhados.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblPenDadosCompartilhados.ForeColor = System.Drawing.Color.White;
+            this.lblPenDadosCompartilhados.Image = global::Simulador.Properties.Resources.arrow_up_16x16;
+            this.lblPenDadosCompartilhados.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.lblPenDadosCompartilhados.Location = new System.Drawing.Point(0, 0);
             this.lblPenDadosCompartilhados.Margin = new System.Windows.Forms.Padding(0, 0, 0, 7);
             this.lblPenDadosCompartilhados.Name = "lblPenDadosCompartilhados";
+            this.lblPenDadosCompartilhados.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
             this.lblPenDadosCompartilhados.Size = new System.Drawing.Size(210, 22);
             this.lblPenDadosCompartilhados.TabIndex = 0;
             this.lblPenDadosCompartilhados.Text = "Dados Compartilhados";
             this.lblPenDadosCompartilhados.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lblPenDadosCompartilhados.Visible = false;
             this.lblPenDadosCompartilhados.Click += new System.EventHandler(this.lblPenDadosCompartilhados_Click);
             // 
             // flpPenDadosCompartilhados
             // 
             this.flpPenDadosCompartilhados.AutoSize = true;
+            this.flpPenDadosCompartilhados.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.flpPenDadosCompartilhados.Controls.Add(this.panel1);
+            this.flpPenDadosCompartilhados.Controls.Add(this.panel5);
             this.flpPenDadosCompartilhados.Location = new System.Drawing.Point(0, 29);
             this.flpPenDadosCompartilhados.Margin = new System.Windows.Forms.Padding(0);
             this.flpPenDadosCompartilhados.Name = "flpPenDadosCompartilhados";
-            this.flpPenDadosCompartilhados.Size = new System.Drawing.Size(212, 35);
+            this.flpPenDadosCompartilhados.Size = new System.Drawing.Size(212, 70);
             this.flpPenDadosCompartilhados.TabIndex = 25;
             // 
             // panel1
@@ -1391,39 +1403,11 @@ namespace Simulador
             this.label7.Text = "Horizonte planejamento";
             this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // lblPenMaximizacoes
-            // 
-            this.lblPenMaximizacoes.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(14)))), ((int)(((byte)(92)))), ((int)(((byte)(47)))));
-            this.lblPenMaximizacoes.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lblPenMaximizacoes.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPenMaximizacoes.ForeColor = System.Drawing.Color.White;
-            this.lblPenMaximizacoes.Location = new System.Drawing.Point(0, 71);
-            this.lblPenMaximizacoes.Margin = new System.Windows.Forms.Padding(0, 7, 0, 7);
-            this.lblPenMaximizacoes.Name = "lblPenMaximizacoes";
-            this.lblPenMaximizacoes.Size = new System.Drawing.Size(209, 22);
-            this.lblPenMaximizacoes.TabIndex = 1;
-            this.lblPenMaximizacoes.Text = "Função objetivo";
-            this.lblPenMaximizacoes.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lblPenMaximizacoes.Click += new System.EventHandler(this.lblPenMaximizacoes_Click);
-            // 
-            // flpPenMaximizacoes
-            // 
-            this.flpPenMaximizacoes.AutoSize = true;
-            this.flpPenMaximizacoes.Controls.Add(this.panel5);
-            this.flpPenMaximizacoes.Controls.Add(this.panel6);
-            this.flpPenMaximizacoes.Controls.Add(this.panel29);
-            this.flpPenMaximizacoes.Location = new System.Drawing.Point(0, 100);
-            this.flpPenMaximizacoes.Margin = new System.Windows.Forms.Padding(0);
-            this.flpPenMaximizacoes.Name = "flpPenMaximizacoes";
-            this.flpPenMaximizacoes.Size = new System.Drawing.Size(212, 119);
-            this.flpPenMaximizacoes.TabIndex = 0;
-            this.flpPenMaximizacoes.Visible = false;
-            // 
             // panel5
             // 
             this.panel5.Controls.Add(this.txtPenMaxNumPlanejamento);
             this.panel5.Controls.Add(this.label10);
-            this.panel5.Location = new System.Drawing.Point(3, 3);
+            this.panel5.Location = new System.Drawing.Point(3, 38);
             this.panel5.Name = "panel5";
             this.panel5.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
             this.panel5.Size = new System.Drawing.Size(206, 29);
@@ -1454,11 +1438,41 @@ namespace Simulador
             this.label10.Text = " N° Preescrições";
             this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // lblPenMaximizacoes
+            // 
+            this.lblPenMaximizacoes.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(14)))), ((int)(((byte)(92)))), ((int)(((byte)(47)))));
+            this.lblPenMaximizacoes.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblPenMaximizacoes.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPenMaximizacoes.ForeColor = System.Drawing.Color.White;
+            this.lblPenMaximizacoes.Image = global::Simulador.Properties.Resources.arrow_down_16x16;
+            this.lblPenMaximizacoes.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lblPenMaximizacoes.Location = new System.Drawing.Point(0, 106);
+            this.lblPenMaximizacoes.Margin = new System.Windows.Forms.Padding(0, 7, 0, 7);
+            this.lblPenMaximizacoes.Name = "lblPenMaximizacoes";
+            this.lblPenMaximizacoes.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
+            this.lblPenMaximizacoes.Size = new System.Drawing.Size(209, 22);
+            this.lblPenMaximizacoes.TabIndex = 1;
+            this.lblPenMaximizacoes.Text = "Função objetivo";
+            this.lblPenMaximizacoes.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblPenMaximizacoes.Click += new System.EventHandler(this.lblPenMaximizacoes_Click);
+            // 
+            // flpPenMaximizacoes
+            // 
+            this.flpPenMaximizacoes.AutoSize = true;
+            this.flpPenMaximizacoes.Controls.Add(this.panel6);
+            this.flpPenMaximizacoes.Controls.Add(this.panel29);
+            this.flpPenMaximizacoes.Location = new System.Drawing.Point(0, 135);
+            this.flpPenMaximizacoes.Margin = new System.Windows.Forms.Padding(0);
+            this.flpPenMaximizacoes.Name = "flpPenMaximizacoes";
+            this.flpPenMaximizacoes.Size = new System.Drawing.Size(212, 84);
+            this.flpPenMaximizacoes.TabIndex = 0;
+            this.flpPenMaximizacoes.Visible = false;
+            // 
             // panel6
             // 
             this.panel6.Controls.Add(this.panel11);
             this.panel6.Controls.Add(this.label14);
-            this.panel6.Location = new System.Drawing.Point(3, 38);
+            this.panel6.Location = new System.Drawing.Point(3, 3);
             this.panel6.Name = "panel6";
             this.panel6.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
             this.panel6.Size = new System.Drawing.Size(206, 48);
@@ -1500,7 +1514,7 @@ namespace Simulador
             // 
             this.panel29.Controls.Add(this.panel30);
             this.panel29.Controls.Add(this.btnOpenPenMax);
-            this.panel29.Location = new System.Drawing.Point(0, 89);
+            this.panel29.Location = new System.Drawing.Point(0, 54);
             this.panel29.Margin = new System.Windows.Forms.Padding(0);
             this.panel29.Name = "panel29";
             this.panel29.Size = new System.Drawing.Size(212, 30);
@@ -1539,9 +1553,12 @@ namespace Simulador
             this.lblPenSortimentos.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lblPenSortimentos.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblPenSortimentos.ForeColor = System.Drawing.Color.White;
+            this.lblPenSortimentos.Image = global::Simulador.Properties.Resources.arrow_down_16x16;
+            this.lblPenSortimentos.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.lblPenSortimentos.Location = new System.Drawing.Point(0, 226);
             this.lblPenSortimentos.Margin = new System.Windows.Forms.Padding(0, 7, 0, 7);
             this.lblPenSortimentos.Name = "lblPenSortimentos";
+            this.lblPenSortimentos.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
             this.lblPenSortimentos.Size = new System.Drawing.Size(209, 22);
             this.lblPenSortimentos.TabIndex = 10;
             this.lblPenSortimentos.Text = "Sortimentos";
@@ -1645,9 +1662,12 @@ namespace Simulador
             this.lblPenBinaria.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lblPenBinaria.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblPenBinaria.ForeColor = System.Drawing.Color.White;
+            this.lblPenBinaria.Image = global::Simulador.Properties.Resources.arrow_down_16x16;
+            this.lblPenBinaria.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.lblPenBinaria.Location = new System.Drawing.Point(0, 346);
             this.lblPenBinaria.Margin = new System.Windows.Forms.Padding(0, 7, 0, 7);
             this.lblPenBinaria.Name = "lblPenBinaria";
+            this.lblPenBinaria.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
             this.lblPenBinaria.Size = new System.Drawing.Size(209, 22);
             this.lblPenBinaria.TabIndex = 17;
             this.lblPenBinaria.Text = "Binária";
@@ -1751,9 +1771,12 @@ namespace Simulador
             this.lblPenRegulacao.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lblPenRegulacao.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblPenRegulacao.ForeColor = System.Drawing.Color.White;
+            this.lblPenRegulacao.Image = global::Simulador.Properties.Resources.arrow_down_16x16;
+            this.lblPenRegulacao.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.lblPenRegulacao.Location = new System.Drawing.Point(0, 466);
             this.lblPenRegulacao.Margin = new System.Windows.Forms.Padding(0, 7, 0, 7);
             this.lblPenRegulacao.Name = "lblPenRegulacao";
+            this.lblPenRegulacao.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
             this.lblPenRegulacao.Size = new System.Drawing.Size(209, 22);
             this.lblPenRegulacao.TabIndex = 20;
             this.lblPenRegulacao.Text = "Regulação";
@@ -1893,9 +1916,12 @@ namespace Simulador
             this.lblPenImportarTabelas.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lblPenImportarTabelas.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblPenImportarTabelas.ForeColor = System.Drawing.Color.White;
-            this.lblPenImportarTabelas.Location = new System.Drawing.Point(0, 614);
-            this.lblPenImportarTabelas.Margin = new System.Windows.Forms.Padding(0, 0, 0, 7);
+            this.lblPenImportarTabelas.Image = global::Simulador.Properties.Resources.arrow_down_16x16;
+            this.lblPenImportarTabelas.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lblPenImportarTabelas.Location = new System.Drawing.Point(0, 621);
+            this.lblPenImportarTabelas.Margin = new System.Windows.Forms.Padding(0, 7, 0, 7);
             this.lblPenImportarTabelas.Name = "lblPenImportarTabelas";
+            this.lblPenImportarTabelas.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
             this.lblPenImportarTabelas.Size = new System.Drawing.Size(213, 22);
             this.lblPenImportarTabelas.TabIndex = 29;
             this.lblPenImportarTabelas.Text = "Importar Tabelas";
@@ -1907,11 +1933,12 @@ namespace Simulador
             this.flpPenImportarTabelas.AutoSize = true;
             this.flpPenImportarTabelas.Controls.Add(this.panel2);
             this.flpPenImportarTabelas.Controls.Add(this.panel38);
-            this.flpPenImportarTabelas.Location = new System.Drawing.Point(0, 643);
+            this.flpPenImportarTabelas.Location = new System.Drawing.Point(0, 650);
             this.flpPenImportarTabelas.Margin = new System.Windows.Forms.Padding(0);
             this.flpPenImportarTabelas.Name = "flpPenImportarTabelas";
             this.flpPenImportarTabelas.Size = new System.Drawing.Size(209, 60);
             this.flpPenImportarTabelas.TabIndex = 30;
+            this.flpPenImportarTabelas.Visible = false;
             // 
             // panel2
             // 
@@ -1995,9 +2022,12 @@ namespace Simulador
             this.lblPenTabelaHeuristica.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lblPenTabelaHeuristica.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblPenTabelaHeuristica.ForeColor = System.Drawing.Color.White;
-            this.lblPenTabelaHeuristica.Location = new System.Drawing.Point(0, 703);
-            this.lblPenTabelaHeuristica.Margin = new System.Windows.Forms.Padding(0, 0, 0, 7);
+            this.lblPenTabelaHeuristica.Image = global::Simulador.Properties.Resources.arrow_up_16x16;
+            this.lblPenTabelaHeuristica.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lblPenTabelaHeuristica.Location = new System.Drawing.Point(0, 717);
+            this.lblPenTabelaHeuristica.Margin = new System.Windows.Forms.Padding(0, 7, 0, 7);
             this.lblPenTabelaHeuristica.Name = "lblPenTabelaHeuristica";
+            this.lblPenTabelaHeuristica.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
             this.lblPenTabelaHeuristica.Size = new System.Drawing.Size(213, 22);
             this.lblPenTabelaHeuristica.TabIndex = 33;
             this.lblPenTabelaHeuristica.Text = "Tabela Heurística";
@@ -2008,7 +2038,7 @@ namespace Simulador
             // 
             this.flpPenTabelaHeuristica.AutoSize = true;
             this.flpPenTabelaHeuristica.Controls.Add(this.panel48);
-            this.flpPenTabelaHeuristica.Location = new System.Drawing.Point(0, 732);
+            this.flpPenTabelaHeuristica.Location = new System.Drawing.Point(0, 746);
             this.flpPenTabelaHeuristica.Margin = new System.Windows.Forms.Padding(0);
             this.flpPenTabelaHeuristica.Name = "flpPenTabelaHeuristica";
             this.flpPenTabelaHeuristica.Size = new System.Drawing.Size(212, 30);
@@ -2123,15 +2153,14 @@ namespace Simulador
             this.panel3.ResumeLayout(false);
             this.panel7.ResumeLayout(false);
             this.tpPenalidades.ResumeLayout(false);
-            this.tpPenalidades.PerformLayout();
             this.flpPen.ResumeLayout(false);
             this.flpPen.PerformLayout();
             this.flpPenDadosCompartilhados.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            this.flpPenMaximizacoes.ResumeLayout(false);
             this.panel5.ResumeLayout(false);
             this.panel5.PerformLayout();
+            this.flpPenMaximizacoes.ResumeLayout(false);
             this.panel6.ResumeLayout(false);
             this.panel11.ResumeLayout(false);
             this.panel11.PerformLayout();

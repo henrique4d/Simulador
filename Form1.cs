@@ -10,12 +10,12 @@ namespace Simulador
     public partial class Form1 : Form
     {
         public BorderStyle BorderStyle { get; set; }
-        private Gmpfanager GmpfManager { get; set; }
+        private GmpfManager GmpfManager { get; set; }
 
         public Form1()
         {
             InitializeComponent();
-            GmpfManager = new Gmpfanager();
+            GmpfManager = new GmpfManager();
             InitilizeTpSim();
 
             // Deixar o DataGrid em modo apenas leitura
