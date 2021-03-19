@@ -193,6 +193,16 @@ namespace Simulador
             flpPenRegulacao.Visible = !flpPenRegulacao.Visible;
         }
 
+        private void lblPenImportarTabelas_Click(object sender, EventArgs e)
+        {
+            flpPenImportarTabelas.Visible = !flpPenImportarTabelas.Visible;
+        }
+
+        private void lblPenTabelaHeuristica_Click(object sender, EventArgs e)
+        {
+            flpPenTabelaHeuristica.Visible = !flpPenTabelaHeuristica.Visible;
+        }
+
         private void SetClickOpenSpreedsheet(Spreedsheet sprd, Control ctl1, Control ctl2)
         {
             ctl2.Click += (s, e) => { LoadExcelData(sprd); };
@@ -310,6 +320,8 @@ namespace Simulador
             foreach (Control control in flpPenSortimentos.Controls) control.Width = flpPen.Width;
             foreach (Control control in flpPenBinaria.Controls) control.Width = flpPen.Width;
             foreach (Control control in flpPenRegulacao.Controls) control.Width = flpPen.Width;
+            foreach (Control control in flpPenImportarTabelas.Controls) control.Width = flpPen.Width;
+            foreach (Control control in flpPenTabelaHeuristica.Controls) control.Width = flpPen.Width;
 
             sbiPrePre.Width = widthSideBarItem;
             sbiPenMax.Width = widthSideBarItem - sbiPenMax.Margin.Left - sbiPenMax.Margin.Right - 3;
@@ -333,5 +345,6 @@ namespace Simulador
             }
         }
 
+        
     }
 }
