@@ -20,7 +20,9 @@ namespace Simulador.Classes
         public Spreedsheet SprdSimSortimentos { get; set; }
         public Spreedsheet SprdSimPlanilhaCustos { get; set; }
         public Spreedsheet SprdSimCenarios { get; set; }
-        
+        public Spreedsheet SprdPenDistancia { get; set; }
+        public Spreedsheet SprdPenAdjacencia { get; set; }
+
         public Spreedsheet SprdSim { get; set; }
         public Spreedsheet SprdMax { get; set; }
         public Spreedsheet SprdSor { get; set; }
@@ -91,6 +93,9 @@ namespace Simulador.Classes
             SprdSimSortimentos = new Spreedsheet("Sortimentos");
             SprdSimPlanilhaCustos = new Spreedsheet("Planilhas de Custos");
             SprdSimCenarios = new Spreedsheet("Cenários");
+            SprdPenDistancia = new Spreedsheet("Distância");
+            SprdPenAdjacencia = new Spreedsheet("Adjacência");
+
             SprdSim = new Spreedsheet("Simulação");
             SprdMax = new Spreedsheet("Maximização");
             SprdSor = new Spreedsheet("Sortimento");

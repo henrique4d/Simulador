@@ -163,6 +163,23 @@ namespace Simulador
             this.panel36 = new System.Windows.Forms.Panel();
             this.sbiPenReg = new Simulador.Components.SidebarItem(this.components);
             this.btnOpenPenReg = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.panel37 = new System.Windows.Forms.Panel();
+            this.sbiPenAdjacencia = new Simulador.Components.SidebarItem(this.components);
+            this.btnOpenPenAdjacencia = new System.Windows.Forms.Button();
+            this.panel38 = new System.Windows.Forms.Panel();
+            this.panel39 = new System.Windows.Forms.Panel();
+            this.sbiPenDistancia = new Simulador.Components.SidebarItem(this.components);
+            this.btnOpenPenDistancia = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
+            this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
+            this.panel48 = new System.Windows.Forms.Panel();
+            this.panel49 = new System.Windows.Forms.Panel();
+            this.sidebarItem6 = new Simulador.Components.SidebarItem(this.components);
+            this.button6 = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
             this.tbOther = new System.Windows.Forms.TabPage();
             this.pnlHeader.SuspendLayout();
             this.pnlHeaderRight.SuspendLayout();
@@ -230,6 +247,14 @@ namespace Simulador
             this.panel18.SuspendLayout();
             this.panel35.SuspendLayout();
             this.panel36.SuspendLayout();
+            this.flowLayoutPanel1.SuspendLayout();
+            this.panel2.SuspendLayout();
+            this.panel37.SuspendLayout();
+            this.panel38.SuspendLayout();
+            this.panel39.SuspendLayout();
+            this.flowLayoutPanel2.SuspendLayout();
+            this.panel48.SuspendLayout();
+            this.panel49.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnlHeader
@@ -1179,6 +1204,10 @@ namespace Simulador
             this.flpPen.Controls.Add(this.flpPenBinaria);
             this.flpPen.Controls.Add(this.lblPenRegulacao);
             this.flpPen.Controls.Add(this.flpPenRegulacao);
+            this.flpPen.Controls.Add(this.label1);
+            this.flpPen.Controls.Add(this.flowLayoutPanel1);
+            this.flpPen.Controls.Add(this.label3);
+            this.flpPen.Controls.Add(this.flowLayoutPanel2);
             this.flpPen.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flpPen.Location = new System.Drawing.Point(0, 0);
             this.flpPen.Name = "flpPen";
@@ -1798,6 +1827,225 @@ namespace Simulador
             this.btnOpenPenReg.UseVisualStyleBackColor = false;
             this.btnOpenPenReg.Visible = false;
             // 
+            // label1
+            // 
+            this.label1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(14)))), ((int)(((byte)(92)))), ((int)(((byte)(47)))));
+            this.label1.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.Color.White;
+            this.label1.Location = new System.Drawing.Point(0, 614);
+            this.label1.Margin = new System.Windows.Forms.Padding(0, 0, 0, 7);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(213, 22);
+            this.label1.TabIndex = 29;
+            this.label1.Text = "Importar Tabelas";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // flowLayoutPanel1
+            // 
+            this.flowLayoutPanel1.AutoSize = true;
+            this.flowLayoutPanel1.Controls.Add(this.panel2);
+            this.flowLayoutPanel1.Controls.Add(this.panel38);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 643);
+            this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(209, 60);
+            this.flowLayoutPanel1.TabIndex = 30;
+            // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.panel37);
+            this.panel2.Controls.Add(this.btnOpenPenAdjacencia);
+            this.panel2.Location = new System.Drawing.Point(0, 0);
+            this.panel2.Margin = new System.Windows.Forms.Padding(0);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(209, 30);
+            this.panel2.TabIndex = 6;
+            // 
+            // panel37
+            // 
+            this.panel37.Controls.Add(this.sbiPenAdjacencia);
+            this.panel37.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel37.Location = new System.Drawing.Point(0, 0);
+            this.panel37.Name = "panel37";
+            this.panel37.Size = new System.Drawing.Size(172, 30);
+            this.panel37.TabIndex = 0;
+            // 
+            // sbiPenAdjacencia
+            // 
+            this.sbiPenAdjacencia.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.sbiPenAdjacencia.Dock = System.Windows.Forms.DockStyle.Top;
+            this.sbiPenAdjacencia.FlatAppearance.BorderSize = 0;
+            this.sbiPenAdjacencia.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.sbiPenAdjacencia.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
+            this.sbiPenAdjacencia.ForeColor = System.Drawing.Color.White;
+            this.sbiPenAdjacencia.Location = new System.Drawing.Point(0, 0);
+            this.sbiPenAdjacencia.Margin = new System.Windows.Forms.Padding(0);
+            this.sbiPenAdjacencia.Name = "sbiPenAdjacencia";
+            this.sbiPenAdjacencia.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
+            this.sbiPenAdjacencia.Size = new System.Drawing.Size(172, 30);
+            this.sbiPenAdjacencia.TabIndex = 2;
+            this.sbiPenAdjacencia.TabStop = false;
+            this.sbiPenAdjacencia.Text = "Adjacência";
+            this.sbiPenAdjacencia.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.sbiPenAdjacencia.UseVisualStyleBackColor = true;
+            // 
+            // btnOpenPenAdjacencia
+            // 
+            this.btnOpenPenAdjacencia.BackColor = System.Drawing.Color.White;
+            this.btnOpenPenAdjacencia.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnOpenPenAdjacencia.Dock = System.Windows.Forms.DockStyle.Right;
+            this.btnOpenPenAdjacencia.Image = ((System.Drawing.Image)(resources.GetObject("btnOpenPenAdjacencia.Image")));
+            this.btnOpenPenAdjacencia.Location = new System.Drawing.Point(172, 0);
+            this.btnOpenPenAdjacencia.Margin = new System.Windows.Forms.Padding(0);
+            this.btnOpenPenAdjacencia.Name = "btnOpenPenAdjacencia";
+            this.btnOpenPenAdjacencia.Size = new System.Drawing.Size(37, 30);
+            this.btnOpenPenAdjacencia.TabIndex = 7;
+            this.btnOpenPenAdjacencia.UseVisualStyleBackColor = false;
+            this.btnOpenPenAdjacencia.Visible = false;
+            // 
+            // panel38
+            // 
+            this.panel38.Controls.Add(this.panel39);
+            this.panel38.Controls.Add(this.btnOpenPenDistancia);
+            this.panel38.Location = new System.Drawing.Point(0, 30);
+            this.panel38.Margin = new System.Windows.Forms.Padding(0);
+            this.panel38.Name = "panel38";
+            this.panel38.Size = new System.Drawing.Size(209, 30);
+            this.panel38.TabIndex = 7;
+            // 
+            // panel39
+            // 
+            this.panel39.Controls.Add(this.sbiPenDistancia);
+            this.panel39.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel39.Location = new System.Drawing.Point(0, 0);
+            this.panel39.Name = "panel39";
+            this.panel39.Size = new System.Drawing.Size(172, 30);
+            this.panel39.TabIndex = 0;
+            // 
+            // sbiPenDistancia
+            // 
+            this.sbiPenDistancia.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.sbiPenDistancia.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.sbiPenDistancia.FlatAppearance.BorderSize = 0;
+            this.sbiPenDistancia.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.sbiPenDistancia.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
+            this.sbiPenDistancia.ForeColor = System.Drawing.Color.White;
+            this.sbiPenDistancia.Location = new System.Drawing.Point(0, 0);
+            this.sbiPenDistancia.Margin = new System.Windows.Forms.Padding(0);
+            this.sbiPenDistancia.Name = "sbiPenDistancia";
+            this.sbiPenDistancia.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
+            this.sbiPenDistancia.Size = new System.Drawing.Size(172, 30);
+            this.sbiPenDistancia.TabIndex = 5;
+            this.sbiPenDistancia.TabStop = false;
+            this.sbiPenDistancia.Text = "Distância";
+            this.sbiPenDistancia.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.sbiPenDistancia.UseVisualStyleBackColor = true;
+            // 
+            // btnOpenPenDistancia
+            // 
+            this.btnOpenPenDistancia.BackColor = System.Drawing.Color.White;
+            this.btnOpenPenDistancia.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnOpenPenDistancia.Dock = System.Windows.Forms.DockStyle.Right;
+            this.btnOpenPenDistancia.Image = ((System.Drawing.Image)(resources.GetObject("btnOpenPenDistancia.Image")));
+            this.btnOpenPenDistancia.Location = new System.Drawing.Point(172, 0);
+            this.btnOpenPenDistancia.Margin = new System.Windows.Forms.Padding(0);
+            this.btnOpenPenDistancia.Name = "btnOpenPenDistancia";
+            this.btnOpenPenDistancia.Size = new System.Drawing.Size(37, 30);
+            this.btnOpenPenDistancia.TabIndex = 7;
+            this.btnOpenPenDistancia.UseVisualStyleBackColor = false;
+            this.btnOpenPenDistancia.Visible = false;
+            // 
+            // label3
+            // 
+            this.label3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(14)))), ((int)(((byte)(92)))), ((int)(((byte)(47)))));
+            this.label3.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.ForeColor = System.Drawing.Color.White;
+            this.label3.Location = new System.Drawing.Point(0, 703);
+            this.label3.Margin = new System.Windows.Forms.Padding(0, 0, 0, 7);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(213, 22);
+            this.label3.TabIndex = 33;
+            this.label3.Text = "Tabela Heurística";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // flowLayoutPanel2
+            // 
+            this.flowLayoutPanel2.AutoSize = true;
+            this.flowLayoutPanel2.Controls.Add(this.panel48);
+            this.flowLayoutPanel2.Location = new System.Drawing.Point(0, 732);
+            this.flowLayoutPanel2.Margin = new System.Windows.Forms.Padding(0);
+            this.flowLayoutPanel2.Name = "flowLayoutPanel2";
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(212, 30);
+            this.flowLayoutPanel2.TabIndex = 34;
+            // 
+            // panel48
+            // 
+            this.panel48.Controls.Add(this.panel49);
+            this.panel48.Controls.Add(this.button6);
+            this.panel48.Controls.Add(this.label2);
+            this.panel48.Location = new System.Drawing.Point(0, 0);
+            this.panel48.Margin = new System.Windows.Forms.Padding(0);
+            this.panel48.Name = "panel48";
+            this.panel48.Size = new System.Drawing.Size(212, 30);
+            this.panel48.TabIndex = 13;
+            // 
+            // panel49
+            // 
+            this.panel49.Controls.Add(this.sidebarItem6);
+            this.panel49.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel49.Location = new System.Drawing.Point(0, 0);
+            this.panel49.Name = "panel49";
+            this.panel49.Size = new System.Drawing.Size(175, 30);
+            this.panel49.TabIndex = 7;
+            // 
+            // sidebarItem6
+            // 
+            this.sidebarItem6.BackColor = System.Drawing.Color.White;
+            this.sidebarItem6.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.sidebarItem6.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.sidebarItem6.FlatAppearance.BorderSize = 0;
+            this.sidebarItem6.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.sidebarItem6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.25F);
+            this.sidebarItem6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(14)))), ((int)(((byte)(92)))), ((int)(((byte)(47)))));
+            this.sidebarItem6.Location = new System.Drawing.Point(0, 0);
+            this.sidebarItem6.Margin = new System.Windows.Forms.Padding(0);
+            this.sidebarItem6.Name = "sidebarItem6";
+            this.sidebarItem6.Size = new System.Drawing.Size(175, 30);
+            this.sidebarItem6.TabIndex = 5;
+            this.sidebarItem6.TabStop = false;
+            this.sidebarItem6.Text = "Simular";
+            this.sidebarItem6.UseVisualStyleBackColor = false;
+            // 
+            // button6
+            // 
+            this.button6.BackColor = System.Drawing.Color.White;
+            this.button6.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button6.Dock = System.Windows.Forms.DockStyle.Right;
+            this.button6.Image = ((System.Drawing.Image)(resources.GetObject("button6.Image")));
+            this.button6.Location = new System.Drawing.Point(175, 0);
+            this.button6.Margin = new System.Windows.Forms.Padding(0);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(37, 30);
+            this.button6.TabIndex = 6;
+            this.button6.UseVisualStyleBackColor = false;
+            this.button6.Visible = false;
+            // 
+            // label2
+            // 
+            this.label2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(14)))), ((int)(((byte)(92)))), ((int)(((byte)(47)))));
+            this.label2.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.ForeColor = System.Drawing.Color.White;
+            this.label2.Location = new System.Drawing.Point(0, 0);
+            this.label2.Margin = new System.Windows.Forms.Padding(0, 0, 0, 7);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(213, 22);
+            this.label2.TabIndex = 32;
+            this.label2.Text = "Importar Tabelas";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // tbOther
             // 
             this.tbOther.Location = new System.Drawing.Point(4, 22);
@@ -1904,6 +2152,14 @@ namespace Simulador
             this.panel18.PerformLayout();
             this.panel35.ResumeLayout(false);
             this.panel36.ResumeLayout(false);
+            this.flowLayoutPanel1.ResumeLayout(false);
+            this.panel2.ResumeLayout(false);
+            this.panel37.ResumeLayout(false);
+            this.panel38.ResumeLayout(false);
+            this.panel39.ResumeLayout(false);
+            this.flowLayoutPanel2.ResumeLayout(false);
+            this.panel48.ResumeLayout(false);
+            this.panel49.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -2042,5 +2298,22 @@ namespace Simulador
         private System.Windows.Forms.Button btnPlanilhaUpdate;
         private System.Windows.Forms.Panel pnlBtnPlanilhaUpdate;
         private System.Windows.Forms.Panel pnlBtnPlanilhaOpen;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Panel panel37;
+        private Components.SidebarItem sbiPenAdjacencia;
+        private System.Windows.Forms.Button btnOpenPenAdjacencia;
+        private System.Windows.Forms.Panel panel38;
+        private System.Windows.Forms.Panel panel39;
+        private Components.SidebarItem sbiPenDistancia;
+        private System.Windows.Forms.Button btnOpenPenDistancia;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
+        private System.Windows.Forms.Panel panel48;
+        private System.Windows.Forms.Panel panel49;
+        private Components.SidebarItem sidebarItem6;
+        private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.Label label2;
     }
 }

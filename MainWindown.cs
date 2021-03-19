@@ -232,6 +232,8 @@ namespace Simulador
                 btnOpenPrePlanilhaCustos);
             SetClickOpenSpreedsheet(GmpfManager.SprdSimCenarios, sbiPreCenarios,
                 btnOpenPreCenarios);
+            SetClickOpenSpreedsheet(GmpfManager.SprdPenAdjacencia, sbiPenAdjacencia, btnOpenPenAdjacencia);
+            SetClickOpenSpreedsheet(GmpfManager.SprdPenDistancia, sbiPenDistancia, btnOpenPenDistancia);
 
             // Botoões de processamento de dados
             btnOpenPrePre.Click += (sender, eventArgs) => { LoadExcelData(GmpfManager.SprdSim, false); };
@@ -330,5 +332,6 @@ namespace Simulador
                 Ctl2 = ctl2;
             }
         }
+
     }
 }
