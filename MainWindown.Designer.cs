@@ -182,6 +182,7 @@ namespace Simulador
             this.panel49 = new System.Windows.Forms.Panel();
             this.sbiPenTabHeu = new Simulador.Components.SidebarItem(this.components);
             this.tbOther = new System.Windows.Forms.TabPage();
+            this.ssWorkSheets = new System.Windows.Forms.StatusStrip();
             this.pnlHeader.SuspendLayout();
             this.pnlHeaderRight.SuspendLayout();
             this.pnlHeaderActionsLeft.SuspendLayout();
@@ -587,6 +588,7 @@ namespace Simulador
             // 
             // tpPanilha
             // 
+            this.tpPanilha.Controls.Add(this.ssWorkSheets);
             this.tpPanilha.Controls.Add(this.dataGridView1);
             this.tpPanilha.Controls.Add(this.ssMainNomeArquivo);
             this.tpPanilha.Controls.Add(this.pnlPlanilhaHeader);
@@ -2030,7 +2032,7 @@ namespace Simulador
             this.lblPenTabelaHeuristica.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
             this.lblPenTabelaHeuristica.Size = new System.Drawing.Size(213, 22);
             this.lblPenTabelaHeuristica.TabIndex = 33;
-            this.lblPenTabelaHeuristica.Text = "Tabela Heurística";
+            this.lblPenTabelaHeuristica.Text = "Heurística";
             this.lblPenTabelaHeuristica.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lblPenTabelaHeuristica.Click += new System.EventHandler(this.lblPenTabelaHeuristica_Click);
             // 
@@ -2090,6 +2092,15 @@ namespace Simulador
             this.tbOther.TabIndex = 2;
             this.tbOther.Text = "Other";
             this.tbOther.UseVisualStyleBackColor = true;
+            // 
+            // ssWorkSheets
+            // 
+            this.ssWorkSheets.Location = new System.Drawing.Point(3, 462);
+            this.ssWorkSheets.Name = "ssWorkSheets";
+            this.ssWorkSheets.Size = new System.Drawing.Size(528, 22);
+            this.ssWorkSheets.TabIndex = 5;
+            this.ssWorkSheets.Text = "statusStrip1";
+            this.ssWorkSheets.Visible = false;
             // 
             // MainWindown
             // 
@@ -2350,5 +2361,6 @@ namespace Simulador
         private System.Windows.Forms.Button btnOpenPenTabHeu;
         private System.Windows.Forms.ToolTip tipPreescricoes;
         private System.Windows.Forms.ToolTip tipPenalidades;
+        private System.Windows.Forms.StatusStrip ssWorkSheets;
     }
 }

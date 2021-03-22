@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
+using ClosedXML.Excel;
 using Simulador.Classes;
 using Simulador.Components;
 using Simulador.Models;
@@ -94,7 +95,7 @@ namespace Simulador
             txtPrePreTitulo.Text = "5";
         }
 
-        private void OpenDialog(Spreedsheet sprd, Control ctl)
+        private void OpenDialog(Spreedsheet sprd, Control ctl, string worksheetName = "")
         {
             try
             {
@@ -300,6 +301,15 @@ namespace Simulador
                     GmpfManager.print_Regulação(txtPenHorizonte.Text, txtPenRegIdadeRegulacao.Text,
                         txtPenRegTitulo.Text);
                 });
+
+            btnOpenPenTabHeu.Click += (sender, eventArgs) => { LoadExcelData(GmpfManager.SprdTabHeu, false); };
+            SetClickSimulate(GmpfManager.SprdReg, sbiPenTabHeu, btnOpenPenTabHeu,
+                (s, e) =>
+                {
+                    GmpfManager.print_heuristica(txtPenRegTitulo.Text);
+                });
+
+            
         }
 
         private void InitializeLogo()
