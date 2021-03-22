@@ -168,7 +168,7 @@ namespace Simulador
             this.pnlHeaderLeft.SuspendLayout();
             this.tabMain.SuspendLayout();
             this.tpPanilha.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize) (this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.ssMainNomeArquivo.SuspendLayout();
             this.pnlPlanilhaHeader.SuspendLayout();
             this.pnlPlanilhaHeaderActions.SuspendLayout();
@@ -230,7 +230,7 @@ namespace Simulador
             // 
             // pnlHeader
             // 
-            this.pnlHeader.BackColor = System.Drawing.Color.FromArgb(((int) (((byte) (250)))), ((int) (((byte) (250)))), ((int) (((byte) (250)))));
+            this.pnlHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
             this.pnlHeader.Controls.Add(this.pnlHeaderRight);
             this.pnlHeader.Controls.Add(this.pnlHeaderLeft);
             this.pnlHeader.Dock = System.Windows.Forms.DockStyle.Top;
@@ -309,8 +309,8 @@ namespace Simulador
             // lblMiniLogo
             // 
             this.lblMiniLogo.AutoSize = true;
-            this.lblMiniLogo.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
-            this.lblMiniLogo.ForeColor = System.Drawing.Color.FromArgb(((int) (((byte) (14)))), ((int) (((byte) (92)))), ((int) (((byte) (47)))));
+            this.lblMiniLogo.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblMiniLogo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(14)))), ((int)(((byte)(92)))), ((int)(((byte)(47)))));
             this.lblMiniLogo.Location = new System.Drawing.Point(18, 11);
             this.lblMiniLogo.Name = "lblMiniLogo";
             this.lblMiniLogo.Size = new System.Drawing.Size(66, 25);
@@ -354,7 +354,8 @@ namespace Simulador
             // 
             // ssMainNomeArquivo
             // 
-            this.ssMainNomeArquivo.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {this.slblTpMainEnderecoArquivo});
+            this.ssMainNomeArquivo.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.slblTpMainEnderecoArquivo});
             this.ssMainNomeArquivo.Location = new System.Drawing.Point(3, 484);
             this.ssMainNomeArquivo.Name = "ssMainNomeArquivo";
             this.ssMainNomeArquivo.Size = new System.Drawing.Size(540, 22);
@@ -364,7 +365,7 @@ namespace Simulador
             // slblTpMainEnderecoArquivo
             // 
             this.slblTpMainEnderecoArquivo.ActiveLinkColor = System.Drawing.Color.Red;
-            this.slblTpMainEnderecoArquivo.ForeColor = System.Drawing.Color.FromArgb(((int) (((byte) (14)))), ((int) (((byte) (92)))), ((int) (((byte) (47)))));
+            this.slblTpMainEnderecoArquivo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(14)))), ((int)(((byte)(92)))), ((int)(((byte)(47)))));
             this.slblTpMainEnderecoArquivo.Name = "slblTpMainEnderecoArquivo";
             this.slblTpMainEnderecoArquivo.Size = new System.Drawing.Size(55, 17);
             this.slblTpMainEnderecoArquivo.Text = "Arquivo: ";
@@ -418,8 +419,8 @@ namespace Simulador
             // lblPlanilhaNomeArquivo
             // 
             this.lblPlanilhaNomeArquivo.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblPlanilhaNomeArquivo.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
-            this.lblPlanilhaNomeArquivo.ForeColor = System.Drawing.Color.FromArgb(((int) (((byte) (14)))), ((int) (((byte) (92)))), ((int) (((byte) (47)))));
+            this.lblPlanilhaNomeArquivo.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPlanilhaNomeArquivo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(14)))), ((int)(((byte)(92)))), ((int)(((byte)(47)))));
             this.lblPlanilhaNomeArquivo.Location = new System.Drawing.Point(0, 0);
             this.lblPlanilhaNomeArquivo.Name = "lblPlanilhaNomeArquivo";
             this.lblPlanilhaNomeArquivo.Size = new System.Drawing.Size(540, 30);
@@ -429,7 +430,7 @@ namespace Simulador
             // 
             // tpLogo
             // 
-            this.tpLogo.BackColor = System.Drawing.Color.FromArgb(((int) (((byte) (33)))), ((int) (((byte) (115)))), ((int) (((byte) (70)))));
+            this.tpLogo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(115)))), ((int)(((byte)(70)))));
             this.tpLogo.Controls.Add(this.pnlMainInfos);
             this.tpLogo.Controls.Add(this.lblMainLogo);
             this.tpLogo.Location = new System.Drawing.Point(4, 22);
@@ -486,7 +487,7 @@ namespace Simulador
             // lblMainLogo
             // 
             this.lblMainLogo.AutoSize = true;
-            this.lblMainLogo.Font = new System.Drawing.Font("Microsoft Sans Serif", 80F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.lblMainLogo.Font = new System.Drawing.Font("Microsoft Sans Serif", 80F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblMainLogo.ForeColor = System.Drawing.Color.White;
             this.lblMainLogo.Location = new System.Drawing.Point(159, 194);
             this.lblMainLogo.Name = "lblMainLogo";
@@ -509,7 +510,7 @@ namespace Simulador
             // 
             // tpPreescricoes
             // 
-            this.tpPreescricoes.BackColor = System.Drawing.Color.FromArgb(((int) (((byte) (33)))), ((int) (((byte) (115)))), ((int) (((byte) (70)))));
+            this.tpPreescricoes.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(115)))), ((int)(((byte)(70)))));
             this.tpPreescricoes.Controls.Add(this.flpPre);
             this.tpPreescricoes.Location = new System.Drawing.Point(4, 22);
             this.tpPreescricoes.Margin = new System.Windows.Forms.Padding(0);
@@ -537,9 +538,9 @@ namespace Simulador
             // 
             // lblPreImportarTabelas
             // 
-            this.lblPreImportarTabelas.BackColor = System.Drawing.Color.FromArgb(((int) (((byte) (14)))), ((int) (((byte) (92)))), ((int) (((byte) (47)))));
+            this.lblPreImportarTabelas.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(14)))), ((int)(((byte)(92)))), ((int)(((byte)(47)))));
             this.lblPreImportarTabelas.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lblPreImportarTabelas.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.lblPreImportarTabelas.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblPreImportarTabelas.ForeColor = System.Drawing.Color.White;
             this.lblPreImportarTabelas.Location = new System.Drawing.Point(0, 0);
             this.lblPreImportarTabelas.Margin = new System.Windows.Forms.Padding(0, 0, 0, 7);
@@ -607,7 +608,7 @@ namespace Simulador
             this.btnOpenPreDadosInventario.BackColor = System.Drawing.Color.White;
             this.btnOpenPreDadosInventario.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnOpenPreDadosInventario.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnOpenPreDadosInventario.Image = ((System.Drawing.Image) (resources.GetObject("btnOpenPreDadosInventario.Image")));
+            this.btnOpenPreDadosInventario.Image = ((System.Drawing.Image)(resources.GetObject("btnOpenPreDadosInventario.Image")));
             this.btnOpenPreDadosInventario.Location = new System.Drawing.Point(172, 0);
             this.btnOpenPreDadosInventario.Margin = new System.Windows.Forms.Padding(0);
             this.btnOpenPreDadosInventario.Name = "btnOpenPreDadosInventario";
@@ -659,7 +660,7 @@ namespace Simulador
             this.btnOpenPreCoeficienteMAI.BackColor = System.Drawing.Color.White;
             this.btnOpenPreCoeficienteMAI.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnOpenPreCoeficienteMAI.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnOpenPreCoeficienteMAI.Image = ((System.Drawing.Image) (resources.GetObject("btnOpenPreCoeficienteMAI.Image")));
+            this.btnOpenPreCoeficienteMAI.Image = ((System.Drawing.Image)(resources.GetObject("btnOpenPreCoeficienteMAI.Image")));
             this.btnOpenPreCoeficienteMAI.Location = new System.Drawing.Point(172, 0);
             this.btnOpenPreCoeficienteMAI.Margin = new System.Windows.Forms.Padding(0);
             this.btnOpenPreCoeficienteMAI.Name = "btnOpenPreCoeficienteMAI";
@@ -711,7 +712,7 @@ namespace Simulador
             this.btnOpenPreSortimentos.BackColor = System.Drawing.Color.White;
             this.btnOpenPreSortimentos.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnOpenPreSortimentos.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnOpenPreSortimentos.Image = ((System.Drawing.Image) (resources.GetObject("btnOpenPreSortimentos.Image")));
+            this.btnOpenPreSortimentos.Image = ((System.Drawing.Image)(resources.GetObject("btnOpenPreSortimentos.Image")));
             this.btnOpenPreSortimentos.Location = new System.Drawing.Point(172, 0);
             this.btnOpenPreSortimentos.Margin = new System.Windows.Forms.Padding(0);
             this.btnOpenPreSortimentos.Name = "btnOpenPreSortimentos";
@@ -763,7 +764,7 @@ namespace Simulador
             this.btnOpenPrePlanilhaCustos.BackColor = System.Drawing.Color.White;
             this.btnOpenPrePlanilhaCustos.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnOpenPrePlanilhaCustos.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnOpenPrePlanilhaCustos.Image = ((System.Drawing.Image) (resources.GetObject("btnOpenPrePlanilhaCustos.Image")));
+            this.btnOpenPrePlanilhaCustos.Image = ((System.Drawing.Image)(resources.GetObject("btnOpenPrePlanilhaCustos.Image")));
             this.btnOpenPrePlanilhaCustos.Location = new System.Drawing.Point(172, 0);
             this.btnOpenPrePlanilhaCustos.Margin = new System.Windows.Forms.Padding(0);
             this.btnOpenPrePlanilhaCustos.Name = "btnOpenPrePlanilhaCustos";
@@ -815,7 +816,7 @@ namespace Simulador
             this.btnOpenPreCenarios.BackColor = System.Drawing.Color.White;
             this.btnOpenPreCenarios.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnOpenPreCenarios.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnOpenPreCenarios.Image = ((System.Drawing.Image) (resources.GetObject("btnOpenPreCenarios.Image")));
+            this.btnOpenPreCenarios.Image = ((System.Drawing.Image)(resources.GetObject("btnOpenPreCenarios.Image")));
             this.btnOpenPreCenarios.Location = new System.Drawing.Point(172, 0);
             this.btnOpenPreCenarios.Margin = new System.Windows.Forms.Padding(0);
             this.btnOpenPreCenarios.Name = "btnOpenPreCenarios";
@@ -826,9 +827,9 @@ namespace Simulador
             // 
             // lblPreDadosPreescricao
             // 
-            this.lblPreDadosPreescricao.BackColor = System.Drawing.Color.FromArgb(((int) (((byte) (14)))), ((int) (((byte) (92)))), ((int) (((byte) (47)))));
+            this.lblPreDadosPreescricao.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(14)))), ((int)(((byte)(92)))), ((int)(((byte)(47)))));
             this.lblPreDadosPreescricao.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lblPreDadosPreescricao.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.lblPreDadosPreescricao.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblPreDadosPreescricao.ForeColor = System.Drawing.Color.White;
             this.lblPreDadosPreescricao.Location = new System.Drawing.Point(0, 186);
             this.lblPreDadosPreescricao.Margin = new System.Windows.Forms.Padding(0, 7, 0, 7);
@@ -865,7 +866,7 @@ namespace Simulador
             // txtPreTaxaDesconto
             // 
             this.txtPreTaxaDesconto.Dock = System.Windows.Forms.DockStyle.Right;
-            this.txtPreTaxaDesconto.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.txtPreTaxaDesconto.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtPreTaxaDesconto.Location = new System.Drawing.Point(141, 0);
             this.txtPreTaxaDesconto.Multiline = true;
             this.txtPreTaxaDesconto.Name = "txtPreTaxaDesconto";
@@ -909,9 +910,11 @@ namespace Simulador
             // cmbPreTipoDesbaste
             // 
             this.cmbPreTipoDesbaste.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cmbPreTipoDesbaste.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.cmbPreTipoDesbaste.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbPreTipoDesbaste.FormattingEnabled = true;
-            this.cmbPreTipoDesbaste.Items.AddRange(new object[] {"Seletivo", "Misto"});
+            this.cmbPreTipoDesbaste.Items.AddRange(new object[] {
+            "Seletivo",
+            "Misto"});
             this.cmbPreTipoDesbaste.Location = new System.Drawing.Point(0, 5);
             this.cmbPreTipoDesbaste.Name = "cmbPreTipoDesbaste";
             this.cmbPreTipoDesbaste.Size = new System.Drawing.Size(189, 24);
@@ -921,7 +924,7 @@ namespace Simulador
             // label9
             // 
             this.label9.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.ForeColor = System.Drawing.Color.White;
             this.label9.Location = new System.Drawing.Point(10, 0);
             this.label9.Margin = new System.Windows.Forms.Padding(0);
@@ -953,9 +956,11 @@ namespace Simulador
             // cmbPreControleDesbaste
             // 
             this.cmbPreControleDesbaste.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cmbPreControleDesbaste.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.cmbPreControleDesbaste.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbPreControleDesbaste.FormattingEnabled = true;
-            this.cmbPreControleDesbaste.Items.AddRange(new object[] {"Árvore", "Área basal"});
+            this.cmbPreControleDesbaste.Items.AddRange(new object[] {
+            "Árvore",
+            "Área basal"});
             this.cmbPreControleDesbaste.Location = new System.Drawing.Point(0, 5);
             this.cmbPreControleDesbaste.Name = "cmbPreControleDesbaste";
             this.cmbPreControleDesbaste.Size = new System.Drawing.Size(189, 24);
@@ -964,7 +969,7 @@ namespace Simulador
             // label12
             // 
             this.label12.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label12.ForeColor = System.Drawing.Color.White;
             this.label12.Location = new System.Drawing.Point(10, 0);
             this.label12.Margin = new System.Windows.Forms.Padding(0);
@@ -987,7 +992,7 @@ namespace Simulador
             // txtPreIntervaloSistematico
             // 
             this.txtPreIntervaloSistematico.Dock = System.Windows.Forms.DockStyle.Right;
-            this.txtPreIntervaloSistematico.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.txtPreIntervaloSistematico.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtPreIntervaloSistematico.Location = new System.Drawing.Point(154, 0);
             this.txtPreIntervaloSistematico.Multiline = true;
             this.txtPreIntervaloSistematico.Name = "txtPreIntervaloSistematico";
@@ -1011,9 +1016,9 @@ namespace Simulador
             // 
             // lblPreGerarPreescricoes
             // 
-            this.lblPreGerarPreescricoes.BackColor = System.Drawing.Color.FromArgb(((int) (((byte) (14)))), ((int) (((byte) (92)))), ((int) (((byte) (47)))));
+            this.lblPreGerarPreescricoes.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(14)))), ((int)(((byte)(92)))), ((int)(((byte)(47)))));
             this.lblPreGerarPreescricoes.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lblPreGerarPreescricoes.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.lblPreGerarPreescricoes.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblPreGerarPreescricoes.ForeColor = System.Drawing.Color.White;
             this.lblPreGerarPreescricoes.Location = new System.Drawing.Point(0, 402);
             this.lblPreGerarPreescricoes.Margin = new System.Windows.Forms.Padding(0, 7, 0, 7);
@@ -1058,7 +1063,7 @@ namespace Simulador
             // txtPrePreTitulo
             // 
             this.txtPrePreTitulo.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtPrePreTitulo.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.txtPrePreTitulo.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtPrePreTitulo.Location = new System.Drawing.Point(0, 5);
             this.txtPrePreTitulo.Multiline = true;
             this.txtPrePreTitulo.Name = "txtPrePreTitulo";
@@ -1068,7 +1073,7 @@ namespace Simulador
             // label15
             // 
             this.label15.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label15.ForeColor = System.Drawing.Color.White;
             this.label15.Location = new System.Drawing.Point(10, 0);
             this.label15.Margin = new System.Windows.Forms.Padding(0);
@@ -1104,7 +1109,7 @@ namespace Simulador
             this.sbiPrePre.FlatAppearance.BorderSize = 0;
             this.sbiPrePre.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.sbiPrePre.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.25F);
-            this.sbiPrePre.ForeColor = System.Drawing.Color.FromArgb(((int) (((byte) (14)))), ((int) (((byte) (92)))), ((int) (((byte) (47)))));
+            this.sbiPrePre.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(14)))), ((int)(((byte)(92)))), ((int)(((byte)(47)))));
             this.sbiPrePre.Location = new System.Drawing.Point(0, 0);
             this.sbiPrePre.Margin = new System.Windows.Forms.Padding(0);
             this.sbiPrePre.Name = "sbiPrePre";
@@ -1119,7 +1124,7 @@ namespace Simulador
             this.btnOpenPrePre.BackColor = System.Drawing.Color.White;
             this.btnOpenPrePre.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnOpenPrePre.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnOpenPrePre.Image = ((System.Drawing.Image) (resources.GetObject("btnOpenPrePre.Image")));
+            this.btnOpenPrePre.Image = ((System.Drawing.Image)(resources.GetObject("btnOpenPrePre.Image")));
             this.btnOpenPrePre.Location = new System.Drawing.Point(175, 0);
             this.btnOpenPrePre.Margin = new System.Windows.Forms.Padding(0);
             this.btnOpenPrePre.Name = "btnOpenPrePre";
@@ -1130,7 +1135,7 @@ namespace Simulador
             // 
             // tpPenalidades
             // 
-            this.tpPenalidades.BackColor = System.Drawing.Color.FromArgb(((int) (((byte) (33)))), ((int) (((byte) (115)))), ((int) (((byte) (70)))));
+            this.tpPenalidades.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(115)))), ((int)(((byte)(70)))));
             this.tpPenalidades.Controls.Add(this.flpPen);
             this.tpPenalidades.Location = new System.Drawing.Point(4, 22);
             this.tpPenalidades.Margin = new System.Windows.Forms.Padding(0);
@@ -1162,9 +1167,9 @@ namespace Simulador
             // 
             // lblPenDadosCompartilhados
             // 
-            this.lblPenDadosCompartilhados.BackColor = System.Drawing.Color.FromArgb(((int) (((byte) (14)))), ((int) (((byte) (92)))), ((int) (((byte) (47)))));
+            this.lblPenDadosCompartilhados.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(14)))), ((int)(((byte)(92)))), ((int)(((byte)(47)))));
             this.lblPenDadosCompartilhados.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lblPenDadosCompartilhados.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.lblPenDadosCompartilhados.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblPenDadosCompartilhados.ForeColor = System.Drawing.Color.White;
             this.lblPenDadosCompartilhados.Location = new System.Drawing.Point(0, 0);
             this.lblPenDadosCompartilhados.Margin = new System.Windows.Forms.Padding(0, 0, 0, 7);
@@ -1198,7 +1203,7 @@ namespace Simulador
             // txtPenHorizonte
             // 
             this.txtPenHorizonte.Dock = System.Windows.Forms.DockStyle.Right;
-            this.txtPenHorizonte.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.txtPenHorizonte.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtPenHorizonte.Location = new System.Drawing.Point(151, 0);
             this.txtPenHorizonte.Multiline = true;
             this.txtPenHorizonte.Name = "txtPenHorizonte";
@@ -1222,9 +1227,9 @@ namespace Simulador
             // 
             // lblPenMaximizacoes
             // 
-            this.lblPenMaximizacoes.BackColor = System.Drawing.Color.FromArgb(((int) (((byte) (14)))), ((int) (((byte) (92)))), ((int) (((byte) (47)))));
+            this.lblPenMaximizacoes.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(14)))), ((int)(((byte)(92)))), ((int)(((byte)(47)))));
             this.lblPenMaximizacoes.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lblPenMaximizacoes.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.lblPenMaximizacoes.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblPenMaximizacoes.ForeColor = System.Drawing.Color.White;
             this.lblPenMaximizacoes.Location = new System.Drawing.Point(0, 71);
             this.lblPenMaximizacoes.Margin = new System.Windows.Forms.Padding(0, 7, 0, 7);
@@ -1261,7 +1266,7 @@ namespace Simulador
             // txtPenMaxNumPlanejamento
             // 
             this.txtPenMaxNumPlanejamento.Dock = System.Windows.Forms.DockStyle.Right;
-            this.txtPenMaxNumPlanejamento.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.txtPenMaxNumPlanejamento.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtPenMaxNumPlanejamento.Location = new System.Drawing.Point(151, 0);
             this.txtPenMaxNumPlanejamento.Multiline = true;
             this.txtPenMaxNumPlanejamento.Name = "txtPenMaxNumPlanejamento";
@@ -1306,7 +1311,7 @@ namespace Simulador
             // txtPenMaxTitulo
             // 
             this.txtPenMaxTitulo.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtPenMaxTitulo.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.txtPenMaxTitulo.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtPenMaxTitulo.Location = new System.Drawing.Point(0, 5);
             this.txtPenMaxTitulo.Multiline = true;
             this.txtPenMaxTitulo.Name = "txtPenMaxTitulo";
@@ -1316,7 +1321,7 @@ namespace Simulador
             // label14
             // 
             this.label14.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label14.ForeColor = System.Drawing.Color.White;
             this.label14.Location = new System.Drawing.Point(10, 0);
             this.label14.Margin = new System.Windows.Forms.Padding(0);
@@ -1352,7 +1357,7 @@ namespace Simulador
             this.sbiPenMax.FlatAppearance.BorderSize = 0;
             this.sbiPenMax.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.sbiPenMax.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.25F);
-            this.sbiPenMax.ForeColor = System.Drawing.Color.FromArgb(((int) (((byte) (14)))), ((int) (((byte) (92)))), ((int) (((byte) (47)))));
+            this.sbiPenMax.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(14)))), ((int)(((byte)(92)))), ((int)(((byte)(47)))));
             this.sbiPenMax.Location = new System.Drawing.Point(0, 0);
             this.sbiPenMax.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
             this.sbiPenMax.Name = "sbiPenMax";
@@ -1367,7 +1372,7 @@ namespace Simulador
             this.btnOpenPenMax.BackColor = System.Drawing.Color.White;
             this.btnOpenPenMax.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnOpenPenMax.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnOpenPenMax.Image = ((System.Drawing.Image) (resources.GetObject("btnOpenPenMax.Image")));
+            this.btnOpenPenMax.Image = ((System.Drawing.Image)(resources.GetObject("btnOpenPenMax.Image")));
             this.btnOpenPenMax.Location = new System.Drawing.Point(175, 0);
             this.btnOpenPenMax.Margin = new System.Windows.Forms.Padding(0);
             this.btnOpenPenMax.Name = "btnOpenPenMax";
@@ -1378,9 +1383,9 @@ namespace Simulador
             // 
             // lblPenSortimentos
             // 
-            this.lblPenSortimentos.BackColor = System.Drawing.Color.FromArgb(((int) (((byte) (14)))), ((int) (((byte) (92)))), ((int) (((byte) (47)))));
+            this.lblPenSortimentos.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(14)))), ((int)(((byte)(92)))), ((int)(((byte)(47)))));
             this.lblPenSortimentos.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lblPenSortimentos.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.lblPenSortimentos.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblPenSortimentos.ForeColor = System.Drawing.Color.White;
             this.lblPenSortimentos.Location = new System.Drawing.Point(0, 226);
             this.lblPenSortimentos.Margin = new System.Windows.Forms.Padding(0, 7, 0, 7);
@@ -1426,7 +1431,7 @@ namespace Simulador
             // txtPenSorTitulo
             // 
             this.txtPenSorTitulo.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtPenSorTitulo.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.txtPenSorTitulo.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtPenSorTitulo.Location = new System.Drawing.Point(0, 5);
             this.txtPenSorTitulo.Multiline = true;
             this.txtPenSorTitulo.Name = "txtPenSorTitulo";
@@ -1436,7 +1441,7 @@ namespace Simulador
             // label16
             // 
             this.label16.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label16.ForeColor = System.Drawing.Color.White;
             this.label16.Location = new System.Drawing.Point(10, 0);
             this.label16.Margin = new System.Windows.Forms.Padding(0);
@@ -1472,7 +1477,7 @@ namespace Simulador
             this.sbiPenSor.FlatAppearance.BorderSize = 0;
             this.sbiPenSor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.sbiPenSor.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.25F);
-            this.sbiPenSor.ForeColor = System.Drawing.Color.FromArgb(((int) (((byte) (14)))), ((int) (((byte) (92)))), ((int) (((byte) (47)))));
+            this.sbiPenSor.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(14)))), ((int)(((byte)(92)))), ((int)(((byte)(47)))));
             this.sbiPenSor.Location = new System.Drawing.Point(0, 0);
             this.sbiPenSor.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
             this.sbiPenSor.Name = "sbiPenSor";
@@ -1487,7 +1492,7 @@ namespace Simulador
             this.btnOpenPenSor.BackColor = System.Drawing.Color.White;
             this.btnOpenPenSor.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnOpenPenSor.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnOpenPenSor.Image = ((System.Drawing.Image) (resources.GetObject("btnOpenPenSor.Image")));
+            this.btnOpenPenSor.Image = ((System.Drawing.Image)(resources.GetObject("btnOpenPenSor.Image")));
             this.btnOpenPenSor.Location = new System.Drawing.Point(175, 0);
             this.btnOpenPenSor.Margin = new System.Windows.Forms.Padding(0);
             this.btnOpenPenSor.Name = "btnOpenPenSor";
@@ -1498,9 +1503,9 @@ namespace Simulador
             // 
             // lblPenBinaria
             // 
-            this.lblPenBinaria.BackColor = System.Drawing.Color.FromArgb(((int) (((byte) (14)))), ((int) (((byte) (92)))), ((int) (((byte) (47)))));
+            this.lblPenBinaria.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(14)))), ((int)(((byte)(92)))), ((int)(((byte)(47)))));
             this.lblPenBinaria.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lblPenBinaria.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.lblPenBinaria.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblPenBinaria.ForeColor = System.Drawing.Color.White;
             this.lblPenBinaria.Location = new System.Drawing.Point(0, 346);
             this.lblPenBinaria.Margin = new System.Windows.Forms.Padding(0, 7, 0, 7);
@@ -1546,7 +1551,7 @@ namespace Simulador
             // txtPenBinTitulo
             // 
             this.txtPenBinTitulo.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtPenBinTitulo.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.txtPenBinTitulo.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtPenBinTitulo.Location = new System.Drawing.Point(0, 5);
             this.txtPenBinTitulo.Multiline = true;
             this.txtPenBinTitulo.Name = "txtPenBinTitulo";
@@ -1556,7 +1561,7 @@ namespace Simulador
             // label18
             // 
             this.label18.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label18.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.label18.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label18.ForeColor = System.Drawing.Color.White;
             this.label18.Location = new System.Drawing.Point(10, 0);
             this.label18.Margin = new System.Windows.Forms.Padding(0);
@@ -1592,7 +1597,7 @@ namespace Simulador
             this.sbiPenBin.FlatAppearance.BorderSize = 0;
             this.sbiPenBin.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.sbiPenBin.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.25F);
-            this.sbiPenBin.ForeColor = System.Drawing.Color.FromArgb(((int) (((byte) (14)))), ((int) (((byte) (92)))), ((int) (((byte) (47)))));
+            this.sbiPenBin.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(14)))), ((int)(((byte)(92)))), ((int)(((byte)(47)))));
             this.sbiPenBin.Location = new System.Drawing.Point(0, 0);
             this.sbiPenBin.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
             this.sbiPenBin.Name = "sbiPenBin";
@@ -1607,7 +1612,7 @@ namespace Simulador
             this.btnOpenPenBin.BackColor = System.Drawing.Color.White;
             this.btnOpenPenBin.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnOpenPenBin.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnOpenPenBin.Image = ((System.Drawing.Image) (resources.GetObject("btnOpenPenBin.Image")));
+            this.btnOpenPenBin.Image = ((System.Drawing.Image)(resources.GetObject("btnOpenPenBin.Image")));
             this.btnOpenPenBin.Location = new System.Drawing.Point(175, 0);
             this.btnOpenPenBin.Margin = new System.Windows.Forms.Padding(0);
             this.btnOpenPenBin.Name = "btnOpenPenBin";
@@ -1618,9 +1623,9 @@ namespace Simulador
             // 
             // lblPenRegulacao
             // 
-            this.lblPenRegulacao.BackColor = System.Drawing.Color.FromArgb(((int) (((byte) (14)))), ((int) (((byte) (92)))), ((int) (((byte) (47)))));
+            this.lblPenRegulacao.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(14)))), ((int)(((byte)(92)))), ((int)(((byte)(47)))));
             this.lblPenRegulacao.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lblPenRegulacao.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.lblPenRegulacao.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblPenRegulacao.ForeColor = System.Drawing.Color.White;
             this.lblPenRegulacao.Location = new System.Drawing.Point(0, 466);
             this.lblPenRegulacao.Margin = new System.Windows.Forms.Padding(0, 7, 0, 7);
@@ -1657,7 +1662,7 @@ namespace Simulador
             // txtPenRegIdadeRegulacao
             // 
             this.txtPenRegIdadeRegulacao.Dock = System.Windows.Forms.DockStyle.Right;
-            this.txtPenRegIdadeRegulacao.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.txtPenRegIdadeRegulacao.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtPenRegIdadeRegulacao.Location = new System.Drawing.Point(141, 0);
             this.txtPenRegIdadeRegulacao.Multiline = true;
             this.txtPenRegIdadeRegulacao.Name = "txtPenRegIdadeRegulacao";
@@ -1702,7 +1707,7 @@ namespace Simulador
             // txtPenRegTitulo
             // 
             this.txtPenRegTitulo.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtPenRegTitulo.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.txtPenRegTitulo.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtPenRegTitulo.Location = new System.Drawing.Point(0, 5);
             this.txtPenRegTitulo.Multiline = true;
             this.txtPenRegTitulo.Name = "txtPenRegTitulo";
@@ -1712,7 +1717,7 @@ namespace Simulador
             // label21
             // 
             this.label21.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label21.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.label21.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label21.ForeColor = System.Drawing.Color.White;
             this.label21.Location = new System.Drawing.Point(10, 0);
             this.label21.Margin = new System.Windows.Forms.Padding(0);
@@ -1748,7 +1753,7 @@ namespace Simulador
             this.sbiPenReg.FlatAppearance.BorderSize = 0;
             this.sbiPenReg.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.sbiPenReg.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.25F);
-            this.sbiPenReg.ForeColor = System.Drawing.Color.FromArgb(((int) (((byte) (14)))), ((int) (((byte) (92)))), ((int) (((byte) (47)))));
+            this.sbiPenReg.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(14)))), ((int)(((byte)(92)))), ((int)(((byte)(47)))));
             this.sbiPenReg.Location = new System.Drawing.Point(0, 0);
             this.sbiPenReg.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
             this.sbiPenReg.Name = "sbiPenReg";
@@ -1763,7 +1768,7 @@ namespace Simulador
             this.btnOpenPenReg.BackColor = System.Drawing.Color.White;
             this.btnOpenPenReg.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnOpenPenReg.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnOpenPenReg.Image = ((System.Drawing.Image) (resources.GetObject("btnOpenPenReg.Image")));
+            this.btnOpenPenReg.Image = ((System.Drawing.Image)(resources.GetObject("btnOpenPenReg.Image")));
             this.btnOpenPenReg.Location = new System.Drawing.Point(175, 0);
             this.btnOpenPenReg.Margin = new System.Windows.Forms.Padding(0);
             this.btnOpenPenReg.Name = "btnOpenPenReg";
@@ -1790,7 +1795,7 @@ namespace Simulador
             this.Controls.Add(this.tabMain);
             this.Controls.Add(this.tabSidebar);
             this.Controls.Add(this.pnlHeader);
-            this.Icon = ((System.Drawing.Icon) (resources.GetObject("$this.Icon")));
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainWindown";
             this.Text = "Gerador de Preescrições";
             this.pnlHeader.ResumeLayout(false);
@@ -1802,7 +1807,7 @@ namespace Simulador
             this.tabMain.ResumeLayout(false);
             this.tpPanilha.ResumeLayout(false);
             this.tpPanilha.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize) (this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ssMainNomeArquivo.ResumeLayout(false);
             this.ssMainNomeArquivo.PerformLayout();
             this.pnlPlanilhaHeader.ResumeLayout(false);
@@ -1877,6 +1882,7 @@ namespace Simulador
             this.panel35.ResumeLayout(false);
             this.panel36.ResumeLayout(false);
             this.ResumeLayout(false);
+
         }
 
         private System.Windows.Forms.Button btnOpenPrePlanilhaCustos;
