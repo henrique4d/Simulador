@@ -171,18 +171,16 @@ namespace Simulador.Classes
         {
             regioes_original = new List<Regiao>(); //lista que ira armazenar as arvores
             XLWorkbook excel;
-            string error;
+            IXLWorksheet planilha;
             try
             {
                 excel = new XLWorkbook(SprdSimDadosInventario.FileName); //acessa o xls
+                planilha = excel.Worksheet(1);
             }
             catch
             {
-                error = "Não foi possivel acessar os dados de inventário";
-                throw new Exception(error);
+                throw new Exception("Não foi possível acessar os dados de inventário");
             }
-
-            var planilha = excel.Worksheet(1);
 
             int linha = 0;
             char coluna = 'A';
@@ -197,27 +195,29 @@ namespace Simulador.Classes
                     string talhao = planilha.Cell(coluna + linha.ToString()).Value.ToString(); //le o talhão
                     coluna++;   // vai para a proxima coluna
                     double area_talhao = double.Parse(planilha.Cell(coluna + linha.ToString()).Value.ToString());  //le a area do talhão
-                    if (area_talhao < 0) throw new Exception("Erro na planilha de dados de inventário, Coluna: " + coluna + " linha: " + linha + "\nvalor negativo inválido");    //trata area do talhão < 0
+                    if (area_talhao < 0) throw new Exception("Área do talhão não pode ser negativa");    //trata area do talhão < 0
                     coluna++;   // vai para a proxima coluna
                     string parcela = planilha.Cell(coluna + linha.ToString()).Value.ToString();    //le a parcela
                     coluna++;   // vai para a proxima coluna
                     string material_genetico = planilha.Cell(coluna + linha.ToString()).Value.ToString();  //le o material genetico
                     coluna++;   // vai para a proxima coluna
                     double idade = double.Parse(planilha.Cell(coluna + linha.ToString()).Value.ToString());    //le a idade
-                    if (idade < 0) throw new Exception("Erro na planilha de dados de inventário, Coluna: " + coluna + " linha: " + linha + "\nvalor negativo inválido");    //trata idade < 0
+                    if (idade < 0) throw new Exception("Idade não pode ser negativa");    //trata idade < 0
                     coluna++;   // vai para a proxima coluna
                     double area_parcela = double.Parse(planilha.Cell(coluna + linha.ToString()).Value.ToString()); //le a área da parcela
-                    if (area_parcela < 0) throw new Exception("Erro na planilha de dados de inventário, Coluna: " + coluna + " linha: " + linha + "\nvalor negativo inválido");    //trata area da parcela < 0
+                    if (area_parcela < 0) throw new Exception("Área da parcela não pode ser negativa");    //trata area da parcela < 0
                     coluna++;   // vai para a proxima coluna
                     int fila = int.Parse(planilha.Cell(coluna + linha.ToString()).Value.ToString());   //le a fila
+                    if (fila < 0) throw new Exception("Fila não pode ser negativa");    //trata fila < 0
                     coluna++;   // vai para a proxima coluna
                     int arv = int.Parse(planilha.Cell(coluna + linha.ToString()).Value.ToString());    //le o numero da arvore
+                    if (arv < 0) throw new Exception("Número da árvore não pode ser negativo"); //trata arv < 0
                     coluna++;   // vai para a proxima coluna
                     double dap = double.Parse(planilha.Cell(coluna + linha.ToString()).Value.ToString());  //le o dap
-                    if (dap < 0) throw new Exception("Erro na planilha de dados de inventário, Coluna: " + coluna + " linha: " + linha + "\nvalor negativo inválido");    //trata dap < 0
+                    if (dap < 0) throw new Exception("DAP não pode ser negativo");    //trata dap < 0
                     coluna++;   // vai para a proxima coluna
                     double altura = double.Parse(planilha.Cell(coluna + linha.ToString()).Value.ToString());   //le a altura
-                    if (altura < 0) throw new Exception("Erro na planilha de dados de inventário, Coluna: " + coluna + " linha: " + linha + "\nvalor negativo inválido");    //trata altura < 0
+                    if (altura < 0) throw new Exception("Altura não pode ser negativa");    //trata altura < 0
                     coluna = 'A';   //volta para o inicio da linha
                     if (dap == 0 && altura == 0) continue;  // ignora arvores morta
                     Arvore auxiliar = new Arvore(regiao, talhao, area_talhao, parcela, material_genetico, idade, area_parcela, fila, arv, dap, altura);    // cria a arvore
@@ -240,10 +240,9 @@ namespace Simulador.Classes
                     }
                 }
             }
-            catch
+            catch(Exception ex)
             {
-                error = "Erro na planilha de dados de inventário, Coluna: " + coluna + " linha: " + linha.ToString();
-                throw new Exception(error);
+                throw new Exception("Erro na planilha de dados de inventário, Coluna: " + coluna + " linha: " + linha.ToString() + "; " + ex.Message);
             }
 
             excel.Dispose();
@@ -255,21 +254,20 @@ namespace Simulador.Classes
 
         private void importar_coeficientes()
         {
-            string error;
             coeficientes = new Coeficientes();
             XLWorkbook excel;
+            IXLWorksheet planilha;
             try
             {
                 excel = new XLWorkbook(SprdSimCoeficienteMai.FileName);
+                planilha = excel.Worksheet(1);
             }
             catch
             {
-                error = "Não foi possivel acessar a planilha de coeficientes - MAI";
-                throw new Exception(error);
+                throw new Exception("Não foi possivel acessar a planilha de coeficientes - MAI");
             }
 
-            var planilha = excel.Worksheet(1);
-
+            
             int linha = 2;
             char coluna = 'A';
             try
@@ -301,6 +299,7 @@ namespace Simulador.Classes
                                 coluna++;
                                 tal.B1_altura = double.Parse(planilha.Cell(coluna + linha.ToString()).Value.ToString());
                                 coluna = 'C';
+                                tal.coeficientes_setados = true;
                             }
                         }
                     }
@@ -327,6 +326,7 @@ namespace Simulador.Classes
                                         tal.B1_altura =
                                             double.Parse(planilha.Cell(coluna + linha.ToString()).Value.ToString());
                                         coluna = 'C';
+                                        tal.coeficientes_setados = true;
                                     }
                                 }
                                 else
@@ -348,6 +348,7 @@ namespace Simulador.Classes
                                             tal.B1_altura = double.Parse(planilha.Cell(coluna + linha.ToString()).Value
                                                 .ToString());
                                             coluna = 'C';
+                                            tal.coeficientes_setados = true;
                                             break;
                                         }
                                     }
@@ -392,10 +393,20 @@ namespace Simulador.Classes
             }
             catch
             {
-                error = "Erro na planilha de coeficientes - MAI, Coluna: " + coluna + " linha: " + linha.ToString();
-                throw new Exception(error);
+                throw new Exception("Erro na planilha de coeficientes - MAI, Coluna: " + coluna + " linha: " + linha.ToString());
             }
 
+            foreach (Regiao reg in regioes_original)
+            {
+                foreach (Talhao tal in reg.talhoes)
+                {
+                    if (!tal.coeficientes_setados)
+                    {
+                        throw new Exception("Não foram informados os coeficientes para a região " + reg.numero + " talhão " + tal.numero);
+                    }
+                }
+            }
+           
             excel.Dispose();
         }
 
@@ -897,13 +908,13 @@ namespace Simulador.Classes
                             {
                                 while (true)
                                 {
+                                    // to_do  fazer o if com o d_aux
+                                    // to_do trocar a condicao para dentro do while
                                     if (altura_atual + prod.l > arv.altura)
                                         break;
 
-                                    double d1 = arv.dap * B0 * (1 + B1 *
-                                        Math.Log(1 - B2 * Math.Pow(altura_atual, B3) * Math.Pow(arv.altura, -B3)));
-                                    double d2 = arv.dap * B0 * (1 + B1 * Math.Log(1 -
-                                        B2 * Math.Pow(altura_atual + prod.l, B3) * Math.Pow(arv.altura, -B3)));
+                                    double d1 = arv.dap * B0 * (1 + B1 * Math.Log(1 - B2 * Math.Pow(altura_atual, B3) * Math.Pow(arv.altura, -B3)));
+                                    double d2 = arv.dap * B0 * (1 + B1 * Math.Log(1 - B2 * Math.Pow(altura_atual + prod.l, B3) * Math.Pow(arv.altura, -B3)));
 
                                     if (usar_d_aux)
                                     {
@@ -920,7 +931,6 @@ namespace Simulador.Classes
 
                                     parc.volume[prod.numero] += gerar_tora(arv.dap, arv.altura, altura_atual, prod.l,
                                         B0, B1, B2, B3, parc.area_parcela);
-
                                     altura_atual += prod.l;
                                 }
 
@@ -947,10 +957,11 @@ namespace Simulador.Classes
                             (1 + B1 * Math.Log(1 - B2 * Math.Pow(altura_inicial + i, B3) *
                                 Math.Pow(altura_arvore, -B3)));
 
-                double as1 = Math.PI * Math.Pow(d1, 2) / 40000;
-                double as2 = Math.PI * Math.Pow(d2, 2) / 40000;
+                double as1 = Math.PI * Math.Pow(d1, 2) / 40000; //area seccional
+                double as2 = Math.PI * Math.Pow(d2, 2) / 40000; //area seccional
 
                 volume += (as1 + as2) * 0.1 / 2;
+
                 if (i + 0.10 >= l)
                 {
                     double diferenca = l - i;
@@ -967,9 +978,8 @@ namespace Simulador.Classes
                     break;
                 }
             }
-
-            volume = (volume / area_parcela) * 10000;
-
+            volume = (volume / area_parcela) * 10000;   //converter unidade de medida
+            //Console.WriteLine(volume);
             return volume;
         }
 
@@ -1383,7 +1393,6 @@ namespace Simulador.Classes
 
                     cenario.VPL_infinito.Add(tal.vpl_infinito);
                     cenario.VPL_infinito2.Add(tal.vpl_infinito2);
-
 
                     cenario.VET.Add(tal.vet);
                     cenario.VET2.Add(tal.vet2);
@@ -2018,6 +2027,7 @@ namespace Simulador.Classes
                     aux.VPL_infinito = cenario.VPL_infinito2[i];
                     aux.VET = cenario.VET2[i];
                     if (aux.porcentagem == "-") aux.tem_desbaste = false;
+                    if (aux.tem_desbaste) Console.WriteLine("wtf! this dosn't make any sense");
                     casos.Add(aux);
                 }
             }

@@ -33,6 +33,7 @@ namespace Simulador
         public double B0_altura;
         public double B1_altura;
         public double area_talhao;
+        public bool coeficientes_setados;
         public Talhao(string num, int quant_produtos)
         {
             volume = new List<double>();
@@ -51,6 +52,7 @@ namespace Simulador
             B1_dap = 0;
             B0_altura = 0;
             B1_altura = 0;
+            coeficientes_setados = false;
         }
         public void adiciona_arvore(ref Arvore arvore)
         {
@@ -58,6 +60,18 @@ namespace Simulador
             {
                 if (parc.numero == arvore.parcela)
                 {
+                    for (int i=0; i<parc.arvores.Count(); i++)
+                    {
+                        if (arvore.fila == parc.arvores[i].fila && arvore.numero == parc.arvores[i].numero)
+                        {
+                            if (arvore.idade > parc.arvores[i].idade)
+                            {
+                                parc.arvores[i] = arvore;
+                            }
+                            return;
+                        }
+                    }
+                    
                     parc.arvores.Add(arvore);
                     return;
                 }
