@@ -351,7 +351,7 @@ namespace Simulador.Classes
                 coeficientes.B1 = new List<double>();
                 coeficientes.B2 = new List<double>();
                 coeficientes.B3 = new List<double>();
-
+                
                 linha++;
                 coluna = 'A';
                 for (;; linha++) //percorre o xls

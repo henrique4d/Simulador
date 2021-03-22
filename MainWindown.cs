@@ -53,7 +53,7 @@ namespace Simulador
                     {
                         tabMain.SelectedTab = tpPanilha;
                         Spreedsheet = e.Spreedsheet;
-                        LoadExcelData(Spreedsheet);
+                        LoadExcelData(Spreedsheet, false);
                     }
 
                     // if(e.Spreedsheet.FileName!=null) Process.Start(e.Spreedsheet.FileName);
@@ -112,7 +112,7 @@ namespace Simulador
             }
         }
 
-        private void LoadExcelData(Spreedsheet sprd)
+        private void LoadExcelData(Spreedsheet sprd, bool planilhaUpdateVisibility = true)
         {
             sprd.GetTabelaExcel();
             lblPlanilhaNomeArquivo.Text = sprd.Title;
@@ -121,6 +121,8 @@ namespace Simulador
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             dataGridView1.DataSource = sprd.DataTable;
             sprd.DataTable.Dispose();
+
+            btnPlanilhaUpdate.Visible = planilhaUpdateVisibility;
             tabMain.SelectedTab = tpPanilha;
         }
 
@@ -232,7 +234,7 @@ namespace Simulador
                 btnOpenPreCenarios);
 
             // Botoões de processamento de dados
-            btnOpenPrePre.Click += (sender, eventArgs) => { LoadExcelData(GmpfManager.SprdSim); };
+            btnOpenPrePre.Click += (sender, eventArgs) => { LoadExcelData(GmpfManager.SprdSim, false); };
             SetClickSimulate(GmpfManager.SprdSim, sbiPrePre, btnOpenPrePre, (s, e) =>
             {
                 GmpfManager.print_simular(
@@ -255,15 +257,15 @@ namespace Simulador
                         txtPenMaxTitulo.Text);
                 });
 
-            btnOpenPenSor.Click += (sender, eventArgs) => { LoadExcelData(GmpfManager.SprdSor); };
+            btnOpenPenSor.Click += (sender, eventArgs) => { LoadExcelData(GmpfManager.SprdSor, false); };
             SetClickSimulate(GmpfManager.SprdSor, sbiPenSor, btnOpenPenSor,
                 (s, e) => { GmpfManager.print_Sortimentos(txtPenHorizonte.Text, txtPenSorTitulo.Text); });
 
-            btnOpenPenBin.Click += (sender, eventArgs) => { LoadExcelData(GmpfManager.SprdBin); };
+            btnOpenPenBin.Click += (sender, eventArgs) => { LoadExcelData(GmpfManager.SprdBin, false); };
             SetClickSimulate(GmpfManager.SprdBin, sbiPenBin, btnOpenPenBin,
                 (s, e) => { GmpfManager.print_Binary(txtPenHorizonte.Text, txtPenBinTitulo.Text); });
 
-            btnOpenPenReg.Click += (sender, eventArgs) => { LoadExcelData(GmpfManager.SprdReg); };
+            btnOpenPenReg.Click += (sender, eventArgs) => { LoadExcelData(GmpfManager.SprdReg, false); };
             SetClickSimulate(GmpfManager.SprdReg, sbiPenReg, btnOpenPenReg,
                 (s, e) =>
                 {
