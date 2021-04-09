@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Drawing;
+using System.Text;
 using System.Windows.Forms;
 using ClosedXML.Excel;
 using Simulador.Classes;
@@ -309,6 +310,29 @@ namespace Simulador
                     GmpfManager.print_heuristica(txtPenRegTitulo.Text);
                 });
 
+            // ShapeFile
+            sbiPreShapeFile.Click += (sender, EventArgs) =>
+            {
+                OpenFileDialog ofdShapefile = new OpenFileDialog();
+                if (ofdShapefile.ShowDialog(this) == DialogResult.OK)
+                {
+                    try
+                    {
+                        OpenShapefile(ofdShapefile.FileName);
+                        tabMain.SelectedTab = tpMapa;
+                        sfMap1.Enabled = true;
+                        btnOpenPreShapeFile.Visible = true;
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(this, "Error : " + ex.Message);
+                    }
+                }
+            };
+            btnOpenPreShapeFile.Click += (sender, EventArgs) =>
+            {
+                if(sfMap1.Enabled) tabMain.SelectedTab = tpMapa;
+            };
             
         }
 
@@ -368,6 +392,53 @@ namespace Simulador
                 Spreedsheet = spreedsheet;
                 Ctl1 = ctl1;
                 Ctl2 = ctl2;
+            }
+        }
+
+
+
+        private void OpenShapefile(string path)
+        {
+            // clear any shapefiles the map is currently displaying
+            this.sfMap1.ClearShapeFiles();
+
+            // open the shapefile passing in the path, display name of the shapefile and
+            // the field name to be used when rendering the shapes (we use an empty string
+            // as the field name (3rd parameter) can not be null)
+            this.sfMap1.AddShapeFile(path, "ShapeFile", "");
+
+            // read the shapefile dbf field names and set the shapefiles's RenderSettings
+            // to use the first field to label the shapes.
+            EGIS.ShapeFileLib.ShapeFile sf = this.sfMap1[0];
+            sf.RenderSettings.FieldName = sf.RenderSettings.DbfReader.GetFieldNames()[4];
+            sf.RenderSettings.UseToolTip = true;
+            sf.RenderSettings.ToolTipFieldName = sf.RenderSettings.FieldName;
+            sf.RenderSettings.IsSelectable = true;
+
+            //select the first record
+            sf.SelectRecord(0, true);
+
+        }
+
+        private void lblPreImportarShapeFile_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void sfMap1_MouseClick_1(object sender, MouseEventArgs e)
+        {
+            if (sfMap1.ShapeFileCount == 0) return;
+            int recordIndex = sfMap1.GetShapeIndexAtPixelCoord(0, e.Location, 8);
+            if (recordIndex >= 0)
+            {
+                string[] recordAttributes = sfMap1[0].GetAttributeFieldValues(recordIndex);
+                string[] attributeNames = sfMap1[0].GetAttributeFieldNames();
+                StringBuilder sb = new StringBuilder();
+                for (int n = 0; n < attributeNames.Length; ++n)
+                {
+                    sb.Append(attributeNames[n]).Append(':').AppendLine(recordAttributes[n].Trim());
+                }
+                MessageBox.Show(this, sb.ToString(), "record attributes", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
             }
         }
     }

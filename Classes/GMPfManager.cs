@@ -2366,7 +2366,16 @@ namespace Simulador.Classes
 
         public void print_heuristica(string arquivoSaida, string acao = "Gerar Planilha de Heurística")
         {
-            throw new Exception("Ainda não implementada");
+            // Excel.Application xlApp = new Excel.Application();
+            // // mCorte
+            // if(SprdBin.FileName == null) throw new Exception("Planilha Binária não gerada anteriormente.");
+            // Excel.Workbook xlWorkbook = xlApp.Workbooks.Open("F:\\institutions\\viçosa\\estagios\\Docs\\Dados_de_inventario.xlsx", 0, true);
+            // Excel._Worksheet smCorte = xlWorkbook.Worksheets[1];
+            // smCorte.Name = "mCorte";
+            // Marshal.ReleaseComObject(xlWorkbook);
+            // MessageBox.Show("Topzeira");
+            //
+            // throw new Exception("Ainda não implementada");
             // TODO Verificações
             OnUpdate(new UpdateEventArgs(acao,SprdSim,  0, "Iniciando Processamento"));
             
@@ -2381,35 +2390,35 @@ namespace Simulador.Classes
                 // mCorte
                 if(SprdBin.FileName == null) throw new Exception("Planilha Binária não gerada anteriormente.");
                 Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(SprdBin.FileName, 0, true);
-                Sheet smCorte = xlWorkbook.Worksheets[1];
+                Excel._Worksheet smCorte = xlWorkbook.Worksheets[1];
                 smCorte.Name = "mCorte";
                 Marshal.ReleaseComObject(xlWorkbook);
                 
                 // mVolume
                 if(SprdBin.FileName == null) throw new Exception("Planilha Sortmentos não gerada anteriormente.");
                 xlWorkbook = xlApp.Workbooks.Open(SprdSor.FileName, 0, true);
-                Sheet smVolume = xlWorkbook.Worksheets[1];
+                Excel._Worksheet smVolume = xlWorkbook.Worksheets[1];
                 smCorte.Name = "mVolume";
                 Marshal.ReleaseComObject(xlWorkbook);
                 
                 // mRegArea
                 if(SprdBin.FileName == null) throw new Exception("Planilha Regulação não gerada anteriormente.");
                 xlWorkbook = xlApp.Workbooks.Open(SprdReg.FileName, 0, true);
-                Sheet smRegArea = xlWorkbook.Worksheets[1];
+                Excel._Worksheet smRegArea = xlWorkbook.Worksheets[1];
                 smCorte.Name = "mRegArea";
                 Marshal.ReleaseComObject(xlWorkbook);
                 
                 // mAdj
                 if(SprdBin.FileName == null) throw new Exception("Planilha Adjacência não carregada anteriormente.");
                 xlWorkbook = xlApp.Workbooks.Open(SprdPenAdjacencia.FileName, 0, true);
-                Sheet smAdj = xlWorkbook.Worksheets[1];
+                Excel._Worksheet smAdj = xlWorkbook.Worksheets[1];
                 smCorte.Name = "mAdj";
                 Marshal.ReleaseComObject(xlWorkbook);
                 
                 // mDistancia
                 if(SprdBin.FileName == null) throw new Exception("Planilha Distância não carregada anteriormente.");
                 xlWorkbook = xlApp.Workbooks.Open(SprdPenDistancia.FileName, 0, true);
-                Sheet smDistancia = xlWorkbook.Worksheets[1];
+                Excel._Worksheet smDistancia = xlWorkbook.Worksheets[1];
                 smCorte.Name = "mDistancia";
                 Marshal.ReleaseComObject(xlWorkbook);
                 
