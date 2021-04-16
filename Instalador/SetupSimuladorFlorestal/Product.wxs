@@ -6,7 +6,7 @@
 <!-- The manufacturer, for setup package publisher and folder info -->
 <?define Manufacturer = "Westrock" ?>
 <!-- The version number of this setup package-->
-<?define Version = "0.0.5" ?>
+<?define Version = "0.0.7" ?>
 <!-- UpgradeCode must be unique and not changed once the first version of the program is installed. -->
 <?define UpgradeCode = "{AB2752A1-9DE7-4EC0-9DA0-695C95AFF109}" ?>
 <!-- The name of the Cabinet -->
@@ -38,6 +38,10 @@
     <Feature Id="ProductFeature" Title="$(var.Name)" Level="1">
       <!--Main application executable component-->
       <ComponentGroupRef Id="ProductComponents" />
+      <ComponentGroupRef Id="ProductComponentsProj6" />
+      <ComponentGroupRef Id="ProductComponentsx64" />
+      <ComponentGroupRef Id="ProductComponentsx86" />
+      
       <!--Main application shortcut for Program Menu-->
       <ComponentRef Id="ApplicationShortcut" />
       <!--Desktop shortcut-->
@@ -53,6 +57,14 @@
         <Directory Id="ROOTDIRECTORY" Name="$(var.Manufacturer)">
           <!-- Create a folder inside Company Name folder with Product Name-->
           <Directory Id="INSTALLFOLDER" Name="$(var.Name)">
+            <Directory Id="Proj6" Name="Proj6">
+              <Directory Id="x64" Name="x64">
+                
+              </Directory>
+              <Directory Id="x86" Name="x86">
+              
+              </Directory>
+            </Directory>
             <Directory Id="DesktopFolder" Name="DesktopFolder" />
           </Directory>
         </Directory>
@@ -67,25 +79,38 @@
   <!--Main Feature Fragment with Simulador executable-->
   <Fragment>
     <!--ComponentGroup refering to install component in INSTALLFOLDER Directory-->
-    <ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
+    <ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">      
       <!--Main Component with Simulador executable path-->
       <Component Id="Simulador_Florestal.exe" Guid="66E8F771-832D-4B5A-9B76-8A0162F38062">
-        <File Id="Simulador_Florestal.exe" Name="Simulador.exe" Source="$(var.Simulador_Florestal_TargetDir)..\Debug\Simulador.exe" />
+        <File Id="Simulador_Florestal.exe" Name="Simulador.exe" Source="$(var.Simulador_Florestal_TargetDir)..\Debug\Simulador.exe"/>
         <File Id="ClosedXML.dll" Name="ClosedXML.dll" Source="$(var.Simulador_Florestal_TargetDir)ClosedXML.dll" />
         <File Id="ClosedXML.pdb" Name="ClosedXML.pdb" Source="$(var.Simulador_Florestal_TargetDir)ClosedXML.pdb" />
         <File Id="ClosedXML.xml" Name="ClosedXML.xml" Source="$(var.Simulador_Florestal_TargetDir)ClosedXML.xml" />
         <File Id="DocumentFormat.OpenXml.dll" Name="DocumentFormat.OpenXml.dll" Source="$(var.Simulador_Florestal_TargetDir)DocumentFormat.OpenXml.dll" />
         <File Id="DocumentFormat.OpenXml.xml" Name="DocumentFormat.OpenXml.xml" Source="$(var.Simulador_Florestal_TargetDir)DocumentFormat.OpenXml.xml" />
+        
+        <File Id="EGIS.Controls.dll" Name="EGIS.Controls.dll" Source="$(var.Simulador_Florestal_TargetDir)EGIS.Controls.dll" />
+        <File Id="EGIS.Controls.xml" Name="EGIS.Controls.xml" Source="$(var.Simulador_Florestal_TargetDir)EGIS.Controls.xml" />
+        <File Id="EGIS.Projections.dll" Name="EGIS.Projections.dll" Source="$(var.Simulador_Florestal_TargetDir)EGIS.Projections.dll" />
+        <File Id="EGIS.Projections.xml" Name="EGIS.Projections.xml" Source="$(var.Simulador_Florestal_TargetDir)EGIS.Projections.xml" />
+        <File Id="EGIS.ShapeFileLib.dll" Name="EGIS.ShapeFileLib.dll" Source="$(var.Simulador_Florestal_TargetDir)EGIS.ShapeFileLib.dll" />
+        <File Id="EGIS.ShapeFileLib.xml" Name="EGIS.ShapeFileLib.xml" Source="$(var.Simulador_Florestal_TargetDir)EGIS.ShapeFileLib.xml" />
+        
         <File Id="ExcelDataReader.dll" Name="ExcelDataReader.dll" Source="$(var.Simulador_Florestal_TargetDir)ExcelDataReader.dll" />
         <File Id="ExcelDataReader.pdb" Name="ExcelDataReader.pdb" Source="$(var.Simulador_Florestal_TargetDir)ExcelDataReader.pdb" />
         <File Id="ExcelDataReader.xml" Name="ExcelDataReader.xml" Source="$(var.Simulador_Florestal_TargetDir)ExcelDataReader.xml" />
         <File Id="ExcelNumberFormat.dll" Name="ExcelNumberFormat.dll" Source="$(var.Simulador_Florestal_TargetDir)ExcelNumberFormat.dll" />
         <File Id="ExcelNumberFormat.xml" Name="ExcelNumberFormat.xml" Source="$(var.Simulador_Florestal_TargetDir)ExcelNumberFormat.xml" />
         <File Id="FastMember.dll" Name="FastMember.dll" Source="$(var.Simulador_Florestal_TargetDir)FastMember.dll" />
+        
+        <File Id="geomutil_lib.dll" Name="geomutil_lib.dll" Source="$(var.Simulador_Florestal_TargetDir)geomutil_lib.dll" />
+        <File Id="geomutil_libx64.dll" Name="geomutil_libx64.dll" Source="$(var.Simulador_Florestal_TargetDir)geomutil_libx64.dll" />
+        
+        
         <File Id="Simulador.pdb" Name="Simulador.pdb" Source="$(var.Simulador_Florestal_TargetDir)Simulador.pdb" />
         <File Id="System.IO.Packaging.dll" Name="System.IO.Packaging.dll" Source="$(var.Simulador_Florestal_TargetDir)System.IO.Packaging.dll" />
         
-        <File Id="Cenarios.xlsx" Name="Cenarios.xlsx" Source="$(var.Simulador_Florestal_TargetDir)..\..\Instalador\docs\Cenarios.xlsx" />
+        <File Id="Cenarios.xlsx" Name="Cenarios.xlsx" Source="$(var.Simulador_Florestal_TargetDir)..\..\Instalador\docs\Cenarios.xlsx"/>
         <File Id="CoeficientesMAI.xlsx" Name="Coeficientes - MAI.xlsx" Source="$(var.Simulador_Florestal_TargetDir)..\..\Instalador\docs\Coeficientes - MAI.xlsx" />
         <File Id="Dados_de_inventario2.xlsx" Name="Dados_de_inventario2.xlsx" Source="$(var.Simulador_Florestal_TargetDir)..\..\Instalador\docs\Dados_de_inventario2.xlsx" />
         <File Id="Planilha_de_custos.xlsx" Name="Planilha_de_custos.xlsx" Source="$(var.Simulador_Florestal_TargetDir)..\..\Instalador\docs\Planilha_de_custos.xlsx" />
@@ -100,6 +125,10 @@
         <!-- Remove all files from the INSTALLFOLDER on uninstall -->
         <RemoveFolder Id='RemoveInstallFolder' Directory='INSTALLFOLDER' On='uninstall' />
         <RemoveFolder Id='RemoveRootDirectory' Directory='ROOTDIRECTORY' On='uninstall' />
+        <RemoveFolder Id='RemoveProj6' Directory='Proj6' On='uninstall' />  
+        <RemoveFolder Id='Removex64' Directory='x64' On='uninstall' />  
+        <RemoveFolder Id='Removex86' Directory='x86' On='uninstall' />  
+      
         <RemoveFile Id="ALLFILES" Name="*.*" On="both" />
       </Component>
       <!--Component with config file of Simulador-->
@@ -110,6 +139,40 @@
                      Type='string'
                      KeyPath='yes' />
         <File Id="Simulador_Florestal.exe.config" Name="Simulador.exe.config" Source="$(var.Simulador_Florestal_TargetDir)Simulador.exe.config" />
+      </Component>
+    </ComponentGroup>
+    <ComponentGroup Id="ProductComponentsProj6" Directory="Proj6">
+      <Component Id="CompProj6" Guid="6395A1DD-60D9-4823-8DA0-61DFF5339018">
+        <File Id="proj.db" Name="proj.db" Source="$(var.Simulador_Florestal_TargetDir)Proj6\\proj.db" />
+        
+        <RegistryValue Root='HKCU' Key='Software\$(var.Manufacturer)\$(var.Name)\Config'
+                       Name='Proj6'
+                       Value='Proj6'
+                       Type='string'
+                       KeyPath='yes' />
+      </Component>
+    </ComponentGroup>
+  
+    <ComponentGroup Id="ProductComponentsx64" Directory="x64">
+      <Component Id="CompProj6x64" Guid="D71BBC83-AB96-4EC4-9C44-5FFF9B4F514F">
+        <File Id="proj_6_1.dllx64" Name="proj_6_1.dll" Source="$(var.Simulador_Florestal_TargetDir)Proj6\\x64\\proj_6_1.dll" />
+        <File Id="sqlite3.dllx64" Name="sqlite3.dll" Source="$(var.Simulador_Florestal_TargetDir)Proj6\\x64\\sqlite3.dll" />
+        <RegistryValue Root='HKCU' Key='Software\$(var.Manufacturer)\$(var.Name)\Config'
+                       Name='x64'
+                       Value='x64'
+                       Type='string'
+                       KeyPath='yes' />
+      </Component>
+    </ComponentGroup>
+    <ComponentGroup Id="ProductComponentsx86" Directory="x86">
+      <Component Id="CompProj6x86" Guid="CA846586-B666-4773-A7B3-FB217E7E2D2E">
+        <File Id="proj_6_1.dllx86" Name="proj_6_1.dll" Source="$(var.Simulador_Florestal_TargetDir)Proj6\\x86\\proj_6_1.dll" />
+        <File Id="sqlite3.dllx86" Name="sqlite3.dll" Source="$(var.Simulador_Florestal_TargetDir)Proj6\\x86\\sqlite3.dll" />
+        <RegistryValue Root='HKCU' Key='Software\$(var.Manufacturer)\$(var.Name)\Config'
+                       Name='x86'
+                       Value='x86'
+                       Type='string'
+                       KeyPath='yes' />
       </Component>
     </ComponentGroup>
   </Fragment>
