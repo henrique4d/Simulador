@@ -68,14 +68,17 @@
     <Reference Include="DocumentFormat.OpenXml, Version=2.7.2.0, Culture=neutral, PublicKeyToken=8fb06cb64d019a17, processorArchitecture=MSIL">
       <HintPath>packages\DocumentFormat.OpenXml.2.7.2\lib\net46\DocumentFormat.OpenXml.dll</HintPath>
     </Reference>
-    <Reference Include="EGIS.Controls">
-      <HintPath>C:\Users\gabri\Downloads\egis_dt_4_6_6\EGIS.Controls.dll</HintPath>
+    <Reference Include="EGIS.Controls, Version=4.6.6.0, Culture=neutral, PublicKeyToken=05b98c869b5ffe6a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\EGIS.Controls.dll</HintPath>
     </Reference>
-    <Reference Include="EGIS.Projections">
-      <HintPath>egis_dt_4_6_6\EGIS.Projections.dll</HintPath>
+    <Reference Include="EGIS.Projections, Version=4.6.6.0, Culture=neutral, PublicKeyToken=05b98c869b5ffe6a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\EGIS.Projections.dll</HintPath>
     </Reference>
-    <Reference Include="EGIS.ShapeFileLib">
-      <HintPath>C:\Users\gabri\Downloads\egis_dt_4_6_6\EGIS.ShapeFileLib.dll</HintPath>
+    <Reference Include="EGIS.ShapeFileLib, Version=4.6.6.0, Culture=neutral, PublicKeyToken=05b98c869b5ffe6a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\EGIS.ShapeFileLib.dll</HintPath>
     </Reference>
     <Reference Include="ExcelDataReader, Version=3.6.0.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL">
       <HintPath>packages\ExcelDataReader.3.6.0\lib\net45\ExcelDataReader.dll</HintPath>
