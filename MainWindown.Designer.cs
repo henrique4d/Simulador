@@ -56,8 +56,8 @@ namespace Simulador
             this.btnOpenPenReg = new System.Windows.Forms.Button();
             this.btnOpenPenAdjacencia = new System.Windows.Forms.Button();
             this.btnOpenPenDistancia = new System.Windows.Forms.Button();
-            this.btnOpenPenTabHeu = new System.Windows.Forms.Button();
             this.btnOpenPreShapeFile = new System.Windows.Forms.Button();
+            this.btnOpenPenTabHeu = new System.Windows.Forms.Button();
             this.tipPenalidades = new System.Windows.Forms.ToolTip(this.components);
             this.tabMain = new Simulador.Components.TabControlWithoutHeader();
             this.tpPanilha = new System.Windows.Forms.TabPage();
@@ -98,11 +98,6 @@ namespace Simulador
             this.panel27 = new System.Windows.Forms.Panel();
             this.panel28 = new System.Windows.Forms.Panel();
             this.sbiPreCenarios = new Simulador.Components.SidebarItem(this.components);
-            this.lblPreImportarShapeFile = new System.Windows.Forms.Label();
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.panel40 = new System.Windows.Forms.Panel();
-            this.panel41 = new System.Windows.Forms.Panel();
-            this.sbiPreShapeFile = new Simulador.Components.SidebarItem(this.components);
             this.lblPreDadosPreescricao = new System.Windows.Forms.Label();
             this.flpPreDadosPreescricao = new System.Windows.Forms.FlowLayoutPanel();
             this.pnlPreTaxaDesconto = new System.Windows.Forms.Panel();
@@ -185,6 +180,11 @@ namespace Simulador
             this.panel38 = new System.Windows.Forms.Panel();
             this.panel39 = new System.Windows.Forms.Panel();
             this.sbiPenDistancia = new Simulador.Components.SidebarItem(this.components);
+            this.lblPenImportarShapeFile = new System.Windows.Forms.Label();
+            this.flpPenShapeFile = new System.Windows.Forms.FlowLayoutPanel();
+            this.panel40 = new System.Windows.Forms.Panel();
+            this.panel41 = new System.Windows.Forms.Panel();
+            this.sbiPreShapeFile = new Simulador.Components.SidebarItem(this.components);
             this.lblPenTabelaHeuristica = new System.Windows.Forms.Label();
             this.flpPenTabelaHeuristica = new System.Windows.Forms.FlowLayoutPanel();
             this.panel48 = new System.Windows.Forms.Panel();
@@ -220,9 +220,6 @@ namespace Simulador
             this.panel26.SuspendLayout();
             this.panel27.SuspendLayout();
             this.panel28.SuspendLayout();
-            this.flowLayoutPanel1.SuspendLayout();
-            this.panel40.SuspendLayout();
-            this.panel41.SuspendLayout();
             this.flpPreDadosPreescricao.SuspendLayout();
             this.pnlPreTaxaDesconto.SuspendLayout();
             this.pnlPreTipoDesbaste.SuspendLayout();
@@ -266,6 +263,9 @@ namespace Simulador
             this.panel37.SuspendLayout();
             this.panel38.SuspendLayout();
             this.panel39.SuspendLayout();
+            this.flpPenShapeFile.SuspendLayout();
+            this.panel40.SuspendLayout();
+            this.panel41.SuspendLayout();
             this.flpPenTabelaHeuristica.SuspendLayout();
             this.panel48.SuspendLayout();
             this.panel49.SuspendLayout();
@@ -570,21 +570,6 @@ namespace Simulador
             this.btnOpenPenDistancia.UseVisualStyleBackColor = false;
             this.btnOpenPenDistancia.Visible = false;
             // 
-            // btnOpenPenTabHeu
-            // 
-            this.btnOpenPenTabHeu.BackColor = System.Drawing.Color.White;
-            this.btnOpenPenTabHeu.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnOpenPenTabHeu.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnOpenPenTabHeu.Image = ((System.Drawing.Image)(resources.GetObject("btnOpenPenTabHeu.Image")));
-            this.btnOpenPenTabHeu.Location = new System.Drawing.Point(175, 0);
-            this.btnOpenPenTabHeu.Margin = new System.Windows.Forms.Padding(0);
-            this.btnOpenPenTabHeu.Name = "btnOpenPenTabHeu";
-            this.btnOpenPenTabHeu.Size = new System.Drawing.Size(37, 30);
-            this.btnOpenPenTabHeu.TabIndex = 6;
-            this.tipPreescricoes.SetToolTip(this.btnOpenPenTabHeu, "Abrir Planilha");
-            this.btnOpenPenTabHeu.UseVisualStyleBackColor = false;
-            this.btnOpenPenTabHeu.Visible = false;
-            // 
             // btnOpenPreShapeFile
             // 
             this.btnOpenPreShapeFile.BackColor = System.Drawing.Color.White;
@@ -599,6 +584,21 @@ namespace Simulador
             this.tipPreescricoes.SetToolTip(this.btnOpenPreShapeFile, "Abrir Planilha");
             this.btnOpenPreShapeFile.UseVisualStyleBackColor = false;
             this.btnOpenPreShapeFile.Visible = false;
+            // 
+            // btnOpenPenTabHeu
+            // 
+            this.btnOpenPenTabHeu.BackColor = System.Drawing.Color.White;
+            this.btnOpenPenTabHeu.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnOpenPenTabHeu.Dock = System.Windows.Forms.DockStyle.Right;
+            this.btnOpenPenTabHeu.Image = ((System.Drawing.Image)(resources.GetObject("btnOpenPenTabHeu.Image")));
+            this.btnOpenPenTabHeu.Location = new System.Drawing.Point(175, 0);
+            this.btnOpenPenTabHeu.Margin = new System.Windows.Forms.Padding(0);
+            this.btnOpenPenTabHeu.Name = "btnOpenPenTabHeu";
+            this.btnOpenPenTabHeu.Size = new System.Drawing.Size(37, 30);
+            this.btnOpenPenTabHeu.TabIndex = 6;
+            this.tipPreescricoes.SetToolTip(this.btnOpenPenTabHeu, "Abrir Planilha");
+            this.btnOpenPenTabHeu.UseVisualStyleBackColor = false;
+            this.btnOpenPenTabHeu.Visible = false;
             // 
             // tabMain
             // 
@@ -843,8 +843,6 @@ namespace Simulador
             this.flpPre.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.flpPre.Controls.Add(this.lblPreImportarTabelas);
             this.flpPre.Controls.Add(this.flpPreImportarTabelas);
-            this.flpPre.Controls.Add(this.lblPreImportarShapeFile);
-            this.flpPre.Controls.Add(this.flowLayoutPanel1);
             this.flpPre.Controls.Add(this.lblPreDadosPreescricao);
             this.flpPre.Controls.Add(this.flpPreDadosPreescricao);
             this.flpPre.Controls.Add(this.lblPreGerarPreescricoes);
@@ -1077,72 +1075,6 @@ namespace Simulador
             this.sbiPreCenarios.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.sbiPreCenarios.UseVisualStyleBackColor = true;
             // 
-            // lblPreImportarShapeFile
-            // 
-            this.lblPreImportarShapeFile.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(14)))), ((int)(((byte)(92)))), ((int)(((byte)(47)))));
-            this.lblPreImportarShapeFile.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lblPreImportarShapeFile.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPreImportarShapeFile.ForeColor = System.Drawing.Color.White;
-            this.lblPreImportarShapeFile.Image = global::Simulador.Properties.Resources.arrow_up_16x16;
-            this.lblPreImportarShapeFile.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lblPreImportarShapeFile.Location = new System.Drawing.Point(0, 179);
-            this.lblPreImportarShapeFile.Margin = new System.Windows.Forms.Padding(0, 0, 0, 7);
-            this.lblPreImportarShapeFile.Name = "lblPreImportarShapeFile";
-            this.lblPreImportarShapeFile.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
-            this.lblPreImportarShapeFile.Size = new System.Drawing.Size(213, 22);
-            this.lblPreImportarShapeFile.TabIndex = 17;
-            this.lblPreImportarShapeFile.Text = "Importar ShapeFile";
-            this.lblPreImportarShapeFile.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lblPreImportarShapeFile.Click += new System.EventHandler(this.lblPreImportarShapeFile_Click);
-            // 
-            // flowLayoutPanel1
-            // 
-            this.flowLayoutPanel1.AutoSize = true;
-            this.flowLayoutPanel1.Controls.Add(this.panel40);
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 208);
-            this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
-            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(209, 30);
-            this.flowLayoutPanel1.TabIndex = 18;
-            // 
-            // panel40
-            // 
-            this.panel40.Controls.Add(this.panel41);
-            this.panel40.Controls.Add(this.btnOpenPreShapeFile);
-            this.panel40.Location = new System.Drawing.Point(0, 0);
-            this.panel40.Margin = new System.Windows.Forms.Padding(0);
-            this.panel40.Name = "panel40";
-            this.panel40.Size = new System.Drawing.Size(209, 30);
-            this.panel40.TabIndex = 6;
-            // 
-            // panel41
-            // 
-            this.panel41.Controls.Add(this.sbiPreShapeFile);
-            this.panel41.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel41.Location = new System.Drawing.Point(0, 0);
-            this.panel41.Name = "panel41";
-            this.panel41.Size = new System.Drawing.Size(172, 30);
-            this.panel41.TabIndex = 0;
-            // 
-            // sbiPreShapeFile
-            // 
-            this.sbiPreShapeFile.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.sbiPreShapeFile.Dock = System.Windows.Forms.DockStyle.Top;
-            this.sbiPreShapeFile.FlatAppearance.BorderSize = 0;
-            this.sbiPreShapeFile.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.sbiPreShapeFile.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
-            this.sbiPreShapeFile.ForeColor = System.Drawing.Color.White;
-            this.sbiPreShapeFile.Location = new System.Drawing.Point(0, 0);
-            this.sbiPreShapeFile.Margin = new System.Windows.Forms.Padding(0);
-            this.sbiPreShapeFile.Name = "sbiPreShapeFile";
-            this.sbiPreShapeFile.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this.sbiPreShapeFile.Size = new System.Drawing.Size(172, 30);
-            this.sbiPreShapeFile.TabIndex = 2;
-            this.sbiPreShapeFile.TabStop = false;
-            this.sbiPreShapeFile.Text = "ShapeFile";
-            this.sbiPreShapeFile.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.sbiPreShapeFile.UseVisualStyleBackColor = true;
-            // 
             // lblPreDadosPreescricao
             // 
             this.lblPreDadosPreescricao.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(14)))), ((int)(((byte)(92)))), ((int)(((byte)(47)))));
@@ -1151,7 +1083,7 @@ namespace Simulador
             this.lblPreDadosPreescricao.ForeColor = System.Drawing.Color.White;
             this.lblPreDadosPreescricao.Image = global::Simulador.Properties.Resources.arrow_up_16x16;
             this.lblPreDadosPreescricao.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lblPreDadosPreescricao.Location = new System.Drawing.Point(0, 245);
+            this.lblPreDadosPreescricao.Location = new System.Drawing.Point(0, 186);
             this.lblPreDadosPreescricao.Margin = new System.Windows.Forms.Padding(0, 7, 0, 7);
             this.lblPreDadosPreescricao.Name = "lblPreDadosPreescricao";
             this.lblPreDadosPreescricao.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
@@ -1168,7 +1100,7 @@ namespace Simulador
             this.flpPreDadosPreescricao.Controls.Add(this.pnlPreTipoDesbaste);
             this.flpPreDadosPreescricao.Controls.Add(this.pnlPreControleDesbaste);
             this.flpPreDadosPreescricao.Controls.Add(this.pnlPreIntervaloSistematico);
-            this.flpPreDadosPreescricao.Location = new System.Drawing.Point(0, 274);
+            this.flpPreDadosPreescricao.Location = new System.Drawing.Point(0, 215);
             this.flpPreDadosPreescricao.Margin = new System.Windows.Forms.Padding(0);
             this.flpPreDadosPreescricao.Name = "flpPreDadosPreescricao";
             this.flpPreDadosPreescricao.Size = new System.Drawing.Size(215, 180);
@@ -1343,7 +1275,7 @@ namespace Simulador
             this.lblPreGerarPreescricoes.ForeColor = System.Drawing.Color.White;
             this.lblPreGerarPreescricoes.Image = global::Simulador.Properties.Resources.arrow_up_16x16;
             this.lblPreGerarPreescricoes.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lblPreGerarPreescricoes.Location = new System.Drawing.Point(0, 461);
+            this.lblPreGerarPreescricoes.Location = new System.Drawing.Point(0, 402);
             this.lblPreGerarPreescricoes.Margin = new System.Windows.Forms.Padding(0, 7, 0, 7);
             this.lblPreGerarPreescricoes.Name = "lblPreGerarPreescricoes";
             this.lblPreGerarPreescricoes.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
@@ -1358,7 +1290,7 @@ namespace Simulador
             this.flpPreGerarPreescricoes.AutoSize = true;
             this.flpPreGerarPreescricoes.Controls.Add(this.panel9);
             this.flpPreGerarPreescricoes.Controls.Add(this.panel3);
-            this.flpPreGerarPreescricoes.Location = new System.Drawing.Point(0, 490);
+            this.flpPreGerarPreescricoes.Location = new System.Drawing.Point(0, 431);
             this.flpPreGerarPreescricoes.Margin = new System.Windows.Forms.Padding(0);
             this.flpPreGerarPreescricoes.Name = "flpPreGerarPreescricoes";
             this.flpPreGerarPreescricoes.Size = new System.Drawing.Size(215, 84);
@@ -1469,6 +1401,8 @@ namespace Simulador
             this.flpPen.Controls.Add(this.flpPenRegulacao);
             this.flpPen.Controls.Add(this.lblPenImportarTabelas);
             this.flpPen.Controls.Add(this.flpPenImportarTabelas);
+            this.flpPen.Controls.Add(this.lblPenImportarShapeFile);
+            this.flpPen.Controls.Add(this.flpPenShapeFile);
             this.flpPen.Controls.Add(this.lblPenTabelaHeuristica);
             this.flpPen.Controls.Add(this.flpPenTabelaHeuristica);
             this.flpPen.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -2155,6 +2089,73 @@ namespace Simulador
             this.sbiPenDistancia.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.sbiPenDistancia.UseVisualStyleBackColor = true;
             // 
+            // lblPenImportarShapeFile
+            // 
+            this.lblPenImportarShapeFile.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(14)))), ((int)(((byte)(92)))), ((int)(((byte)(47)))));
+            this.lblPenImportarShapeFile.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblPenImportarShapeFile.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPenImportarShapeFile.ForeColor = System.Drawing.Color.White;
+            this.lblPenImportarShapeFile.Image = global::Simulador.Properties.Resources.arrow_down_16x16;
+            this.lblPenImportarShapeFile.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lblPenImportarShapeFile.Location = new System.Drawing.Point(0, 710);
+            this.lblPenImportarShapeFile.Margin = new System.Windows.Forms.Padding(0, 0, 0, 7);
+            this.lblPenImportarShapeFile.Name = "lblPenImportarShapeFile";
+            this.lblPenImportarShapeFile.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
+            this.lblPenImportarShapeFile.Size = new System.Drawing.Size(213, 22);
+            this.lblPenImportarShapeFile.TabIndex = 35;
+            this.lblPenImportarShapeFile.Text = "Importar ShapeFile";
+            this.lblPenImportarShapeFile.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblPenImportarShapeFile.Click += new System.EventHandler(this.lblPenImportarShapeFile_Click);
+            // 
+            // flpPenShapeFile
+            // 
+            this.flpPenShapeFile.AutoSize = true;
+            this.flpPenShapeFile.Controls.Add(this.panel40);
+            this.flpPenShapeFile.Location = new System.Drawing.Point(0, 739);
+            this.flpPenShapeFile.Margin = new System.Windows.Forms.Padding(0);
+            this.flpPenShapeFile.Name = "flpPenShapeFile";
+            this.flpPenShapeFile.Size = new System.Drawing.Size(209, 30);
+            this.flpPenShapeFile.TabIndex = 36;
+            this.flpPenShapeFile.Visible = false;
+            // 
+            // panel40
+            // 
+            this.panel40.Controls.Add(this.panel41);
+            this.panel40.Controls.Add(this.btnOpenPreShapeFile);
+            this.panel40.Location = new System.Drawing.Point(0, 0);
+            this.panel40.Margin = new System.Windows.Forms.Padding(0);
+            this.panel40.Name = "panel40";
+            this.panel40.Size = new System.Drawing.Size(209, 30);
+            this.panel40.TabIndex = 6;
+            // 
+            // panel41
+            // 
+            this.panel41.Controls.Add(this.sbiPreShapeFile);
+            this.panel41.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel41.Location = new System.Drawing.Point(0, 0);
+            this.panel41.Name = "panel41";
+            this.panel41.Size = new System.Drawing.Size(172, 30);
+            this.panel41.TabIndex = 0;
+            // 
+            // sbiPreShapeFile
+            // 
+            this.sbiPreShapeFile.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.sbiPreShapeFile.Dock = System.Windows.Forms.DockStyle.Top;
+            this.sbiPreShapeFile.FlatAppearance.BorderSize = 0;
+            this.sbiPreShapeFile.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.sbiPreShapeFile.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
+            this.sbiPreShapeFile.ForeColor = System.Drawing.Color.White;
+            this.sbiPreShapeFile.Location = new System.Drawing.Point(0, 0);
+            this.sbiPreShapeFile.Margin = new System.Windows.Forms.Padding(0);
+            this.sbiPreShapeFile.Name = "sbiPreShapeFile";
+            this.sbiPreShapeFile.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
+            this.sbiPreShapeFile.Size = new System.Drawing.Size(172, 30);
+            this.sbiPreShapeFile.TabIndex = 2;
+            this.sbiPreShapeFile.TabStop = false;
+            this.sbiPreShapeFile.Text = "ShapeFile";
+            this.sbiPreShapeFile.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.sbiPreShapeFile.UseVisualStyleBackColor = true;
+            // 
             // lblPenTabelaHeuristica
             // 
             this.lblPenTabelaHeuristica.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(14)))), ((int)(((byte)(92)))), ((int)(((byte)(47)))));
@@ -2163,7 +2164,7 @@ namespace Simulador
             this.lblPenTabelaHeuristica.ForeColor = System.Drawing.Color.White;
             this.lblPenTabelaHeuristica.Image = global::Simulador.Properties.Resources.arrow_up_16x16;
             this.lblPenTabelaHeuristica.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lblPenTabelaHeuristica.Location = new System.Drawing.Point(0, 717);
+            this.lblPenTabelaHeuristica.Location = new System.Drawing.Point(0, 776);
             this.lblPenTabelaHeuristica.Margin = new System.Windows.Forms.Padding(0, 7, 0, 7);
             this.lblPenTabelaHeuristica.Name = "lblPenTabelaHeuristica";
             this.lblPenTabelaHeuristica.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
@@ -2177,7 +2178,7 @@ namespace Simulador
             // 
             this.flpPenTabelaHeuristica.AutoSize = true;
             this.flpPenTabelaHeuristica.Controls.Add(this.panel48);
-            this.flpPenTabelaHeuristica.Location = new System.Drawing.Point(0, 746);
+            this.flpPenTabelaHeuristica.Location = new System.Drawing.Point(0, 805);
             this.flpPenTabelaHeuristica.Margin = new System.Windows.Forms.Padding(0);
             this.flpPenTabelaHeuristica.Name = "flpPenTabelaHeuristica";
             this.flpPenTabelaHeuristica.Size = new System.Drawing.Size(212, 30);
@@ -2277,9 +2278,6 @@ namespace Simulador
             this.panel26.ResumeLayout(false);
             this.panel27.ResumeLayout(false);
             this.panel28.ResumeLayout(false);
-            this.flowLayoutPanel1.ResumeLayout(false);
-            this.panel40.ResumeLayout(false);
-            this.panel41.ResumeLayout(false);
             this.flpPreDadosPreescricao.ResumeLayout(false);
             this.pnlPreTaxaDesconto.ResumeLayout(false);
             this.pnlPreTaxaDesconto.PerformLayout();
@@ -2334,6 +2332,9 @@ namespace Simulador
             this.panel37.ResumeLayout(false);
             this.panel38.ResumeLayout(false);
             this.panel39.ResumeLayout(false);
+            this.flpPenShapeFile.ResumeLayout(false);
+            this.panel40.ResumeLayout(false);
+            this.panel41.ResumeLayout(false);
             this.flpPenTabelaHeuristica.ResumeLayout(false);
             this.panel48.ResumeLayout(false);
             this.panel49.ResumeLayout(false);
@@ -2496,8 +2497,8 @@ namespace Simulador
         private System.Windows.Forms.StatusStrip ssWorkSheets;
         private System.Windows.Forms.TabPage tpMapa;
         private EGIS.Controls.SFMap sfMap1;
-        private System.Windows.Forms.Label lblPreImportarShapeFile;
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private System.Windows.Forms.Label lblPenImportarShapeFile;
+        private System.Windows.Forms.FlowLayoutPanel flpPenShapeFile;
         private System.Windows.Forms.Panel panel40;
         private System.Windows.Forms.Panel panel41;
         private Components.SidebarItem sbiPreShapeFile;

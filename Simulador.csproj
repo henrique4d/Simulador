@@ -118,6 +118,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\ExcelHelper.cs" />
     <Compile Include="Classes\GMPfManager.cs" />
     <Compile Include="Components\NavbarItem.cs">
       <SubType>UserControl</SubType>

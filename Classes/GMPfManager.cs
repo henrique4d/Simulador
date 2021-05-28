@@ -2366,91 +2366,53 @@ namespace Simulador.Classes
 
         public void print_heuristica(string arquivoSaida, string acao = "Gerar Planilha de Heurística")
         {
-            // Excel.Application xlApp = new Excel.Application();
-            // // mCorte
-            // if(SprdBin.FileName == null) throw new Exception("Planilha Binária não gerada anteriormente.");
-            // Excel.Workbook xlWorkbook = xlApp.Workbooks.Open("F:\\institutions\\viçosa\\estagios\\Docs\\Dados_de_inventario.xlsx", 0, true);
-            // Excel._Worksheet smCorte = xlWorkbook.Worksheets[1];
-            // smCorte.Name = "mCorte";
-            // Marshal.ReleaseComObject(xlWorkbook);
-            // MessageBox.Show("Topzeira");
-            //
-            // throw new Exception("Ainda não implementada");
             // TODO Verificações
             OnUpdate(new UpdateEventArgs(acao,SprdSim,  0, "Iniciando Processamento"));
             
-            this.arquivo_saida = arquivoSaida;
+            // Verifica se os arquivos já foram gerados
+            if(SprdBin.FileName == null) throw new Exception("Planilha Binária não gerada anteriormente.");
+            if(SprdSor.FileName == null) throw new Exception("Planilha Sortimentos não gerada anteriormente.");
+            if(SprdReg.FileName == null) throw new Exception("Planilha Regulação não gerada anteriormente.");
+            if(SprdPenAdjacencia.FileName == null) throw new Exception("Planilha Adjacência não carregada anteriormente.");
+            if(SprdPenDistancia.FileName == null) throw new Exception("Planilha Distância não carregada anteriormente.");
             
-            // Salvando arquivo
-            string pathString;
-            try
-            {
-                Excel.Application xlApp = new Excel.Application();
-                
-                // mCorte
-                if(SprdBin.FileName == null) throw new Exception("Planilha Binária não gerada anteriormente.");
-                Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(SprdBin.FileName, 0, true);
-                Excel._Worksheet smCorte = xlWorkbook.Worksheets[1];
-                smCorte.Name = "mCorte";
-                Marshal.ReleaseComObject(xlWorkbook);
-                
-                // mVolume
-                if(SprdBin.FileName == null) throw new Exception("Planilha Sortmentos não gerada anteriormente.");
-                xlWorkbook = xlApp.Workbooks.Open(SprdSor.FileName, 0, true);
-                Excel._Worksheet smVolume = xlWorkbook.Worksheets[1];
-                smCorte.Name = "mVolume";
-                Marshal.ReleaseComObject(xlWorkbook);
-                
-                // mRegArea
-                if(SprdBin.FileName == null) throw new Exception("Planilha Regulação não gerada anteriormente.");
-                xlWorkbook = xlApp.Workbooks.Open(SprdReg.FileName, 0, true);
-                Excel._Worksheet smRegArea = xlWorkbook.Worksheets[1];
-                smCorte.Name = "mRegArea";
-                Marshal.ReleaseComObject(xlWorkbook);
-                
-                // mAdj
-                if(SprdBin.FileName == null) throw new Exception("Planilha Adjacência não carregada anteriormente.");
-                xlWorkbook = xlApp.Workbooks.Open(SprdPenAdjacencia.FileName, 0, true);
-                Excel._Worksheet smAdj = xlWorkbook.Worksheets[1];
-                smCorte.Name = "mAdj";
-                Marshal.ReleaseComObject(xlWorkbook);
-                
-                // mDistancia
-                if(SprdBin.FileName == null) throw new Exception("Planilha Distância não carregada anteriormente.");
-                xlWorkbook = xlApp.Workbooks.Open(SprdPenDistancia.FileName, 0, true);
-                Excel._Worksheet smDistancia = xlWorkbook.Worksheets[1];
-                smCorte.Name = "mDistancia";
-                Marshal.ReleaseComObject(xlWorkbook);
-                
-                
-                Excel.Workbook xlWorkBook;
-                object misValue = System.Reflection.Missing.Value;
-                
-                xlWorkBook = xlApp.Workbooks.Add(misValue);
-                xlWorkbook.Worksheets.Add(smCorte);
-                xlWorkbook.Worksheets.Add(smVolume);
-                xlWorkbook.Worksheets.Add(smRegArea);
-                xlWorkbook.Worksheets.Add(smAdj);
-                xlWorkbook.Worksheets.Add(smDistancia);
-                
-                string path = GetCurrentDirectory();
-                pathString = System.IO.Path.Combine(path, "Heurística");
-                CreateDirectory(pathString);
-
-                xlWorkBook.SaveAs(pathString + "/" + arquivo_saida, Excel.XlFileFormat.xlWorkbookNormal, misValue, misValue, misValue, misValue, Excel.XlSaveAsAccessMode.xlExclusive, misValue, misValue, misValue, misValue, misValue);
-                xlWorkBook.Close(true, misValue, misValue);
-                xlApp.Quit();
-                
-                Marshal.ReleaseComObject(xlWorkBook);
-                Marshal.ReleaseComObject(xlApp);
-                
-            }
-            catch(Exception e)
-            {
-                MessageBox.Show(e.Message);
-                error = "nao foi possivel gerar o excel";
-                throw new Exception(error);
-            }
+            ExcelHelper excelHelper = new ExcelHelper();
+            ExcelHelper.SheetInformations[] informations;
+            informations = new[] {
+                new ExcelHelper.SheetInformations()
+                {
+                    file = SprdBin.FileName,
+                    indexStr = "Binária",
+                    newName = "mCorte"
+                },
+                new ExcelHelper.SheetInformations()
+                {
+                    file = SprdSor.FileName,
+                    indexStr = "Sortimentos",
+                    newName = "mVolume"
+                },
+                new ExcelHelper.SheetInformations()
+                {
+                    file = SprdReg.FileName,
+                    indexStr = "Regulação",
+                    newName = "mRegArea"
+                },
+                new ExcelHelper.SheetInformations()
+                {
+                    file = SprdPenAdjacencia.FileName,
+                    indexStr = "mAdj",
+                    newName = "mAdj"
+                },
+                new ExcelHelper.SheetInformations()
+                {
+                    file = SprdPenDistancia.FileName,
+                    indexStr = "mDistancia",
+                    newName = "mDistancia"
+                },
+            };
+            string destFile = "D:\\institutions\\viçosa\\estagios\\Docs\\Dados_de_inventario2 (1) - Copy.xlsx";
+            excelHelper.createFile(informations,arquivoSaida);
+            
             
             OnUpdate(new UpdateEventArgs(acao,SprdSim,  100, "Processamento Concluido"));
             

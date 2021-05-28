@@ -213,6 +213,11 @@ namespace Simulador
             SetOpenAndCloseAccordion(flpPenTabelaHeuristica, lblPenTabelaHeuristica);
         }
 
+        private void lblPenImportarShapeFile_Click(object sender, EventArgs e)
+        {
+            SetOpenAndCloseAccordion(flpPenShapeFile, lblPenImportarShapeFile);
+        }
+
         private void SetOpenAndCloseAccordion(FlowLayoutPanel flp, Label lbl)
         {
             flp.Visible = !flp.Visible;
@@ -420,10 +425,7 @@ namespace Simulador
 
         }
 
-        private void lblPreImportarShapeFile_Click(object sender, EventArgs e)
-        {
-
-        }
+        
 
         private void sfMap1_MouseClick_1(object sender, MouseEventArgs e)
         {
