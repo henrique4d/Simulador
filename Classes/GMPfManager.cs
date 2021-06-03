@@ -2366,10 +2366,13 @@ namespace Simulador.Classes
 
         public void print_heuristica(string arquivoSaida, string acao = "Gerar Planilha de Heurística")
         {
+            arquivoSaida = "Heurística - "+DateTime.Now.ToString("yyyy-MM-dd H-mm-ss")+".xlsx";
             // TODO Verificações
             OnUpdate(new UpdateEventArgs(acao,SprdSim,  0, "Iniciando Processamento"));
             
             // Verifica se os arquivos já foram gerados
+            if (arquivoSaida == null || arquivoSaida.Equals("") || arquivoSaida == "")
+                throw new Exception("Nome do arquivo final não provido.");
             if(SprdBin.FileName == null) throw new Exception("Planilha Binária não gerada anteriormente.");
             if(SprdSor.FileName == null) throw new Exception("Planilha Sortimentos não gerada anteriormente.");
             if(SprdReg.FileName == null) throw new Exception("Planilha Regulação não gerada anteriormente.");
@@ -2410,11 +2413,14 @@ namespace Simulador.Classes
                     newName = "mDistancia"
                 },
             };
-            string destFile = "D:\\institutions\\viçosa\\estagios\\Docs\\Dados_de_inventario2 (1) - Copy.xlsx";
-            excelHelper.createFile(informations,arquivoSaida);
+            string path = GetCurrentDirectory();
+            string strFoldername = System.IO.Path.Combine(path, "Heurística");
+            CreateDirectory(strFoldername);
+            string filename = $@"{strFoldername}\{arquivoSaida}";
+            excelHelper.createFile(informations, filename);
+            SprdTabHeu.FileName = filename;
             
-            
-            OnUpdate(new UpdateEventArgs(acao,SprdSim,  100, "Processamento Concluido"));
+            OnUpdate(new UpdateEventArgs(acao,SprdTabHeu,  100, "Processamento Concluido"));
             
         }
         protected virtual void OnUpdate(UpdateEventArgs e)

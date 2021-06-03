@@ -4,7 +4,7 @@ using Microsoft.Office.Interop.Excel;
 
 namespace Simulador.Classes
 {
-    class ExcelHelper
+    public class ExcelHelper
     {
         public struct SheetInformations
         {
@@ -33,11 +33,6 @@ namespace Simulador.Classes
                 Marshal.ReleaseComObject(tmpWorkBook);
                 foreach (var sheetInfo in sheetInformationsArray)
                 {
-                    Console.WriteLine(sheetInfo.file);
-                    Console.WriteLine(sheetInfo.newName);
-                    Console.WriteLine(sheetInfo.indexStr);
-                    Console.WriteLine();
-
                     curWorkBook = app.Workbooks.Open(sheetInfo.file,
                         defaultArg, defaultArg, defaultArg, defaultArg,
                         defaultArg, defaultArg, defaultArg, defaultArg, defaultArg, defaultArg, defaultArg, defaultArg,
@@ -56,7 +51,8 @@ namespace Simulador.Classes
                     // newWorksheet = (Worksheet) destWorkbook.Worksheets[sheetInfo.newName];
                     newWorksheet.UsedRange._PasteSpecial(XlPasteType.xlPasteValues,
                         XlPasteSpecialOperation.xlPasteSpecialOperationNone, false, false);
-
+                    destWorkbook.Save();
+                    curWorkBook.Close(false,sheetInfo.file,defaultArg);
                 }
             }
             catch (Exception ex)
@@ -65,14 +61,14 @@ namespace Simulador.Classes
             }
             finally
             {
-                if (curWorkBook != null)
-                {
-                    curWorkBook.Save();
-                    curWorkBook.Close(defaultArg, defaultArg, defaultArg);
-                }
-
                 if (destWorkbook != null)
                 {
+                    int nWorksheets = destWorkbook.Worksheets.Count;
+                    if (nWorksheets > 1)
+                    {
+                        workSheet = (Worksheet)destWorkbook.Sheets[nWorksheets];
+                        workSheet.Delete();
+                    }
                     destWorkbook.Save();
                     destWorkbook.Close(defaultArg, defaultArg, defaultArg);
                 }

@@ -21,6 +21,8 @@ namespace Simulador
             // Inicializando classe responsável pelo GMPF
             GmpfManager = new GmpfManager();
 
+            DebugLoadModelsFiles();
+
             // Inicializa Logo
             InitializeLogo();
 
@@ -61,7 +63,7 @@ namespace Simulador
                     // if(e.Spreedsheet.FileName!=null) Process.Start(e.Spreedsheet.FileName);
                 }
 
-                // DebugLoadFiles();
+                
             };
 
             btnPlanilhaOpen.Click += (s, e) => { Process.Start(Spreedsheet.FileName); };
@@ -90,10 +92,21 @@ namespace Simulador
             GmpfManager.SprdSimPlanilhaCustos.FileName =
                 "F:\\places\\viçosa\\estagios\\Others\\docs\\Planilha_de_custos.xlsx";
             GmpfManager.SprdSimCenarios.FileName = "F:\\places\\viçosa\\estagios\\Others\\docs\\Cenários.xlsx";
+
             txtPreTaxaDesconto.Text = "0.10";
             cmbPreTipoDesbaste.SelectedIndex = 1;
             cmbPreControleDesbaste.SelectedIndex = 1;
             txtPrePreTitulo.Text = "5";
+        }
+
+        private void DebugLoadModelsFiles()
+        {
+            // Carregar plánilhas do modelo
+            GmpfManager.SprdBin.FileName = @"D:\institutions\viçosa\estagios\Docs\Tabela Binária\c.xlsx";
+            GmpfManager.SprdSor.FileName = @"D:\institutions\viçosa\estagios\Docs\Sortimentos\c.xlsx";
+            GmpfManager.SprdReg.FileName = @"D:\institutions\viçosa\estagios\Docs\Regulação\c.xlsx";
+            GmpfManager.SprdPenAdjacencia.FileName = @"D:\institutions\viçosa\estagios\Docs\Adjacencia.xlsx";
+            GmpfManager.SprdPenDistancia.FileName = @"D:\institutions\viçosa\estagios\Docs\Distancia.xlsx";
         }
 
         private void OpenDialog(Spreedsheet sprd, Control ctl, string worksheetName = "")
