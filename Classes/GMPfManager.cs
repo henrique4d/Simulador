@@ -1798,7 +1798,129 @@ namespace Simulador.Classes
             Excel_Sortimentos.Quit();
             OnUpdate(new UpdateEventArgs(acao,SprdSor,  100, "Processamento Concluido"));
             // if (pathString_Sortimentos != null) Process.Start(pathString_Sortimentos);
+            print_Sortimentos_unificados(horizonte, arquivo_saida, acao);
         }
+
+        public void print_Sortimentos_unificados(string horizonte, string arquivo_saida, string acao = "")
+        {
+            this.horizonte = double.Parse(horizonte);
+            // SprdSor.Title = arquivo_saida;
+            OnUpdate(new UpdateEventArgs(acao, SprdSor, 0, "Iniciando Processamento"));
+            var Excel_Sortimentos_unificados = new Microsoft.Office.Interop.Excel.Application();
+            Excel_Sortimentos_unificados.Workbooks.Add();
+            Excel_Sortimentos_unificados.Workbooks[1].Worksheets[1].Name = "Sortimentos";
+            var aux_sortimento = Excel_Sortimentos_unificados.Workbooks.Item[1];
+
+            Excel_Sortimentos_unificados.Worksheets[1].cells[1][1] = "X";
+            int num_sortimentos = final_talhao[0].volumes[0].Count();
+
+            for (int i = 0; i <= this.horizonte; i++)
+            {
+                Excel_Sortimentos_unificados.Worksheets[1].cells[i + 2][1] = i;
+            }
+
+            int linha = 2;
+
+            foreach (Cenario_Talhao cenario in final_talhao)
+            {
+                for (int i = 0; i < cenario.regiao.Count(); i++)
+                {
+                    string registro;
+                    registro = "R" + cenario.regiao[i] + "_T" + cenario.talhao[i];
+                    if (cenario.VPL[i] == -1 && cenario.VAE[i] == -1 && cenario.VPL_infinito[i] == -1 &&
+                        cenario.VET[i] == -1)
+                    {
+                        registro += "_D" + cenario.idade[i] + "-" + cenario.porcentagem[i];
+                        if (desbaste_por == "Árvore")
+                        {
+                            registro += "N";
+                        }
+
+                        if (desbaste_por == "Área basal")
+                        {
+                            registro += "B";
+                        }
+
+                        registro += "_CR" + cenario.idade[i + 1];
+                    }
+                    else registro += "_CR" + cenario.idade[i];
+
+                    Excel_Sortimentos_unificados.Worksheets[1].cells[1][linha] = registro;
+             
+                    if (cenario.VPL[i] == -1 && cenario.VAE[i] == -1 && cenario.VPL_infinito[i] == -1 &&
+                        cenario.VET[i] == -1)
+                    {
+                        for (int idade_atual = 0; idade_atual <= this.horizonte; idade_atual++)
+                        {
+                            if ((idade_atual + cenario.idade_original[i]) % cenario.idade[i + 1] == 0)
+                            {
+                                double total = 0;
+                                for (int j = 1; j < num_sortimentos; j++)
+                                {
+                                    total += cenario.volumes[i + 1][j];
+                                }
+                                Excel_Sortimentos_unificados.Worksheets[1].cells[idade_atual + 2]
+                                    [linha] = total;
+
+                            }
+                            else if ((idade_atual + cenario.idade_original[i]) % cenario.idade[i + 1] ==
+                                     cenario.idade[i])
+                            {
+                                double total = 0;
+                                for (int j = 1; j < num_sortimentos; j++)
+                                {
+                                    total += cenario.volumes[i][j];
+                                }
+                                Excel_Sortimentos_unificados.Worksheets[1].cells[idade_atual + 2]
+                                        [linha] = total;
+                            }
+                            else
+                            {
+                                Excel_Sortimentos_unificados.Worksheets[1].cells[idade_atual + 2][
+                                    linha] = 0;
+                                
+                            }
+                        }
+
+                        linha++;
+                        i++;
+                    }
+                    else
+                    {
+                        for (int idade_atual = 0; idade_atual <= this.horizonte; idade_atual++)
+                        {
+                            if ((idade_atual + cenario.idade_original[i]) % cenario.idade[i] == 0)
+                            {
+                                double total = 0;
+                                for (int j = 1; j < num_sortimentos; j++)
+                                {
+                                    total += cenario.volumes[i][j];
+                                }
+                                Excel_Sortimentos_unificados.Worksheets[1].cells[idade_atual + 2]
+                                    [linha] = total;
+                            }
+                            else
+                            {
+                                Excel_Sortimentos_unificados.Worksheets[1].cells[idade_atual + 2][
+                                    linha] = 0;
+                            }
+                        }
+                    }
+                }
+            }
+
+            string path = GetCurrentDirectory();
+            string pathString_Sortimentos_unificados = System.IO.Path.Combine(path, "Sortimentos unificados");
+            CreateDirectory(pathString_Sortimentos_unificados);
+            Excel_Sortimentos_unificados.Workbooks[1].SaveAs(pathString_Sortimentos_unificados + "/" + arquivo_saida);
+            Excel_Sortimentos_unificados.Workbooks[1].Save();
+            SprdSor.FileName = Excel_Sortimentos_unificados.Workbooks[1].FullName;
+            Excel_Sortimentos_unificados.Quit();
+            OnUpdate(new UpdateEventArgs(acao, SprdSor, 100, "Processamento Concluido"));
+            // if (pathString_Sortimentos != null) Process.Start(pathString_Sortimentos);
+        }
+
+
 
         public void print_Binary(string horizonte, string arquivo_saida, string acao = "")
         {
