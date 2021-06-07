@@ -13,7 +13,8 @@ namespace Simulador
     public sealed partial class MainWindown : Form
     {
         public delegate void SetClickSimulateEventHandler(object sender, SetClickSimulateEventArgs e);
-
+        public bool isSimulating { get; set; } = false;
+        
         public MainWindown()
         {
             InitializeComponent();
@@ -21,7 +22,7 @@ namespace Simulador
             // Inicializando classe responsável pelo GMPF
             GmpfManager = new GmpfManager();
 
-            DebugLoadModelsFiles();
+            //DebugLoadModelsFiles();
 
             // Inicializa Logo
             InitializeLogo();
@@ -34,7 +35,8 @@ namespace Simulador
 
             // Deixando todos itens SideBar com width Full
             InitializeSidebar();
-
+            
+            
             GmpfManager.Update += (s, e) =>
             {
                 lblMainInfo.Text = e.Message;
@@ -107,6 +109,7 @@ namespace Simulador
             GmpfManager.SprdReg.FileName = @"D:\institutions\viçosa\estagios\Docs\Regulação\c.xlsx";
             GmpfManager.SprdPenAdjacencia.FileName = @"D:\institutions\viçosa\estagios\Docs\Adjacencia.xlsx";
             GmpfManager.SprdPenDistancia.FileName = @"D:\institutions\viçosa\estagios\Docs\Distancia.xlsx";
+            GmpfManager.SprdSim.FileName = @"D:\institutions\viçosa\estagios\Docs\Simulações\a.xlsx";
         }
 
         private void OpenDialog(Spreedsheet sprd, Control ctl, string worksheetName = "")
@@ -249,6 +252,7 @@ namespace Simulador
         {
             ctl1.Click += (s, e) =>
             {
+                isSimulating = true;
                 try
                 {
                     handler?.Invoke(this, new SetClickSimulateEventArgs(sprd, ctl1, ctl2));
@@ -261,6 +265,7 @@ namespace Simulador
                     pnlMainInfos.Visible = false;
                     ctl2.Visible = false;
                 }
+                isSimulating = true;
             };
         }
 

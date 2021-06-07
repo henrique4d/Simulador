@@ -133,6 +133,9 @@ namespace Simulador
             this.panel5 = new System.Windows.Forms.Panel();
             this.txtPenMaxNumPlanejamento = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
+            this.panel16 = new System.Windows.Forms.Panel();
+            this.txtPenRegIdadeRegulacao = new System.Windows.Forms.TextBox();
+            this.label20 = new System.Windows.Forms.Label();
             this.lblPenMaximizacoes = new System.Windows.Forms.Label();
             this.flpPenMaximizacoes = new System.Windows.Forms.FlowLayoutPanel();
             this.panel6 = new System.Windows.Forms.Panel();
@@ -162,9 +165,6 @@ namespace Simulador
             this.sbiPenBin = new Simulador.Components.SidebarItem(this.components);
             this.lblPenRegulacao = new System.Windows.Forms.Label();
             this.flpPenRegulacao = new System.Windows.Forms.FlowLayoutPanel();
-            this.panel16 = new System.Windows.Forms.Panel();
-            this.txtPenRegIdadeRegulacao = new System.Windows.Forms.TextBox();
-            this.label20 = new System.Windows.Forms.Label();
             this.panel17 = new System.Windows.Forms.Panel();
             this.panel18 = new System.Windows.Forms.Panel();
             this.txtPenRegTitulo = new System.Windows.Forms.TextBox();
@@ -237,6 +237,7 @@ namespace Simulador
             this.flpPenDadosCompartilhados.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel5.SuspendLayout();
+            this.panel16.SuspendLayout();
             this.flpPenMaximizacoes.SuspendLayout();
             this.panel6.SuspendLayout();
             this.panel11.SuspendLayout();
@@ -253,7 +254,6 @@ namespace Simulador
             this.panel33.SuspendLayout();
             this.panel34.SuspendLayout();
             this.flpPenRegulacao.SuspendLayout();
-            this.panel16.SuspendLayout();
             this.panel17.SuspendLayout();
             this.panel18.SuspendLayout();
             this.panel35.SuspendLayout();
@@ -1435,10 +1435,11 @@ namespace Simulador
             this.flpPenDadosCompartilhados.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.flpPenDadosCompartilhados.Controls.Add(this.panel1);
             this.flpPenDadosCompartilhados.Controls.Add(this.panel5);
+            this.flpPenDadosCompartilhados.Controls.Add(this.panel16);
             this.flpPenDadosCompartilhados.Location = new System.Drawing.Point(0, 29);
             this.flpPenDadosCompartilhados.Margin = new System.Windows.Forms.Padding(0);
             this.flpPenDadosCompartilhados.Name = "flpPenDadosCompartilhados";
-            this.flpPenDadosCompartilhados.Size = new System.Drawing.Size(212, 70);
+            this.flpPenDadosCompartilhados.Size = new System.Drawing.Size(213, 105);
             this.flpPenDadosCompartilhados.TabIndex = 25;
             // 
             // panel1
@@ -1511,6 +1512,41 @@ namespace Simulador
             this.label10.Text = " N° Preescrições";
             this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // panel16
+            // 
+            this.panel16.Controls.Add(this.txtPenRegIdadeRegulacao);
+            this.panel16.Controls.Add(this.label20);
+            this.panel16.Location = new System.Drawing.Point(3, 73);
+            this.panel16.Name = "panel16";
+            this.panel16.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
+            this.panel16.Size = new System.Drawing.Size(207, 29);
+            this.panel16.TabIndex = 25;
+            // 
+            // txtPenRegIdadeRegulacao
+            // 
+            this.txtPenRegIdadeRegulacao.Dock = System.Windows.Forms.DockStyle.Right;
+            this.txtPenRegIdadeRegulacao.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtPenRegIdadeRegulacao.Location = new System.Drawing.Point(152, 0);
+            this.txtPenRegIdadeRegulacao.Multiline = true;
+            this.txtPenRegIdadeRegulacao.Name = "txtPenRegIdadeRegulacao";
+            this.txtPenRegIdadeRegulacao.Size = new System.Drawing.Size(45, 29);
+            this.txtPenRegIdadeRegulacao.TabIndex = 1;
+            this.txtPenRegIdadeRegulacao.Text = "0";
+            this.txtPenRegIdadeRegulacao.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtPenRegIdadeRegulacao.WordWrap = false;
+            // 
+            // label20
+            // 
+            this.label20.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label20.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F);
+            this.label20.ForeColor = System.Drawing.Color.White;
+            this.label20.Location = new System.Drawing.Point(10, 0);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(187, 29);
+            this.label20.TabIndex = 0;
+            this.label20.Text = "Idade Regulação";
+            this.label20.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // lblPenMaximizacoes
             // 
             this.lblPenMaximizacoes.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(14)))), ((int)(((byte)(92)))), ((int)(((byte)(47)))));
@@ -1519,7 +1555,7 @@ namespace Simulador
             this.lblPenMaximizacoes.ForeColor = System.Drawing.Color.White;
             this.lblPenMaximizacoes.Image = global::Simulador.Properties.Resources.arrow_down_16x16;
             this.lblPenMaximizacoes.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lblPenMaximizacoes.Location = new System.Drawing.Point(0, 106);
+            this.lblPenMaximizacoes.Location = new System.Drawing.Point(0, 141);
             this.lblPenMaximizacoes.Margin = new System.Windows.Forms.Padding(0, 7, 0, 7);
             this.lblPenMaximizacoes.Name = "lblPenMaximizacoes";
             this.lblPenMaximizacoes.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
@@ -1534,7 +1570,7 @@ namespace Simulador
             this.flpPenMaximizacoes.AutoSize = true;
             this.flpPenMaximizacoes.Controls.Add(this.panel6);
             this.flpPenMaximizacoes.Controls.Add(this.panel29);
-            this.flpPenMaximizacoes.Location = new System.Drawing.Point(0, 135);
+            this.flpPenMaximizacoes.Location = new System.Drawing.Point(0, 170);
             this.flpPenMaximizacoes.Margin = new System.Windows.Forms.Padding(0);
             this.flpPenMaximizacoes.Name = "flpPenMaximizacoes";
             this.flpPenMaximizacoes.Size = new System.Drawing.Size(212, 84);
@@ -1628,7 +1664,7 @@ namespace Simulador
             this.lblPenSortimentos.ForeColor = System.Drawing.Color.White;
             this.lblPenSortimentos.Image = global::Simulador.Properties.Resources.arrow_down_16x16;
             this.lblPenSortimentos.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lblPenSortimentos.Location = new System.Drawing.Point(0, 226);
+            this.lblPenSortimentos.Location = new System.Drawing.Point(0, 261);
             this.lblPenSortimentos.Margin = new System.Windows.Forms.Padding(0, 7, 0, 7);
             this.lblPenSortimentos.Name = "lblPenSortimentos";
             this.lblPenSortimentos.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
@@ -1643,7 +1679,7 @@ namespace Simulador
             this.flpPenSortimentos.AutoSize = true;
             this.flpPenSortimentos.Controls.Add(this.panel12);
             this.flpPenSortimentos.Controls.Add(this.panel31);
-            this.flpPenSortimentos.Location = new System.Drawing.Point(0, 255);
+            this.flpPenSortimentos.Location = new System.Drawing.Point(0, 290);
             this.flpPenSortimentos.Margin = new System.Windows.Forms.Padding(0);
             this.flpPenSortimentos.Name = "flpPenSortimentos";
             this.flpPenSortimentos.Size = new System.Drawing.Size(212, 84);
@@ -1737,7 +1773,7 @@ namespace Simulador
             this.lblPenBinaria.ForeColor = System.Drawing.Color.White;
             this.lblPenBinaria.Image = global::Simulador.Properties.Resources.arrow_down_16x16;
             this.lblPenBinaria.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lblPenBinaria.Location = new System.Drawing.Point(0, 346);
+            this.lblPenBinaria.Location = new System.Drawing.Point(0, 381);
             this.lblPenBinaria.Margin = new System.Windows.Forms.Padding(0, 7, 0, 7);
             this.lblPenBinaria.Name = "lblPenBinaria";
             this.lblPenBinaria.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
@@ -1752,7 +1788,7 @@ namespace Simulador
             this.flpPenBinaria.AutoSize = true;
             this.flpPenBinaria.Controls.Add(this.panel14);
             this.flpPenBinaria.Controls.Add(this.panel33);
-            this.flpPenBinaria.Location = new System.Drawing.Point(0, 375);
+            this.flpPenBinaria.Location = new System.Drawing.Point(0, 410);
             this.flpPenBinaria.Margin = new System.Windows.Forms.Padding(0);
             this.flpPenBinaria.Name = "flpPenBinaria";
             this.flpPenBinaria.Size = new System.Drawing.Size(212, 84);
@@ -1846,7 +1882,7 @@ namespace Simulador
             this.lblPenRegulacao.ForeColor = System.Drawing.Color.White;
             this.lblPenRegulacao.Image = global::Simulador.Properties.Resources.arrow_down_16x16;
             this.lblPenRegulacao.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lblPenRegulacao.Location = new System.Drawing.Point(0, 466);
+            this.lblPenRegulacao.Location = new System.Drawing.Point(0, 501);
             this.lblPenRegulacao.Margin = new System.Windows.Forms.Padding(0, 7, 0, 7);
             this.lblPenRegulacao.Name = "lblPenRegulacao";
             this.lblPenRegulacao.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
@@ -1859,56 +1895,20 @@ namespace Simulador
             // flpPenRegulacao
             // 
             this.flpPenRegulacao.AutoSize = true;
-            this.flpPenRegulacao.Controls.Add(this.panel16);
             this.flpPenRegulacao.Controls.Add(this.panel17);
             this.flpPenRegulacao.Controls.Add(this.panel35);
-            this.flpPenRegulacao.Location = new System.Drawing.Point(0, 495);
+            this.flpPenRegulacao.Location = new System.Drawing.Point(0, 530);
             this.flpPenRegulacao.Margin = new System.Windows.Forms.Padding(0);
             this.flpPenRegulacao.Name = "flpPenRegulacao";
-            this.flpPenRegulacao.Size = new System.Drawing.Size(212, 119);
+            this.flpPenRegulacao.Size = new System.Drawing.Size(212, 84);
             this.flpPenRegulacao.TabIndex = 28;
             this.flpPenRegulacao.Visible = false;
-            // 
-            // panel16
-            // 
-            this.panel16.Controls.Add(this.txtPenRegIdadeRegulacao);
-            this.panel16.Controls.Add(this.label20);
-            this.panel16.Location = new System.Drawing.Point(3, 3);
-            this.panel16.Name = "panel16";
-            this.panel16.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
-            this.panel16.Size = new System.Drawing.Size(196, 29);
-            this.panel16.TabIndex = 24;
-            // 
-            // txtPenRegIdadeRegulacao
-            // 
-            this.txtPenRegIdadeRegulacao.Dock = System.Windows.Forms.DockStyle.Right;
-            this.txtPenRegIdadeRegulacao.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPenRegIdadeRegulacao.Location = new System.Drawing.Point(141, 0);
-            this.txtPenRegIdadeRegulacao.Multiline = true;
-            this.txtPenRegIdadeRegulacao.Name = "txtPenRegIdadeRegulacao";
-            this.txtPenRegIdadeRegulacao.Size = new System.Drawing.Size(45, 29);
-            this.txtPenRegIdadeRegulacao.TabIndex = 1;
-            this.txtPenRegIdadeRegulacao.Text = "0";
-            this.txtPenRegIdadeRegulacao.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.txtPenRegIdadeRegulacao.WordWrap = false;
-            // 
-            // label20
-            // 
-            this.label20.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label20.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F);
-            this.label20.ForeColor = System.Drawing.Color.White;
-            this.label20.Location = new System.Drawing.Point(10, 0);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(176, 29);
-            this.label20.TabIndex = 0;
-            this.label20.Text = "Idade Regulação";
-            this.label20.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // panel17
             // 
             this.panel17.Controls.Add(this.panel18);
             this.panel17.Controls.Add(this.label21);
-            this.panel17.Location = new System.Drawing.Point(3, 38);
+            this.panel17.Location = new System.Drawing.Point(3, 3);
             this.panel17.Name = "panel17";
             this.panel17.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
             this.panel17.Size = new System.Drawing.Size(196, 48);
@@ -1950,7 +1950,7 @@ namespace Simulador
             // 
             this.panel35.Controls.Add(this.panel36);
             this.panel35.Controls.Add(this.btnOpenPenReg);
-            this.panel35.Location = new System.Drawing.Point(0, 89);
+            this.panel35.Location = new System.Drawing.Point(0, 54);
             this.panel35.Margin = new System.Windows.Forms.Padding(0);
             this.panel35.Name = "panel35";
             this.panel35.Size = new System.Drawing.Size(212, 30);
@@ -2301,6 +2301,8 @@ namespace Simulador
             this.panel1.PerformLayout();
             this.panel5.ResumeLayout(false);
             this.panel5.PerformLayout();
+            this.panel16.ResumeLayout(false);
+            this.panel16.PerformLayout();
             this.flpPenMaximizacoes.ResumeLayout(false);
             this.panel6.ResumeLayout(false);
             this.panel11.ResumeLayout(false);
@@ -2320,8 +2322,6 @@ namespace Simulador
             this.panel33.ResumeLayout(false);
             this.panel34.ResumeLayout(false);
             this.flpPenRegulacao.ResumeLayout(false);
-            this.panel16.ResumeLayout(false);
-            this.panel16.PerformLayout();
             this.panel17.ResumeLayout(false);
             this.panel18.ResumeLayout(false);
             this.panel18.PerformLayout();
@@ -2417,9 +2417,6 @@ namespace Simulador
         private System.Windows.Forms.TextBox txtPenBinTitulo;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.FlowLayoutPanel flpPenRegulacao;
-        private System.Windows.Forms.Panel panel16;
-        private System.Windows.Forms.TextBox txtPenRegIdadeRegulacao;
-        private System.Windows.Forms.Label label20;
         private System.Windows.Forms.Panel panel17;
         private System.Windows.Forms.Panel panel18;
         private System.Windows.Forms.TextBox txtPenRegTitulo;
@@ -2503,5 +2500,8 @@ namespace Simulador
         private System.Windows.Forms.Panel panel41;
         private Components.SidebarItem sbiPreShapeFile;
         private System.Windows.Forms.Button btnOpenPreShapeFile;
+        private System.Windows.Forms.Panel panel16;
+        private System.Windows.Forms.TextBox txtPenRegIdadeRegulacao;
+        private System.Windows.Forms.Label label20;
     }
 }

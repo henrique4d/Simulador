@@ -2483,7 +2483,6 @@ namespace Simulador.Classes
             SprdSim.FileName = Excel.Workbooks[1].FullName;
             Excel.Quit();
             OnUpdate(new UpdateEventArgs(acao,SprdSim,  100, "Processamento Concluido"));
-            this.isSimulated = true;
         }
 
         public void print_heuristica(string arquivoSaida, string acao = "Gerar Planilha de Heurística")
@@ -2500,10 +2499,23 @@ namespace Simulador.Classes
             if(SprdReg.FileName == null) throw new Exception("Planilha Regulação não gerada anteriormente.");
             if(SprdPenAdjacencia.FileName == null) throw new Exception("Planilha Adjacência não carregada anteriormente.");
             if(SprdPenDistancia.FileName == null) throw new Exception("Planilha Distância não carregada anteriormente.");
+            if(SprdSim.FileName == null) throw new Exception("Planilha Distância não carregada anteriormente.");
             
             ExcelHelper excelHelper = new ExcelHelper();
             ExcelHelper.SheetInformations[] informations;
             informations = new[] {
+                //new ExcelHelper.SheetInformations()
+                //{
+                //    file = SprdBin.FileName,
+                //    indexStr = "Dados",
+                //    newName = "Dados"
+                //},
+                new ExcelHelper.SheetInformations()
+                {
+                    file = SprdSim.FileName,
+                    indexStr = "Talhão",
+                    newName = "Prescrições"
+                },
                 new ExcelHelper.SheetInformations()
                 {
                     file = SprdBin.FileName,
@@ -2535,6 +2547,7 @@ namespace Simulador.Classes
                     newName = "mDistancia"
                 },
             };
+            informations.Reverse();
             string path = GetCurrentDirectory();
             string strFoldername = System.IO.Path.Combine(path, "Heurística");
             CreateDirectory(strFoldername);
