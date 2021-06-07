@@ -31,6 +31,7 @@ namespace Simulador.Classes
         public Spreedsheet SprdSim { get; set; }
         public Spreedsheet SprdMax { get; set; }
         public Spreedsheet SprdSor { get; set; }
+        public Spreedsheet SprdSorUni { get; set; }
         public Spreedsheet SprdBin { get; set; }
         public Spreedsheet SprdReg { get; set; }
         
@@ -102,6 +103,7 @@ namespace Simulador.Classes
             SprdSimCenarios = new Spreedsheet("Cenários");
             SprdPenDistancia = new Spreedsheet("Distância");
             SprdPenAdjacencia = new Spreedsheet("Adjacência");
+            SprdSorUni = new Spreedsheet("Sortimentos Unificado");
 
             SprdSim = new Spreedsheet("Simulação");
             SprdMax = new Spreedsheet("Maximização");
@@ -1798,14 +1800,14 @@ namespace Simulador.Classes
             Excel_Sortimentos.Quit();
             OnUpdate(new UpdateEventArgs(acao,SprdSor,  100, "Processamento Concluido"));
             // if (pathString_Sortimentos != null) Process.Start(pathString_Sortimentos);
-            print_Sortimentos_unificados(horizonte, arquivo_saida, acao);
+            // print_Sortimentos_unificados(horizonte, arquivo_saida, acao);
         }
 
         public void print_Sortimentos_unificados(string horizonte, string arquivo_saida, string acao = "")
         {
             this.horizonte = double.Parse(horizonte);
             // SprdSor.Title = arquivo_saida;
-            OnUpdate(new UpdateEventArgs(acao, SprdSor, 0, "Iniciando Processamento"));
+            OnUpdate(new UpdateEventArgs(acao, SprdSorUni, 0, "Iniciando Processamento"));
             var Excel_Sortimentos_unificados = new Microsoft.Office.Interop.Excel.Application();
             Excel_Sortimentos_unificados.Workbooks.Add();
             Excel_Sortimentos_unificados.Workbooks[1].Worksheets[1].Name = "Sortimentos";
@@ -1914,9 +1916,9 @@ namespace Simulador.Classes
             CreateDirectory(pathString_Sortimentos_unificados);
             Excel_Sortimentos_unificados.Workbooks[1].SaveAs(pathString_Sortimentos_unificados + "/" + arquivo_saida);
             Excel_Sortimentos_unificados.Workbooks[1].Save();
-            SprdSor.FileName = Excel_Sortimentos_unificados.Workbooks[1].FullName;
+            SprdSorUni.FileName = Excel_Sortimentos_unificados.Workbooks[1].FullName;
             Excel_Sortimentos_unificados.Quit();
-            OnUpdate(new UpdateEventArgs(acao, SprdSor, 100, "Processamento Concluido"));
+            OnUpdate(new UpdateEventArgs(acao, SprdSorUni, 100, "Processamento Concluido"));
             // if (pathString_Sortimentos != null) Process.Start(pathString_Sortimentos);
         }
 

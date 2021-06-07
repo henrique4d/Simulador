@@ -144,7 +144,6 @@
     <Compile Include="Components\TabControlWithoutHeader.Designer.cs">
       <DependentUpon>TabControlWithoutHeader.cs</DependentUpon>
     </Compile>
-    <Compile Include="customException.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>

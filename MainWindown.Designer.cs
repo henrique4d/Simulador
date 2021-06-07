@@ -58,6 +58,7 @@ namespace Simulador
             this.btnOpenPenDistancia = new System.Windows.Forms.Button();
             this.btnOpenPreShapeFile = new System.Windows.Forms.Button();
             this.btnOpenPenTabHeu = new System.Windows.Forms.Button();
+            this.btnOpenPenSorUni = new System.Windows.Forms.Button();
             this.tipPenalidades = new System.Windows.Forms.ToolTip(this.components);
             this.tabMain = new Simulador.Components.TabControlWithoutHeader();
             this.tpPanilha = new System.Windows.Forms.TabPage();
@@ -154,6 +155,15 @@ namespace Simulador
             this.panel31 = new System.Windows.Forms.Panel();
             this.panel32 = new System.Windows.Forms.Panel();
             this.sbiPenSor = new Simulador.Components.SidebarItem(this.components);
+            this.lblPenSortimentosUnificados = new System.Windows.Forms.Label();
+            this.flpPenSortimentosUnificados = new System.Windows.Forms.FlowLayoutPanel();
+            this.panel42 = new System.Windows.Forms.Panel();
+            this.panel43 = new System.Windows.Forms.Panel();
+            this.txtPenSorUniTitulo = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.panel44 = new System.Windows.Forms.Panel();
+            this.panel45 = new System.Windows.Forms.Panel();
+            this.sbiPenSorUni = new Simulador.Components.SidebarItem(this.components);
             this.lblPenBinaria = new System.Windows.Forms.Label();
             this.flpPenBinaria = new System.Windows.Forms.FlowLayoutPanel();
             this.panel14 = new System.Windows.Forms.Panel();
@@ -248,6 +258,11 @@ namespace Simulador
             this.panel13.SuspendLayout();
             this.panel31.SuspendLayout();
             this.panel32.SuspendLayout();
+            this.flpPenSortimentosUnificados.SuspendLayout();
+            this.panel42.SuspendLayout();
+            this.panel43.SuspendLayout();
+            this.panel44.SuspendLayout();
+            this.panel45.SuspendLayout();
             this.flpPenBinaria.SuspendLayout();
             this.panel14.SuspendLayout();
             this.panel15.SuspendLayout();
@@ -599,6 +614,21 @@ namespace Simulador
             this.tipPreescricoes.SetToolTip(this.btnOpenPenTabHeu, "Abrir Planilha");
             this.btnOpenPenTabHeu.UseVisualStyleBackColor = false;
             this.btnOpenPenTabHeu.Visible = false;
+            // 
+            // btnOpenPenSorUni
+            // 
+            this.btnOpenPenSorUni.BackColor = System.Drawing.Color.White;
+            this.btnOpenPenSorUni.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnOpenPenSorUni.Dock = System.Windows.Forms.DockStyle.Right;
+            this.btnOpenPenSorUni.Image = ((System.Drawing.Image)(resources.GetObject("btnOpenPenSorUni.Image")));
+            this.btnOpenPenSorUni.Location = new System.Drawing.Point(175, 0);
+            this.btnOpenPenSorUni.Margin = new System.Windows.Forms.Padding(0);
+            this.btnOpenPenSorUni.Name = "btnOpenPenSorUni";
+            this.btnOpenPenSorUni.Size = new System.Drawing.Size(37, 30);
+            this.btnOpenPenSorUni.TabIndex = 6;
+            this.tipPreescricoes.SetToolTip(this.btnOpenPenSorUni, "Abrir Planilha");
+            this.btnOpenPenSorUni.UseVisualStyleBackColor = false;
+            this.btnOpenPenSorUni.Visible = false;
             // 
             // tabMain
             // 
@@ -1395,6 +1425,8 @@ namespace Simulador
             this.flpPen.Controls.Add(this.flpPenMaximizacoes);
             this.flpPen.Controls.Add(this.lblPenSortimentos);
             this.flpPen.Controls.Add(this.flpPenSortimentos);
+            this.flpPen.Controls.Add(this.lblPenSortimentosUnificados);
+            this.flpPen.Controls.Add(this.flpPenSortimentosUnificados);
             this.flpPen.Controls.Add(this.lblPenBinaria);
             this.flpPen.Controls.Add(this.flpPenBinaria);
             this.flpPen.Controls.Add(this.lblPenRegulacao);
@@ -1765,6 +1797,115 @@ namespace Simulador
             this.sbiPenSor.Text = "Simular";
             this.sbiPenSor.UseVisualStyleBackColor = false;
             // 
+            // lblPenSortimentosUnificados
+            // 
+            this.lblPenSortimentosUnificados.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(14)))), ((int)(((byte)(92)))), ((int)(((byte)(47)))));
+            this.lblPenSortimentosUnificados.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblPenSortimentosUnificados.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPenSortimentosUnificados.ForeColor = System.Drawing.Color.White;
+            this.lblPenSortimentosUnificados.Image = global::Simulador.Properties.Resources.arrow_down_16x16;
+            this.lblPenSortimentosUnificados.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lblPenSortimentosUnificados.Location = new System.Drawing.Point(0, 381);
+            this.lblPenSortimentosUnificados.Margin = new System.Windows.Forms.Padding(0, 7, 0, 7);
+            this.lblPenSortimentosUnificados.Name = "lblPenSortimentosUnificados";
+            this.lblPenSortimentosUnificados.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
+            this.lblPenSortimentosUnificados.Size = new System.Drawing.Size(209, 22);
+            this.lblPenSortimentosUnificados.TabIndex = 37;
+            this.lblPenSortimentosUnificados.Text = "Sortimentos Unificados";
+            this.lblPenSortimentosUnificados.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblPenSortimentosUnificados.Click += new System.EventHandler(this.lblPenSortimentosUnificados_Click);
+            // 
+            // flpPenSortimentosUnificados
+            // 
+            this.flpPenSortimentosUnificados.AutoSize = true;
+            this.flpPenSortimentosUnificados.Controls.Add(this.panel42);
+            this.flpPenSortimentosUnificados.Controls.Add(this.panel44);
+            this.flpPenSortimentosUnificados.Location = new System.Drawing.Point(0, 410);
+            this.flpPenSortimentosUnificados.Margin = new System.Windows.Forms.Padding(0);
+            this.flpPenSortimentosUnificados.Name = "flpPenSortimentosUnificados";
+            this.flpPenSortimentosUnificados.Size = new System.Drawing.Size(212, 84);
+            this.flpPenSortimentosUnificados.TabIndex = 38;
+            this.flpPenSortimentosUnificados.Visible = false;
+            // 
+            // panel42
+            // 
+            this.panel42.Controls.Add(this.panel43);
+            this.panel42.Controls.Add(this.label2);
+            this.panel42.Location = new System.Drawing.Point(3, 3);
+            this.panel42.Name = "panel42";
+            this.panel42.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
+            this.panel42.Size = new System.Drawing.Size(206, 48);
+            this.panel42.TabIndex = 15;
+            // 
+            // panel43
+            // 
+            this.panel43.Controls.Add(this.txtPenSorUniTitulo);
+            this.panel43.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel43.Location = new System.Drawing.Point(10, 13);
+            this.panel43.Name = "panel43";
+            this.panel43.Padding = new System.Windows.Forms.Padding(0, 5, 0, 0);
+            this.panel43.Size = new System.Drawing.Size(186, 35);
+            this.panel43.TabIndex = 1;
+            // 
+            // txtPenSorUniTitulo
+            // 
+            this.txtPenSorUniTitulo.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtPenSorUniTitulo.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtPenSorUniTitulo.Location = new System.Drawing.Point(0, 5);
+            this.txtPenSorUniTitulo.Multiline = true;
+            this.txtPenSorUniTitulo.Name = "txtPenSorUniTitulo";
+            this.txtPenSorUniTitulo.Size = new System.Drawing.Size(186, 30);
+            this.txtPenSorUniTitulo.TabIndex = 0;
+            // 
+            // label2
+            // 
+            this.label2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.ForeColor = System.Drawing.Color.White;
+            this.label2.Location = new System.Drawing.Point(10, 0);
+            this.label2.Margin = new System.Windows.Forms.Padding(0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(186, 13);
+            this.label2.TabIndex = 0;
+            this.label2.Text = "Título";
+            // 
+            // panel44
+            // 
+            this.panel44.Controls.Add(this.panel45);
+            this.panel44.Controls.Add(this.btnOpenPenSorUni);
+            this.panel44.Location = new System.Drawing.Point(0, 54);
+            this.panel44.Margin = new System.Windows.Forms.Padding(0);
+            this.panel44.Name = "panel44";
+            this.panel44.Size = new System.Drawing.Size(212, 30);
+            this.panel44.TabIndex = 17;
+            // 
+            // panel45
+            // 
+            this.panel45.Controls.Add(this.sbiPenSorUni);
+            this.panel45.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel45.Location = new System.Drawing.Point(0, 0);
+            this.panel45.Name = "panel45";
+            this.panel45.Size = new System.Drawing.Size(175, 30);
+            this.panel45.TabIndex = 7;
+            // 
+            // sbiPenSorUni
+            // 
+            this.sbiPenSorUni.BackColor = System.Drawing.Color.White;
+            this.sbiPenSorUni.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.sbiPenSorUni.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.sbiPenSorUni.FlatAppearance.BorderSize = 0;
+            this.sbiPenSorUni.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.sbiPenSorUni.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.25F);
+            this.sbiPenSorUni.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(14)))), ((int)(((byte)(92)))), ((int)(((byte)(47)))));
+            this.sbiPenSorUni.Location = new System.Drawing.Point(0, 0);
+            this.sbiPenSorUni.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
+            this.sbiPenSorUni.Name = "sbiPenSorUni";
+            this.sbiPenSorUni.Size = new System.Drawing.Size(175, 30);
+            this.sbiPenSorUni.TabIndex = 17;
+            this.sbiPenSorUni.TabStop = false;
+            this.sbiPenSorUni.Text = "Simular";
+            this.sbiPenSorUni.UseVisualStyleBackColor = false;
+            // 
             // lblPenBinaria
             // 
             this.lblPenBinaria.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(14)))), ((int)(((byte)(92)))), ((int)(((byte)(47)))));
@@ -1773,7 +1914,7 @@ namespace Simulador
             this.lblPenBinaria.ForeColor = System.Drawing.Color.White;
             this.lblPenBinaria.Image = global::Simulador.Properties.Resources.arrow_down_16x16;
             this.lblPenBinaria.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lblPenBinaria.Location = new System.Drawing.Point(0, 381);
+            this.lblPenBinaria.Location = new System.Drawing.Point(0, 501);
             this.lblPenBinaria.Margin = new System.Windows.Forms.Padding(0, 7, 0, 7);
             this.lblPenBinaria.Name = "lblPenBinaria";
             this.lblPenBinaria.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
@@ -1788,7 +1929,7 @@ namespace Simulador
             this.flpPenBinaria.AutoSize = true;
             this.flpPenBinaria.Controls.Add(this.panel14);
             this.flpPenBinaria.Controls.Add(this.panel33);
-            this.flpPenBinaria.Location = new System.Drawing.Point(0, 410);
+            this.flpPenBinaria.Location = new System.Drawing.Point(0, 530);
             this.flpPenBinaria.Margin = new System.Windows.Forms.Padding(0);
             this.flpPenBinaria.Name = "flpPenBinaria";
             this.flpPenBinaria.Size = new System.Drawing.Size(212, 84);
@@ -1882,7 +2023,7 @@ namespace Simulador
             this.lblPenRegulacao.ForeColor = System.Drawing.Color.White;
             this.lblPenRegulacao.Image = global::Simulador.Properties.Resources.arrow_down_16x16;
             this.lblPenRegulacao.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lblPenRegulacao.Location = new System.Drawing.Point(0, 501);
+            this.lblPenRegulacao.Location = new System.Drawing.Point(0, 621);
             this.lblPenRegulacao.Margin = new System.Windows.Forms.Padding(0, 7, 0, 7);
             this.lblPenRegulacao.Name = "lblPenRegulacao";
             this.lblPenRegulacao.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
@@ -1897,7 +2038,7 @@ namespace Simulador
             this.flpPenRegulacao.AutoSize = true;
             this.flpPenRegulacao.Controls.Add(this.panel17);
             this.flpPenRegulacao.Controls.Add(this.panel35);
-            this.flpPenRegulacao.Location = new System.Drawing.Point(0, 530);
+            this.flpPenRegulacao.Location = new System.Drawing.Point(0, 650);
             this.flpPenRegulacao.Margin = new System.Windows.Forms.Padding(0);
             this.flpPenRegulacao.Name = "flpPenRegulacao";
             this.flpPenRegulacao.Size = new System.Drawing.Size(212, 84);
@@ -1991,7 +2132,7 @@ namespace Simulador
             this.lblPenImportarTabelas.ForeColor = System.Drawing.Color.White;
             this.lblPenImportarTabelas.Image = global::Simulador.Properties.Resources.arrow_down_16x16;
             this.lblPenImportarTabelas.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lblPenImportarTabelas.Location = new System.Drawing.Point(0, 621);
+            this.lblPenImportarTabelas.Location = new System.Drawing.Point(0, 741);
             this.lblPenImportarTabelas.Margin = new System.Windows.Forms.Padding(0, 7, 0, 7);
             this.lblPenImportarTabelas.Name = "lblPenImportarTabelas";
             this.lblPenImportarTabelas.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
@@ -2006,7 +2147,7 @@ namespace Simulador
             this.flpPenImportarTabelas.AutoSize = true;
             this.flpPenImportarTabelas.Controls.Add(this.panel2);
             this.flpPenImportarTabelas.Controls.Add(this.panel38);
-            this.flpPenImportarTabelas.Location = new System.Drawing.Point(0, 650);
+            this.flpPenImportarTabelas.Location = new System.Drawing.Point(0, 770);
             this.flpPenImportarTabelas.Margin = new System.Windows.Forms.Padding(0);
             this.flpPenImportarTabelas.Name = "flpPenImportarTabelas";
             this.flpPenImportarTabelas.Size = new System.Drawing.Size(209, 60);
@@ -2097,7 +2238,7 @@ namespace Simulador
             this.lblPenImportarShapeFile.ForeColor = System.Drawing.Color.White;
             this.lblPenImportarShapeFile.Image = global::Simulador.Properties.Resources.arrow_down_16x16;
             this.lblPenImportarShapeFile.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lblPenImportarShapeFile.Location = new System.Drawing.Point(0, 710);
+            this.lblPenImportarShapeFile.Location = new System.Drawing.Point(0, 830);
             this.lblPenImportarShapeFile.Margin = new System.Windows.Forms.Padding(0, 0, 0, 7);
             this.lblPenImportarShapeFile.Name = "lblPenImportarShapeFile";
             this.lblPenImportarShapeFile.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
@@ -2111,7 +2252,7 @@ namespace Simulador
             // 
             this.flpPenShapeFile.AutoSize = true;
             this.flpPenShapeFile.Controls.Add(this.panel40);
-            this.flpPenShapeFile.Location = new System.Drawing.Point(0, 739);
+            this.flpPenShapeFile.Location = new System.Drawing.Point(0, 859);
             this.flpPenShapeFile.Margin = new System.Windows.Forms.Padding(0);
             this.flpPenShapeFile.Name = "flpPenShapeFile";
             this.flpPenShapeFile.Size = new System.Drawing.Size(209, 30);
@@ -2164,7 +2305,7 @@ namespace Simulador
             this.lblPenTabelaHeuristica.ForeColor = System.Drawing.Color.White;
             this.lblPenTabelaHeuristica.Image = global::Simulador.Properties.Resources.arrow_up_16x16;
             this.lblPenTabelaHeuristica.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lblPenTabelaHeuristica.Location = new System.Drawing.Point(0, 776);
+            this.lblPenTabelaHeuristica.Location = new System.Drawing.Point(0, 896);
             this.lblPenTabelaHeuristica.Margin = new System.Windows.Forms.Padding(0, 7, 0, 7);
             this.lblPenTabelaHeuristica.Name = "lblPenTabelaHeuristica";
             this.lblPenTabelaHeuristica.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
@@ -2178,7 +2319,7 @@ namespace Simulador
             // 
             this.flpPenTabelaHeuristica.AutoSize = true;
             this.flpPenTabelaHeuristica.Controls.Add(this.panel48);
-            this.flpPenTabelaHeuristica.Location = new System.Drawing.Point(0, 805);
+            this.flpPenTabelaHeuristica.Location = new System.Drawing.Point(0, 925);
             this.flpPenTabelaHeuristica.Margin = new System.Windows.Forms.Padding(0);
             this.flpPenTabelaHeuristica.Name = "flpPenTabelaHeuristica";
             this.flpPenTabelaHeuristica.Size = new System.Drawing.Size(212, 30);
@@ -2315,6 +2456,12 @@ namespace Simulador
             this.panel13.PerformLayout();
             this.panel31.ResumeLayout(false);
             this.panel32.ResumeLayout(false);
+            this.flpPenSortimentosUnificados.ResumeLayout(false);
+            this.panel42.ResumeLayout(false);
+            this.panel43.ResumeLayout(false);
+            this.panel43.PerformLayout();
+            this.panel44.ResumeLayout(false);
+            this.panel45.ResumeLayout(false);
             this.flpPenBinaria.ResumeLayout(false);
             this.panel14.ResumeLayout(false);
             this.panel15.ResumeLayout(false);
@@ -2503,5 +2650,15 @@ namespace Simulador
         private System.Windows.Forms.Panel panel16;
         private System.Windows.Forms.TextBox txtPenRegIdadeRegulacao;
         private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.Label lblPenSortimentosUnificados;
+        private System.Windows.Forms.FlowLayoutPanel flpPenSortimentosUnificados;
+        private System.Windows.Forms.Panel panel42;
+        private System.Windows.Forms.Panel panel43;
+        private System.Windows.Forms.TextBox txtPenSorUniTitulo;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Panel panel44;
+        private System.Windows.Forms.Panel panel45;
+        private Components.SidebarItem sbiPenSorUni;
+        private System.Windows.Forms.Button btnOpenPenSorUni;
     }
 }

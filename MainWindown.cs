@@ -209,6 +209,11 @@ namespace Simulador
             SetOpenAndCloseAccordion(flpPenSortimentos, lblPenSortimentos);
         }
 
+        private void lblPenSortimentosUnificados_Click(object sender, EventArgs e)
+        {
+            SetOpenAndCloseAccordion(flpPenSortimentosUnificados, lblPenSortimentosUnificados);
+        }
+
         private void lblPenBinaria_Click(object sender, EventArgs e)
         {
             SetOpenAndCloseAccordion(flpPenBinaria, lblPenBinaria);
@@ -233,6 +238,7 @@ namespace Simulador
         {
             SetOpenAndCloseAccordion(flpPenShapeFile, lblPenImportarShapeFile);
         }
+
 
         private void SetOpenAndCloseAccordion(FlowLayoutPanel flp, Label lbl)
         {
@@ -314,6 +320,10 @@ namespace Simulador
             SetClickSimulate(GmpfManager.SprdSor, sbiPenSor, btnOpenPenSor,
                 (s, e) => { GmpfManager.print_Sortimentos(txtPenHorizonte.Text, txtPenSorTitulo.Text); });
 
+            btnOpenPenSorUni.Click += (sender, eventArgs) => { LoadExcelData(GmpfManager.SprdSorUni, false); };
+            SetClickSimulate(GmpfManager.SprdSorUni, sbiPenSorUni, btnOpenPenSorUni,
+                (s, e) => { GmpfManager.print_Sortimentos_unificados(txtPenHorizonte.Text, txtPenSorUniTitulo.Text); });
+            
             btnOpenPenBin.Click += (sender, eventArgs) => { LoadExcelData(GmpfManager.SprdBin, false); };
             SetClickSimulate(GmpfManager.SprdBin, sbiPenBin, btnOpenPenBin,
                 (s, e) => { GmpfManager.print_Binary(txtPenHorizonte.Text, txtPenBinTitulo.Text); });
@@ -391,6 +401,7 @@ namespace Simulador
             foreach (Control control in flpPenDadosCompartilhados.Controls) control.Width = flpPen.Width;
             foreach (Control control in flpPenMaximizacoes.Controls) control.Width = flpPen.Width;
             foreach (Control control in flpPenSortimentos.Controls) control.Width = flpPen.Width;
+            foreach (Control control in flpPenSortimentosUnificados.Controls) control.Width = flpPen.Width;
             foreach (Control control in flpPenBinaria.Controls) control.Width = flpPen.Width;
             foreach (Control control in flpPenRegulacao.Controls) control.Width = flpPen.Width;
             foreach (Control control in flpPenImportarTabelas.Controls) control.Width = flpPen.Width;
@@ -399,6 +410,7 @@ namespace Simulador
             sbiPrePre.Width = widthSideBarItem;
             sbiPenMax.Width = widthSideBarItem - sbiPenMax.Margin.Left - sbiPenMax.Margin.Right - 3;
             sbiPenSor.Width = widthSideBarItem - sbiPenSor.Margin.Left - sbiPenSor.Margin.Right - 3;
+            sbiPenSorUni.Width = widthSideBarItem - sbiPenSorUni.Margin.Left - sbiPenSorUni.Margin.Right - 3;
             sbiPenBin.Width = widthSideBarItem - sbiPenBin.Margin.Left - sbiPenBin.Margin.Right - 3;
             sbiPenReg.Width = widthSideBarItem - sbiPenReg.Margin.Left - sbiPenReg.Margin.Right - 3;
         }
