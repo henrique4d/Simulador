@@ -2355,7 +2355,7 @@ namespace Simulador.Classes
         }
 
         public void print_simular(string taxa_juros, string tipo_desbaste, string desbaste_por,
-            string intervalo_sistematico, string arquivoSaida, string acao="Simular Dados")
+            string intervalo_sistematico, string arquivoSaida, int modeloDap = -1, string acao="Simular Dados")
         {
             // SprdSim.Title = arquivoSaida;
             OnUpdate(new UpdateEventArgs(acao,SprdSim,  0, "Iniciando Processamento"));

@@ -14,7 +14,7 @@ namespace Simulador
     {
         public delegate void SetClickSimulateEventHandler(object sender, SetClickSimulateEventArgs e);
         public bool isSimulating { get; set; } = false;
-        
+
         public MainWindown()
         {
             InitializeComponent();
@@ -258,7 +258,6 @@ namespace Simulador
         {
             ctl1.Click += (s, e) =>
             {
-                isSimulating = true;
                 try
                 {
                     handler?.Invoke(this, new SetClickSimulateEventArgs(sprd, ctl1, ctl2));
@@ -295,12 +294,15 @@ namespace Simulador
             btnOpenPrePre.Click += (sender, eventArgs) => { LoadExcelData(GmpfManager.SprdSim, false); };
             SetClickSimulate(GmpfManager.SprdSim, sbiPrePre, btnOpenPrePre, (s, e) =>
             {
+                // cmbPreModelo.SelectedIndex (-1,0,1,2,3)
                 GmpfManager.print_simular(
                     txtPreTaxaDesconto.Text,
                     cmbPreTipoDesbaste.Text,
                     cmbPreControleDesbaste.Text,
                     txtPreIntervaloSistematico.Text,
-                    txtPrePreTitulo.Text);
+                    txtPrePreTitulo.Text,
+                    cmbPreModelo.SelectedIndex
+                    );
                 nviPenalidades.Enabled = true;
             });
 
