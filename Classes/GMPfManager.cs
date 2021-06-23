@@ -297,9 +297,13 @@ namespace Simulador.Classes
                                 coluna++;
                                 tal.B1_dap = double.Parse(planilha.Cell(coluna + linha.ToString()).Value.ToString());
                                 coluna++;
+                                tal.B2_dap = double.Parse(planilha.Cell(coluna + linha.ToString()).Value.ToString());
+                                coluna++;
                                 tal.B0_altura = double.Parse(planilha.Cell(coluna + linha.ToString()).Value.ToString());
                                 coluna++;
                                 tal.B1_altura = double.Parse(planilha.Cell(coluna + linha.ToString()).Value.ToString());
+                                coluna++;
+                                tal.B2_altura = double.Parse(planilha.Cell(coluna + linha.ToString()).Value.ToString());
                                 coluna = 'C';
                                 tal.coeficientes_setados = true;
                             }
@@ -322,10 +326,17 @@ namespace Simulador.Classes
                                         tal.B1_dap = double.Parse(planilha.Cell(coluna + linha.ToString()).Value
                                             .ToString());
                                         coluna++;
+                                        tal.B2_dap = double.Parse(planilha.Cell(coluna + linha.ToString()).Value
+                                            .ToString());
+                                        coluna++;
+
                                         tal.B0_altura =
                                             double.Parse(planilha.Cell(coluna + linha.ToString()).Value.ToString());
                                         coluna++;
                                         tal.B1_altura =
+                                            double.Parse(planilha.Cell(coluna + linha.ToString()).Value.ToString());
+                                        coluna++;
+                                        tal.B2_altura =
                                             double.Parse(planilha.Cell(coluna + linha.ToString()).Value.ToString());
                                         coluna = 'C';
                                         tal.coeficientes_setados = true;
@@ -344,10 +355,17 @@ namespace Simulador.Classes
                                             tal.B1_dap = double.Parse(planilha.Cell(coluna + linha.ToString()).Value
                                                 .ToString());
                                             coluna++;
+                                            tal.B2_dap = double.Parse(planilha.Cell(coluna + linha.ToString()).Value
+                                                .ToString());
+                                            coluna++;
+
                                             tal.B0_altura = double.Parse(planilha.Cell(coluna + linha.ToString()).Value
                                                 .ToString());
                                             coluna++;
                                             tal.B1_altura = double.Parse(planilha.Cell(coluna + linha.ToString()).Value
+                                                .ToString());
+                                            coluna++;
+                                            tal.B2_altura = double.Parse(planilha.Cell(coluna + linha.ToString()).Value
                                                 .ToString());
                                             coluna = 'C';
                                             tal.coeficientes_setados = true;
@@ -578,10 +596,14 @@ namespace Simulador.Classes
                         original[indice_Regiao].talhoes[indice_Talhao].B0_altura;
                     nova[indice_Regiao].talhoes[indice_Talhao].B1_altura =
                         original[indice_Regiao].talhoes[indice_Talhao].B1_altura;
+                    nova[indice_Regiao].talhoes[indice_Talhao].B2_altura =
+                        original[indice_Regiao].talhoes[indice_Talhao].B2_altura;
                     nova[indice_Regiao].talhoes[indice_Talhao].B0_dap =
                         original[indice_Regiao].talhoes[indice_Talhao].B0_dap;
                     nova[indice_Regiao].talhoes[indice_Talhao].B1_dap =
                         original[indice_Regiao].talhoes[indice_Talhao].B1_dap;
+                    nova[indice_Regiao].talhoes[indice_Talhao].B2_dap =
+                        original[indice_Regiao].talhoes[indice_Talhao].B2_dap;
                 }
             }
 
@@ -590,8 +612,7 @@ namespace Simulador.Classes
                 reg.set_dados();
             }
         }
-
-        private void projetar_idade(ref List<Regiao> regioes, double idade)
+        private void projetar_idade(ref List<Regiao> regioes, double idade, int modelo)
         {
             foreach (Regiao reg in regioes)
             {
@@ -601,8 +622,8 @@ namespace Simulador.Classes
                     {
                         foreach (Arvore arv in parc.arvores)
                         {
-                            arv.dap = simula_dap(arv.idade, idade, arv.dap, tal.B0_dap, tal.B1_dap);
-                            arv.altura = simula_altura(arv.idade, idade, arv.altura, tal.B0_altura, tal.B1_altura);
+                            arv.dap = simula_parametro(arv.idade, idade, arv.dap, tal.B0_dap, tal.B1_dap,tal.B2_dap, modelo);
+                            arv.altura = simula_parametro(arv.idade, idade, arv.altura, tal.B0_altura, tal.B1_altura, tal.B2_altura, modelo);
                             arv.area_basal = Math.PI * Math.Pow(arv.dap, 2) / 40000;
                             arv.idade = idade;
                         }
@@ -616,7 +637,48 @@ namespace Simulador.Classes
             }
         }
 
-        private double simula_dap(double idade1, double idade2, double dap1, double B1, double B2)
+        private double simula_parametro(double idade1, double idade2, double parametro1, double b0, double b1, double b2, int modelo)
+        {
+            if (modelo == 0) return Gompertz(idade1, idade2, parametro1, b0, b1, b2);
+            if (modelo == 1) return Logistic(idade1, idade2, parametro1, b0, b1, b2);
+            if (modelo == 2) return Exponential(idade1, idade2, parametro1, b0, b1, b2);
+            if (modelo == 3) return Piennar(idade1, idade2, parametro1, b0, b1, b2);
+            return 0;
+        }
+
+        private double Gompertz(double idade1, double idade2, double parametro1, double b0, double b1, double b2)
+        {
+            return parametro1 * (est_Gompertz(idade2, b0, b1, b2) / est_Gompertz(idade1, b0, b1,b2));
+        }
+        private double est_Gompertz(double idade, double b0, double b1, double b2 )
+        {
+            return b0 * Math.Exp(-Math.Exp(b1 - b2 * idade));
+        }
+        private double Logistic(double idade1, double idade2, double parametro1, double b0, double b1, double b2)
+        {
+            return parametro1 * (est_Logistic(idade2, b0, b1, b2) / est_Logistic(idade1, b0, b1, b2));
+        }
+        private double est_Logistic(double idade, double b0, double b1, double b2)
+        {
+            return b0/(1 + b1*Math.Exp(-b2*idade));
+        }
+
+        private double Exponential(double idade1, double idade2, double parametro1, double b0, double b1, double b2)
+        {
+            return parametro1 * (est_Exponential(idade2, b0, b1) / est_Exponential(idade1, b0, b1));
+        }
+        private double est_Exponential(double idade, double b0, double b1)
+        {
+            return Math.Exp(b0 + b1 / idade);
+        }
+
+        private double Piennar(double idade1, double idade2, double parametro1, double b0, double b1, double b2)
+        {
+            Console.WriteLine("Calculando Piennar");
+            return parametro1* Math.Exp(-b0 * (Math.Pow(idade2, b0) - Math.Pow(idade1, b1)));
+        }
+
+        /*private double simula_dap(double idade1, double idade2, double dap1, double B1, double B2, int modelo)
         {
             double dap2;
             dap2 = dap1 * Math.Exp(-B1 * (Math.Pow(idade2, B2) - Math.Pow(idade1, B2)));
@@ -628,7 +690,7 @@ namespace Simulador.Classes
             double altura2;
             altura2 = altura1 * Math.Exp(-B1 * (Math.Pow(idade2, B2) - Math.Pow(idade1, B2)));
             return altura2;
-        }
+        }*/
 
         private List<Regiao> desbaste(ref List<Regiao> regioes, double porcentagem)
         {
@@ -981,7 +1043,6 @@ namespace Simulador.Classes
                 }
             }
             volume = (volume / area_parcela) * 10000;   //converter unidade de medida
-            //Console.WriteLine(volume);
             return volume;
         }
 
@@ -1410,14 +1471,14 @@ namespace Simulador.Classes
 
 
         private void simular(double idade_desbaste, double idade_corte_final, double porcentagem,
-            ref List<Cenario_Parcela> parcela_final, ref List<Cenario_Talhao> talhao_final)
+            ref List<Cenario_Parcela> parcela_final, ref List<Cenario_Talhao> talhao_final, int modelo)
         {
             List<Regiao> regioes = new List<Regiao>();
             clonar(ref regioes_original, ref regioes);
             string error;
             try
             {
-                projetar_idade(ref regioes, idade_desbaste);
+                projetar_idade(ref regioes, idade_desbaste, modelo);
             }
             catch
             {
@@ -1458,7 +1519,7 @@ namespace Simulador.Classes
 
             try
             {
-                projetar_idade(ref regioes, idade_corte_final);
+                projetar_idade(ref regioes, idade_corte_final, modelo);
             }
             catch
             {
@@ -1521,11 +1582,11 @@ namespace Simulador.Classes
         }
 
         private void simular(double idade, ref List<Cenario_Parcela> parcela_final,
-            ref List<Cenario_Talhao> talhao_final)
+            ref List<Cenario_Talhao> talhao_final, int modeloDap = -1)
         {
             List<Regiao> regioes = new List<Regiao>();
             clonar(ref regioes_original, ref regioes);
-            projetar_idade(ref regioes, idade);
+            projetar_idade(ref regioes, idade, modeloDap);
             gerar_volumes(ref regioes);
             gerar_lucros(ref regioes, true);
             gerar_IMA(ref regioes);
@@ -1787,6 +1848,8 @@ namespace Simulador.Classes
                                 }
                             }
                         }
+                        linha++;
+                        i++;
                     }
                 }
             }
@@ -1907,6 +1970,9 @@ namespace Simulador.Classes
                                     linha] = 0;
                             }
                         }
+
+                        linha++;
+                        i++;
                     }
                 }
             }
@@ -2006,6 +2072,8 @@ namespace Simulador.Classes
                                 Excel_Binary.Worksheets[1].cells[idade_atual + 2][linha] = 0;
                             }
                         }
+                        linha++;
+                        i++;
                     }
                 }
             }
@@ -2151,7 +2219,6 @@ namespace Simulador.Classes
                     aux.VPL_infinito = cenario.VPL_infinito2[i];
                     aux.VET = cenario.VET2[i];
                     if (aux.porcentagem == "-") aux.tem_desbaste = false;
-                    if (aux.tem_desbaste) Console.WriteLine("wtf! this dosn't make any sense");
                     casos.Add(aux);
                 }
             }
@@ -2355,8 +2422,9 @@ namespace Simulador.Classes
         }
 
         public void print_simular(string taxa_juros, string tipo_desbaste, string desbaste_por,
-            string intervalo_sistematico, string arquivoSaida, int modeloDap = -1, string acao="Simular Dados")
+            string intervalo_sistematico, string arquivoSaida, int modeloDap = -1, string acao = "Simular Dados")
         {
+
             // SprdSim.Title = arquivoSaida;
             OnUpdate(new UpdateEventArgs(acao,SprdSim,  0, "Iniciando Processamento"));
 
@@ -2419,7 +2487,7 @@ namespace Simulador.Classes
                     foreach (double porcentagem in simulacoes.porcentagem)
                     {
                         // MessageBox.Show("Porcentagem: "+porcentagem);
-                        simular(desbaste, final, porcentagem, ref Final_parcela, ref final_talhao);
+                        simular(desbaste, final, porcentagem, ref Final_parcela, ref final_talhao, modeloDap);
                         //break;
                     }
 
@@ -2433,7 +2501,7 @@ namespace Simulador.Classes
             {
                 foreach (double idade in simulacoes.corte_raso)
                 {
-                    simular(idade, ref Final_parcela, ref final_talhao);
+                    simular(idade, ref Final_parcela, ref final_talhao, modeloDap);
                 }
             }
             catch

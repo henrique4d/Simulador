@@ -30,8 +30,10 @@ namespace Simulador
         public double vet2;
         public double B0_dap;
         public double B1_dap;
+        public double B2_dap;
         public double B0_altura;
         public double B1_altura;
+        public double B2_altura;
         public double area_talhao;
         public bool coeficientes_setados;
         public Talhao(string num, int quant_produtos)
