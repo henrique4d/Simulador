@@ -2332,7 +2332,334 @@ namespace Simulador.Classes
             SprdMax.FileName = pathString;
             OnUpdate(new UpdateEventArgs(acao,SprdMax,  100, "Processamento Concluido"));
             // if (pathString != null) Process.Start(pathString);
+            print_modelos(horizonte, N_planejamento, arquivo_saida, acao);
         }
+
+
+        public void print_modelos(string horizonte, string N_planejamento, string arquivo_saida, string acao = "")
+        {
+            this.horizonte = int.Parse(horizonte);
+            this.N_planejamento = int.Parse(N_planejamento);
+            // SprdMax.Title = arquivo_saida;
+            List<aux_maximizacao> casos = new List<aux_maximizacao>();
+            aux_maximizacao aux = new aux_maximizacao();
+            OnUpdate(new UpdateEventArgs(acao, SprdMax, 0, "Iniciando Processamento"));
+            gerar_economicos2(ref final_talhao);
+
+            foreach (Cenario_Talhao cenario in final_talhao)
+            {
+                for (int i = 0; i < cenario.regiao.Count(); i++)
+                {
+                    if (cenario.VPL[i] == -1 && cenario.VAE[i] == -1 && cenario.VPL_infinito[i] == -1 &&
+                        cenario.VET[i] == -1)
+                    {
+                        aux.idade_desbaste = cenario.idade[i];
+                        aux.tem_desbaste = true;
+                        continue;
+                    }
+
+                    aux.regiao = cenario.regiao[i];
+                    aux.talhao = cenario.talhao[i];
+                    aux.idade = cenario.idade[i];
+                    aux.porcentagem = cenario.porcentagem[i];
+                    aux.VPL = cenario.VPL2[i];
+                    aux.VAE = cenario.VAE2[i];
+                    aux.VPL_infinito = cenario.VPL_infinito2[i];
+                    aux.VET = cenario.VET2[i];
+                    if (aux.porcentagem == "-") aux.tem_desbaste = false;
+                    casos.Add(aux);
+                }
+            }
+            string path = GetCurrentDirectory();
+            string pathString = System.IO.Path.Combine(path, "modelo");
+            CreateDirectory(pathString);
+
+            string pathVPL = System.IO.Path.Combine(path, "modelo/VPL");
+            CreateDirectory(pathVPL);
+
+            string pathVAE = System.IO.Path.Combine(path, "modelo/VAE");
+            CreateDirectory(pathVAE);
+
+            string pathVPL_infinito = System.IO.Path.Combine(path, "modelo/VPL∞");
+            CreateDirectory(pathVPL_infinito);
+            string pathVET = System.IO.Path.Combine(path, "modelo/VET");
+            CreateDirectory(pathVET);
+
+            StreamWriter txt = new StreamWriter(pathVPL + "/" + arquivo_saida + "_modelo.txt");
+            for (int j = 0; j < 4; j++)
+            {
+                if (j == 0)
+                {
+                    casos = casos.OrderBy(x => -x.VPL).ToList();
+                }
+
+                if (j == 1)
+                {
+                    casos = casos.OrderBy(x => -x.VAE).ToList();
+                    txt.Close();
+                    txt = new StreamWriter(pathVAE + "/" + arquivo_saida + "_VAE.txt");
+                }
+
+                if (j == 2)
+                {
+                    casos = casos.OrderBy(x => -x.VPL_infinito).ToList();
+                    txt.Close();
+                    txt = new StreamWriter(pathVPL_infinito + "/" + arquivo_saida + "_VPL∞.txt");
+                }
+
+                if (j == 3)
+                {
+                    casos = casos.OrderBy(x => -x.VET).ToList();
+                    txt.Close();
+                    txt = new StreamWriter(pathVET + "/" + arquivo_saida + "_VET.txt");
+                }
+                bool is_first = true;
+                //txt.Write("MAX = ");
+
+                casos = casos.OrderBy(x => x.regiao).ToList();
+                casos = casos.OrderBy(x => x.talhao).ToList();
+
+
+                produtos = produtos.OrderBy(x => -x.max).ToList();
+
+                int i = 0;
+
+                while (true)
+                {
+                    List<aux_maximizacao> atual = new List<aux_maximizacao>();
+                    atual.Add(casos[i]);
+                    i++;
+                    for (; i < casos.Count(); i++)
+                    {
+                        if (casos[i].regiao != casos[i - 1].regiao || casos[i].talhao != casos[i - 1].talhao) break;
+                        atual.Add(casos[i]);
+                    }
+
+                    int cont = 0;
+                    foreach (aux_maximizacao cenario in atual)
+                    {
+                        if (!is_first)
+                        {
+                            txt.Write(" + ");
+                        }
+
+                        if (j == 0)
+                            txt.Write("R" + cenario.regiao + "_T" + cenario.talhao);
+                        if (j == 1)
+                            txt.Write("R" + cenario.regiao + "_T" + cenario.talhao);
+                        if (j == 2)
+                            txt.Write("R" + cenario.regiao + "_T" + cenario.talhao);
+                        if (j == 3)
+                            txt.Write("R" + cenario.regiao + "_T" + cenario.talhao);
+
+                        if (cenario.tem_desbaste)
+                        {
+                            txt.Write("_D" + cenario.idade_desbaste + "-" + cenario.porcentagem);
+                            if (desbaste_por == "Árvore")
+                            {
+                                txt.Write("N");
+                            }
+
+                            if (desbaste_por == "Área basal")
+                            {
+                                txt.Write("B");
+                            }
+                        }
+
+                        txt.Write("_CR" + cenario.idade);
+                        is_first = false;
+                        cont++;
+                        if (cont == this.N_planejamento){
+                            break;
+                        }
+                    }
+                    txt.Write(" = 1\n");
+                    if (i == casos.Count()) {
+                        break;
+                    }
+                    is_first = true;
+                }
+            }
+            txt.Close();
+            SprdMax.FileName = pathString;
+            OnUpdate(new UpdateEventArgs(acao, SprdMax, 100, "Processamento Concluido"));
+            // if (pathString != null) Process.Start(pathString);
+            print_modelos2(horizonte, N_planejamento, arquivo_saida, acao);
+        }
+
+
+
+
+
+
+        public void print_modelos2(string horizonte, string N_planejamento, string arquivo_saida, string acao = "")
+        {
+            this.horizonte = int.Parse(horizonte);
+            this.N_planejamento = int.Parse(N_planejamento);
+            // SprdMax.Title = arquivo_saida;
+            List<aux_maximizacao> casos = new List<aux_maximizacao>();
+            aux_maximizacao aux = new aux_maximizacao();
+            OnUpdate(new UpdateEventArgs(acao, SprdMax, 0, "Iniciando Processamento"));
+            gerar_economicos2(ref final_talhao);
+
+            foreach (Cenario_Talhao cenario in final_talhao)
+            {
+                for (int i = 0; i < cenario.regiao.Count(); i++)
+                {
+                    if (cenario.VPL[i] == -1 && cenario.VAE[i] == -1 && cenario.VPL_infinito[i] == -1 &&
+                        cenario.VET[i] == -1)
+                    {
+                        aux.idade_desbaste = cenario.idade[i];
+                        aux.tem_desbaste = true;
+                        continue;
+                    }
+
+                    aux.regiao = cenario.regiao[i];
+                    aux.talhao = cenario.talhao[i];
+                    aux.idade = cenario.idade[i];
+                    aux.porcentagem = cenario.porcentagem[i];
+                    aux.VPL = cenario.VPL2[i];
+                    aux.VAE = cenario.VAE2[i];
+                    aux.VPL_infinito = cenario.VPL_infinito2[i];
+                    aux.VET = cenario.VET2[i];
+                    if (aux.porcentagem == "-") aux.tem_desbaste = false;
+                    casos.Add(aux);
+                }
+            }
+            string path = GetCurrentDirectory();
+            string pathString = System.IO.Path.Combine(path, "modelo2");
+            CreateDirectory(pathString);
+
+            string pathVPL = System.IO.Path.Combine(path, "modelo2/VPL");
+            CreateDirectory(pathVPL);
+
+            string pathVAE = System.IO.Path.Combine(path, "modelo2/VAE");
+            CreateDirectory(pathVAE);
+
+            string pathVPL_infinito = System.IO.Path.Combine(path, "modelo2/VPL∞");
+            CreateDirectory(pathVPL_infinito);
+            string pathVET = System.IO.Path.Combine(path, "modelo2/VET");
+            CreateDirectory(pathVET);
+
+            StreamWriter txt = new StreamWriter(pathVPL + "/" + arquivo_saida + "_modelo2.txt");
+            for (int j = 0; j < 4; j++)
+            {
+                if (j == 0)
+                {
+                    casos = casos.OrderBy(x => -x.VPL).ToList();
+                }
+
+                if (j == 1)
+                {
+                    casos = casos.OrderBy(x => -x.VAE).ToList();
+                    txt.Close();
+                    txt = new StreamWriter(pathVAE + "/" + arquivo_saida + "_VAE.txt");
+                }
+
+                if (j == 2)
+                {
+                    casos = casos.OrderBy(x => -x.VPL_infinito).ToList();
+                    txt.Close();
+                    txt = new StreamWriter(pathVPL_infinito + "/" + arquivo_saida + "_VPL∞.txt");
+                }
+
+                if (j == 3)
+                {
+                    casos = casos.OrderBy(x => -x.VET).ToList();
+                    txt.Close();
+                    txt = new StreamWriter(pathVET + "/" + arquivo_saida + "_VET.txt");
+                }
+                bool is_first = true;
+                //txt.Write("MAX = ");
+
+                casos = casos.OrderBy(x => x.regiao).ToList();
+                casos = casos.OrderBy(x => x.talhao).ToList();
+
+
+                produtos = produtos.OrderBy(x => -x.max).ToList();
+
+                int i = 0;
+
+                while (true)
+                {
+                    List<aux_maximizacao> atual = new List<aux_maximizacao>();
+                    atual.Add(casos[i]);
+                    i++;
+                    for (; i < casos.Count(); i++)
+                    {
+                        if (casos[i].regiao != casos[i - 1].regiao || casos[i].talhao != casos[i - 1].talhao) break;
+                        atual.Add(casos[i]);
+                    }
+
+                    int cont = 0;
+                    foreach (aux_maximizacao cenario in atual)
+                    {
+                        if (!is_first)
+                        {
+                            txt.Write(" + ");
+                        }
+
+                        if (j == 0)
+                            txt.Write("R" + cenario.regiao + "_T" + cenario.talhao);
+                        if (j == 1)
+                            txt.Write("R" + cenario.regiao + "_T" + cenario.talhao);
+                        if (j == 2)
+                            txt.Write("R" + cenario.regiao + "_T" + cenario.talhao);
+                        if (j == 3)
+                            txt.Write("R" + cenario.regiao + "_T" + cenario.talhao);
+
+                        if (cenario.tem_desbaste)
+                        {
+                            txt.Write("_D" + cenario.idade_desbaste + "-" + cenario.porcentagem);
+                            if (desbaste_por == "Árvore")
+                            {
+                                txt.Write("N");
+                            }
+
+                            if (desbaste_por == "Área basal")
+                            {
+                                txt.Write("B");
+                            }
+                        }
+
+                        txt.Write("_CR" + cenario.idade);
+                        is_first = false;
+                        cont++;
+                        if (cont == this.N_planejamento) break;
+                    }
+
+                    if (i == casos.Count()) break;
+                }
+                txt.Write(" <= D_max");
+            }
+
+            txt.Close();
+            SprdMax.FileName = pathString;
+            OnUpdate(new UpdateEventArgs(acao, SprdMax, 100, "Processamento Concluido"));
+            // if (pathString != null) Process.Start(pathString);
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         private void gerar_economicos2(ref List<Cenario_Talhao> final_talhao)
         {
@@ -2424,7 +2751,6 @@ namespace Simulador.Classes
         public void print_simular(string taxa_juros, string tipo_desbaste, string desbaste_por,
             string intervalo_sistematico, string arquivoSaida, int modeloDap = -1, string acao = "Simular Dados")
         {
-
             // SprdSim.Title = arquivoSaida;
             OnUpdate(new UpdateEventArgs(acao,SprdSim,  0, "Iniciando Processamento"));
 

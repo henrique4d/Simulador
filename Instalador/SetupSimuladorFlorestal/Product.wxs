@@ -6,7 +6,7 @@
 <!-- The manufacturer, for setup package publisher and folder info -->
 <?define Manufacturer = "Westrock" ?>
 <!-- The version number of this setup package-->
-<?define Version = "0.0.8" ?>
+<?define Version = "0.0.10" ?>
 <!-- UpgradeCode must be unique and not changed once the first version of the program is installed. -->
 <?define UpgradeCode = "{AB2752A1-9DE7-4EC0-9DA0-695C95AFF109}" ?>
 <!-- The name of the Cabinet -->

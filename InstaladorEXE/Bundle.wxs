@@ -6,7 +6,7 @@
 <!-- The manufacturer, for setup package publisher and folder info -->
 <?define Manufacturer = "Westrock" ?>
 <!-- The version number of this setup package-->
-<?define Version = "0.0.8" ?>
+<?define Version = "0.0.10" ?>
 <!-- UpgradeCode must be unique and not changed once the first version of the program is installed. -->
 <?define UpgradeCode = "{C611A4EF-62C5-4048-B561-6F71FB0C760C}" ?>
 
