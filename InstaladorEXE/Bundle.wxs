@@ -17,7 +17,7 @@
 		<Chain>
 			<!-- TODO: Define the list of chained packages. -->
       <MsiPackage
-        SourceFile="D:\institutions\viçosa\estagios\Simulador\Instalador\SetupSimuladorFlorestal\bin\Release\SetupSimuladorFlorestal.msi"
+        SourceFile="C:\Users\ronal\source\repos\henrique4d\Simulador\Instalador\SetupSimuladorFlorestal\bin\Release\SetupSimuladorFlorestal.msi"
         Compressed="yes"
         />
 		</Chain>
