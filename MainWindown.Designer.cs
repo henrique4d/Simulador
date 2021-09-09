@@ -104,6 +104,10 @@ namespace Simulador
             this.pnlPreTaxaDesconto = new System.Windows.Forms.Panel();
             this.txtPreTaxaDesconto = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
+            this.pnlPreModelo = new System.Windows.Forms.Panel();
+            this.panel51 = new System.Windows.Forms.Panel();
+            this.cmbPreModelo = new System.Windows.Forms.ComboBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.pnlPreTipoDesbaste = new System.Windows.Forms.Panel();
             this.panel4 = new System.Windows.Forms.Panel();
             this.cmbPreTipoDesbaste = new System.Windows.Forms.ComboBox();
@@ -201,14 +205,6 @@ namespace Simulador
             this.panel49 = new System.Windows.Forms.Panel();
             this.sbiPenTabHeu = new Simulador.Components.SidebarItem(this.components);
             this.tbOther = new System.Windows.Forms.TabPage();
-            this.panel46 = new System.Windows.Forms.Panel();
-            this.panel47 = new System.Windows.Forms.Panel();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.pnlPreModelo = new System.Windows.Forms.Panel();
-            this.panel51 = new System.Windows.Forms.Panel();
-            this.cmbPreModelo = new System.Windows.Forms.ComboBox();
-            this.label3 = new System.Windows.Forms.Label();
             this.pnlHeader.SuspendLayout();
             this.pnlHeaderRight.SuspendLayout();
             this.pnlHeaderActionsLeft.SuspendLayout();
@@ -240,6 +236,8 @@ namespace Simulador
             this.panel28.SuspendLayout();
             this.flpPreDadosPreescricao.SuspendLayout();
             this.pnlPreTaxaDesconto.SuspendLayout();
+            this.pnlPreModelo.SuspendLayout();
+            this.panel51.SuspendLayout();
             this.pnlPreTipoDesbaste.SuspendLayout();
             this.panel4.SuspendLayout();
             this.pnlPreControleDesbaste.SuspendLayout();
@@ -292,10 +290,6 @@ namespace Simulador
             this.flpPenTabelaHeuristica.SuspendLayout();
             this.panel48.SuspendLayout();
             this.panel49.SuspendLayout();
-            this.panel46.SuspendLayout();
-            this.panel47.SuspendLayout();
-            this.pnlPreModelo.SuspendLayout();
-            this.panel51.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnlHeader
@@ -888,7 +882,6 @@ namespace Simulador
             this.flpPre.Controls.Add(this.lblPreDadosPreescricao);
             this.flpPre.Controls.Add(this.flpPreDadosPreescricao);
             this.flpPre.Controls.Add(this.lblPreGerarPreescricoes);
-            this.flpPre.Controls.Add(this.panel46);
             this.flpPre.Controls.Add(this.flpPreGerarPreescricoes);
             this.flpPre.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flpPre.Location = new System.Drawing.Point(0, 0);
@@ -1184,6 +1177,53 @@ namespace Simulador
             this.label8.TabIndex = 0;
             this.label8.Text = "Taxa de Desconto";
             // 
+            // pnlPreModelo
+            // 
+            this.pnlPreModelo.Controls.Add(this.panel51);
+            this.pnlPreModelo.Controls.Add(this.label3);
+            this.pnlPreModelo.Location = new System.Drawing.Point(3, 39);
+            this.pnlPreModelo.Name = "pnlPreModelo";
+            this.pnlPreModelo.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
+            this.pnlPreModelo.Size = new System.Drawing.Size(209, 48);
+            this.pnlPreModelo.TabIndex = 16;
+            // 
+            // panel51
+            // 
+            this.panel51.Controls.Add(this.cmbPreModelo);
+            this.panel51.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel51.Location = new System.Drawing.Point(10, 13);
+            this.panel51.Name = "panel51";
+            this.panel51.Padding = new System.Windows.Forms.Padding(0, 5, 0, 0);
+            this.panel51.Size = new System.Drawing.Size(189, 35);
+            this.panel51.TabIndex = 1;
+            // 
+            // cmbPreModelo
+            // 
+            this.cmbPreModelo.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cmbPreModelo.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cmbPreModelo.FormattingEnabled = true;
+            this.cmbPreModelo.Items.AddRange(new object[] {
+            "Gompertz",
+            "Logistic",
+            "Exponential",
+            "Piennar e shiver"});
+            this.cmbPreModelo.Location = new System.Drawing.Point(0, 5);
+            this.cmbPreModelo.Name = "cmbPreModelo";
+            this.cmbPreModelo.Size = new System.Drawing.Size(189, 24);
+            this.cmbPreModelo.TabIndex = 2;
+            // 
+            // label3
+            // 
+            this.label3.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.ForeColor = System.Drawing.Color.White;
+            this.label3.Location = new System.Drawing.Point(10, 0);
+            this.label3.Margin = new System.Windows.Forms.Padding(0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(189, 13);
+            this.label3.TabIndex = 0;
+            this.label3.Text = "Modelo de projeção";
+            // 
             // pnlPreTipoDesbaste
             // 
             this.pnlPreTipoDesbaste.Controls.Add(this.panel4);
@@ -1334,7 +1374,7 @@ namespace Simulador
             this.flpPreGerarPreescricoes.AutoSize = true;
             this.flpPreGerarPreescricoes.Controls.Add(this.panel9);
             this.flpPreGerarPreescricoes.Controls.Add(this.panel3);
-            this.flpPreGerarPreescricoes.Location = new System.Drawing.Point(0, 539);
+            this.flpPreGerarPreescricoes.Location = new System.Drawing.Point(0, 485);
             this.flpPreGerarPreescricoes.Margin = new System.Windows.Forms.Padding(0);
             this.flpPreGerarPreescricoes.Name = "flpPreGerarPreescricoes";
             this.flpPreGerarPreescricoes.Size = new System.Drawing.Size(215, 84);
@@ -2386,98 +2426,6 @@ namespace Simulador
             this.tbOther.Text = "Other";
             this.tbOther.UseVisualStyleBackColor = true;
             // 
-            // panel46
-            // 
-            this.panel46.Controls.Add(this.panel47);
-            this.panel46.Controls.Add(this.label1);
-            this.panel46.Location = new System.Drawing.Point(3, 488);
-            this.panel46.Name = "panel46";
-            this.panel46.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
-            this.panel46.Size = new System.Drawing.Size(209, 48);
-            this.panel46.TabIndex = 17;
-            // 
-            // panel47
-            // 
-            this.panel47.Controls.Add(this.comboBox1);
-            this.panel47.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel47.Location = new System.Drawing.Point(10, 13);
-            this.panel47.Name = "panel47";
-            this.panel47.Padding = new System.Windows.Forms.Padding(0, 5, 0, 0);
-            this.panel47.Size = new System.Drawing.Size(189, 35);
-            this.panel47.TabIndex = 1;
-            // 
-            // comboBox1
-            // 
-            this.comboBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.comboBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
-            "Seletivo",
-            "Misto"});
-            this.comboBox1.Location = new System.Drawing.Point(0, 5);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(189, 24);
-            this.comboBox1.TabIndex = 2;
-            // 
-            // label1
-            // 
-            this.label1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(10, 0);
-            this.label1.Margin = new System.Windows.Forms.Padding(0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(189, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Tipo de Desbaste";
-            // 
-            // pnlPreModelo
-            // 
-            this.pnlPreModelo.Controls.Add(this.panel51);
-            this.pnlPreModelo.Controls.Add(this.label3);
-            this.pnlPreModelo.Location = new System.Drawing.Point(3, 39);
-            this.pnlPreModelo.Name = "pnlPreModelo";
-            this.pnlPreModelo.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
-            this.pnlPreModelo.Size = new System.Drawing.Size(209, 48);
-            this.pnlPreModelo.TabIndex = 16;
-            // 
-            // panel51
-            // 
-            this.panel51.Controls.Add(this.cmbPreModelo);
-            this.panel51.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel51.Location = new System.Drawing.Point(10, 13);
-            this.panel51.Name = "panel51";
-            this.panel51.Padding = new System.Windows.Forms.Padding(0, 5, 0, 0);
-            this.panel51.Size = new System.Drawing.Size(189, 35);
-            this.panel51.TabIndex = 1;
-            // 
-            // cmbPreModelo
-            // 
-            this.cmbPreModelo.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cmbPreModelo.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cmbPreModelo.FormattingEnabled = true;
-            this.cmbPreModelo.Items.AddRange(new object[] {
-            "Gompertz",
-            "Logistic",
-            "Exponential",
-            "Piennar e shiver"});
-            this.cmbPreModelo.Location = new System.Drawing.Point(0, 5);
-            this.cmbPreModelo.Name = "cmbPreModelo";
-            this.cmbPreModelo.Size = new System.Drawing.Size(189, 24);
-            this.cmbPreModelo.TabIndex = 2;
-            // 
-            // label3
-            // 
-            this.label3.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.ForeColor = System.Drawing.Color.White;
-            this.label3.Location = new System.Drawing.Point(10, 0);
-            this.label3.Margin = new System.Windows.Forms.Padding(0);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(189, 13);
-            this.label3.TabIndex = 0;
-            this.label3.Text = "Modelo de projeção";
-            // 
             // MainWindown
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2528,6 +2476,8 @@ namespace Simulador
             this.flpPreDadosPreescricao.ResumeLayout(false);
             this.pnlPreTaxaDesconto.ResumeLayout(false);
             this.pnlPreTaxaDesconto.PerformLayout();
+            this.pnlPreModelo.ResumeLayout(false);
+            this.panel51.ResumeLayout(false);
             this.pnlPreTipoDesbaste.ResumeLayout(false);
             this.panel4.ResumeLayout(false);
             this.pnlPreControleDesbaste.ResumeLayout(false);
@@ -2591,10 +2541,6 @@ namespace Simulador
             this.flpPenTabelaHeuristica.ResumeLayout(false);
             this.panel48.ResumeLayout(false);
             this.panel49.ResumeLayout(false);
-            this.panel46.ResumeLayout(false);
-            this.panel47.ResumeLayout(false);
-            this.pnlPreModelo.ResumeLayout(false);
-            this.panel51.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -2774,9 +2720,5 @@ namespace Simulador
         private System.Windows.Forms.Panel panel51;
         private System.Windows.Forms.ComboBox cmbPreModelo;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Panel panel46;
-        private System.Windows.Forms.Panel panel47;
-        private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.Label label1;
     }
 }

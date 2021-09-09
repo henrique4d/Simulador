@@ -191,6 +191,7 @@ namespace Simulador.Classes
                 for (linha = 2; ; linha++)
                 { //percorre as linhas da planilha
                     string confere = planilha.Cell(coluna + linha.ToString()).Value.ToString();    //confere se a planilha terminou
+                    //Console.WriteLine("String que confere : " + confere);
                     if (string.IsNullOrEmpty(confere)) break;   //se tiver terminado
                     string regiao = planilha.Cell(coluna + linha.ToString()).Value.ToString(); //le a região
                     coluna++; // vai para a proxima coluna
@@ -221,7 +222,7 @@ namespace Simulador.Classes
                     double altura = double.Parse(planilha.Cell(coluna + linha.ToString()).Value.ToString());   //le a altura
                     if (altura < 0) throw new Exception("Altura não pode ser negativa");    //trata altura < 0
                     coluna = 'A';   //volta para o inicio da linha
-                    if (dap == 0 && altura == 0) continue;  // ignora arvores morta
+                    if (dap < 0.2 && altura < 0.2) continue;  // ignora arvores morta
                     Arvore auxiliar = new Arvore(regiao, talhao, area_talhao, parcela, material_genetico, idade, area_parcela, fila, arv, dap, altura);    // cria a arvore
 
                     bool aux = false;   // verifica se ja foi criada a regiao daquela arvore
@@ -622,6 +623,7 @@ namespace Simulador.Classes
                     {
                         foreach (Arvore arv in parc.arvores)
                         {
+                            if (arv.dap == 0 && arv.altura == 0) continue;
                             arv.dap = simula_parametro(arv.idade, idade, arv.dap, tal.B0_dap, tal.B1_dap,tal.B2_dap, modelo);
                             arv.altura = simula_parametro(arv.idade, idade, arv.altura, tal.B0_altura, tal.B1_altura, tal.B2_altura, modelo);
                             arv.area_basal = Math.PI * Math.Pow(arv.dap, 2) / 40000;
@@ -674,8 +676,16 @@ namespace Simulador.Classes
 
         private double Piennar(double idade1, double idade2, double parametro1, double b0, double b1, double b2)
         {
-            Console.WriteLine("Calculando Piennar");
-            return parametro1* Math.Exp(-b0 * (Math.Pow(idade2, b0) - Math.Pow(idade1, b1)));
+            //Console.WriteLine("Calculando Piennar");
+            //Console.WriteLine("parametro 1 : " + parametro1);
+            //Console.WriteLine("beta 0 : " + b0);
+            //Console.WriteLine("idade 2 : " + idade2);
+            //Console.WriteLine("idade 1 : " + idade1);
+            //Console.WriteLine("beta 1 : " + b1);
+
+            //Console.WriteLine(parametro1 * Math.Exp(-b0 * ((Math.Pow(idade2, b1) - Math.Pow(idade1, b1)))));
+            //Console.WriteLine("////////////////////////////////////////");
+            return (parametro1 * Math.Exp(-b0 * ((Math.Pow(idade2, b1) - Math.Pow(idade1, b1)))));
         }
 
         /*private double simula_dap(double idade1, double idade2, double dap1, double B1, double B2, int modelo)
@@ -825,8 +835,9 @@ namespace Simulador.Classes
                         bool tem_uma = false;
                         foreach (Arvore arv in parc.arvores.ToList())
                         {
-                            if (arv.fila % intervalo == 0)
+                            if (arv.fila == 1 || (arv.fila-1) % intervalo == 0)
                             {
+                                Console.WriteLine(arv.fila);
                                 arvores_limite--;
                                 auxiliar.adiciona_arvore(arv);
                                 parc.arvores.Remove(arv);
@@ -873,6 +884,8 @@ namespace Simulador.Classes
 
         private List<Regiao> sistematico_area_basal(ref List<Regiao> regioes, double porcentagem, int intervalo)
         {
+            Console.WriteLine("começando a funçao!");
+
             ordena_dap(ref regioes);
             List<Regiao> para_desbaste = new List<Regiao>();
             foreach (Regiao reg in regioes)
@@ -887,8 +900,10 @@ namespace Simulador.Classes
                         bool tem_uma = false;
                         foreach (Arvore arv in parc.arvores.ToList())
                         {
-                            if (arv.fila % intervalo == 0)
+                            Console.WriteLine(arv.fila);
+                            if (arv.fila == 1 || (arv.fila - 1) % intervalo == 0)
                             {
+                                Console.WriteLine(arv.fila);
                                 area_basal_limite -= arv.area_basal;
                                 auxiliar.adiciona_arvore(arv);
                                 parc.arvores.Remove(arv);
@@ -2332,7 +2347,7 @@ namespace Simulador.Classes
             SprdMax.FileName = pathString;
             OnUpdate(new UpdateEventArgs(acao,SprdMax,  100, "Processamento Concluido"));
             // if (pathString != null) Process.Start(pathString);
-            print_modelos(horizonte, N_planejamento, arquivo_saida, acao);
+            //print_modelos(horizonte, N_planejamento, arquivo_saida, acao);
         }
 
 
